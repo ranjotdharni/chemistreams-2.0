@@ -1,10 +1,6 @@
+import LoginPage from "@/components/login/LoginPage"
+import { loginAction } from "@/lib/utils/server"
 
-
-export default function LoginPage() {
-
-    return (
-        <div>
-            this is the login page.
-        </div>
-    )
+export default function Page() {
+    return <LoginPage loginAction={loginAction} />
 }
