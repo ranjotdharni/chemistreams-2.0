@@ -4,6 +4,7 @@ import { refreshCookiesWithIdToken } from "next-firebase-auth-edge/next/cookies"
 import { clientConfig, serverConfig } from "../auth/config"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { cookies, headers } from "next/headers"
+import { PAGE_HOME } from "../constants/routes"
 import { redirect } from "next/navigation"
 import { auth } from "../auth/firebase"
 
@@ -26,5 +27,5 @@ export async function loginAction(username: string, password: string) {
         }
     )
 
-    redirect("/")
+    redirect(PAGE_HOME)
 }
