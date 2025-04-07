@@ -6,9 +6,9 @@ export const PAGE_HOME: string = "/chat"
 export const PAGE_LANDING: string = "/"
 
 // API Routes
+export const API_REFRESH_TOKEN: string = "/api/refresh-token"
 export const API_LOGOUT: string = "/api/logout"
 export const API_LOGIN: string = "/api/login"
-export const API_REFRESH_TOKEN: string = "/api/refresh-token"
 
 export const PUBLIC_ROUTES: string[] = [
     PAGE_LANDING,
