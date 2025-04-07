@@ -1,5 +1,5 @@
 import { authMiddleware, redirectToHome, redirectToLogin } from "next-firebase-auth-edge"
-import { API_LOGIN, API_LOGOUT, PAGE_LOGIN, PUBLIC_ROUTES } from "./lib/constants/routes"
+import { API_LOGIN, API_LOGOUT, API_REFRESH_TOKEN, PAGE_LOGIN, PUBLIC_ROUTES } from "./lib/constants/routes"
 import { clientConfig, serverConfig } from "./lib/auth/config"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
   return authMiddleware(request, {
     loginPath: API_LOGIN,
     logoutPath: API_LOGOUT,
+    refreshTokenPath: API_REFRESH_TOKEN,
     apiKey: clientConfig.apiKey,
     cookieName: serverConfig.cookieName,
     cookieSignatureKeys: serverConfig.cookieSignatureKeys,
@@ -46,8 +47,9 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/",
-    "/((?!_next|api|.*\\.).*)",
+    "/((?!_next|favicon.ico|api|.*\\.).*)",
     API_LOGIN,
     API_LOGOUT,
+    API_REFRESH_TOKEN,
   ],
 }
