@@ -4,6 +4,10 @@ import { clientConfig, serverConfig } from "./lib/auth/config"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function middleware(request: NextRequest) {
+    if (request.nextUrl.pathname.startsWith("/_next")) {
+      return NextResponse.next()
+    }
+
   return authMiddleware(request, {
     loginPath: API_LOGIN,
     logoutPath: API_LOGOUT,

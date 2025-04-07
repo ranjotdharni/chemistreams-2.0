@@ -1,10 +1,9 @@
+import SignUpPage from "@/components/signup/SignUpPage"
 
-import SignUpForm from "@/components/signup/SignUpForm"
-
-export default function SignUpPage() {
+export default function Page() {
     // check if user already signed in
 
   return (
-    <SignUpForm />
+    <SignUpPage />
   )
 }

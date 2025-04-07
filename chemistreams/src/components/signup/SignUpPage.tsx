@@ -6,7 +6,7 @@ import useNotify from "@/lib/hooks/useNotify"
 import { FormEvent, useState } from "react"
 import { auth } from "@/lib/auth/firebase"
 
-export default function SignUpForm() {
+export default function SignUpPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
