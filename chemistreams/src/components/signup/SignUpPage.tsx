@@ -1,10 +1,12 @@
 "use client"
 
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth"
+import { isValidPassword } from "@/lib/utils/client"
 import { PAGE_LOGIN } from "@/lib/constants/routes"
 import useNotify from "@/lib/hooks/useNotify"
 import { FormEvent, useState } from "react"
 import { auth } from "@/lib/auth/firebase"
+import { GenericError } from "@/lib/types/client"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
@@ -18,22 +20,29 @@ export default function SignUpPage() {
     event.preventDefault()
 
     // add validation here
-    if (email === "" || password === "") {
-      setError("Both email and password are required.")
+    const invalidPassword: GenericError | undefined = isValidPassword(password)
+
+    if (email === "") {
+      setError("Please enter an email.")
       return
     }
 
-    try {
-        const response = await createUserWithEmailAndPassword(email, password)
-        console.log({ response })
-        setEmail("")
-        setPassword("")
+    if (invalidPassword === undefined) {
+        // sign user up
+        try {
+            const response = await createUserWithEmailAndPassword(email, password)
+            console.log({ response })
+            setEmail("")
+            setPassword("")
+        }
+        catch (error) {
+            console.error(error)
+        }
     }
-    catch (error) {
-        console.error(error)
+    else {
+        setError(invalidPassword as string)
+        return
     }
-
-    // sign user up
   }
 
   return (
