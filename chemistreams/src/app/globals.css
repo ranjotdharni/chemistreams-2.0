@@ -2,19 +2,21 @@
 
 :root {
   --color-bg-gradient:  linear-gradient(to right bottom, #36383c, #314652, #195560, #006562, #127355);
+  --color-black-light: #00000072;
   --color-black: #000000;
   --color-green: #0b6448;
   --color-blue: #0871a9;
   --color-red: #7c1111;
   --color-white: #ebebeb;
   --color-dark-white: #cecece;
-  --color-dark-grey: #272727;
+  --color-dark-grey: #1d1d1d;
   --color-light-grey: #aaaaaa;
   --color-light-green: #0b790b;
 }
 
 @theme inline {
   --color-bg-gradient: var(--color-bg-gradient);
+  --color-black-light: var(--color-black-light);
   --color-black: var(--color-black);
   --color-green: var(--color-green);
   --color-blue: var(--color-blue);
