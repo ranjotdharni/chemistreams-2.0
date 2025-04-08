@@ -1,8 +1,8 @@
 "use server"
 
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { refreshCookiesWithIdToken } from "next-firebase-auth-edge/next/cookies"
 import { clientConfig, serverConfig } from "../auth/config"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { cookies, headers } from "next/headers"
 import { PAGE_HOME } from "../constants/routes"
 import { redirect } from "next/navigation"
@@ -48,4 +48,6 @@ export async function signUpAction(email: string, password: string) {
             apiKey: clientConfig.apiKey
         }
     )
+
+    redirect(PAGE_HOME)
 }

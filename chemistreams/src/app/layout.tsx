@@ -65,7 +65,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased w-screen h-screen flex flex-col justify-center items-center`}
       >
         <AuthProvider user={user}>
           { children }

@@ -1,18 +1,15 @@
 "use client"
 
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth"
 import { isValidPassword } from "@/lib/utils/client"
 import { PAGE_LOGIN } from "@/lib/constants/routes"
+import { GenericError } from "@/lib/types/client"
+import { signUpAction } from "@/lib/utils/server"
 import useNotify from "@/lib/hooks/useNotify"
 import { FormEvent, useState } from "react"
-import { auth } from "@/lib/auth/firebase"
-import { GenericError } from "@/lib/types/client"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
-  const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth)
 
   const [error, setError] = useNotify()
 
@@ -27,10 +24,14 @@ export default function SignUpPage() {
       return
     }
 
-    if (invalidPassword === undefined) {
+    if (invalidPassword !== undefined) {
         // sign user up
+        setError((invalidPassword as GenericError).message)
+        return
+    }
+    else {
         try {
-            const response = await createUserWithEmailAndPassword(email, password)
+            const response = await signUpAction(email, password)
             console.log({ response })
             setEmail("")
             setPassword("")
@@ -38,10 +39,6 @@ export default function SignUpPage() {
         catch (error) {
             console.error(error)
         }
-    }
-    else {
-        setError(invalidPassword as string)
-        return
     }
   }
 

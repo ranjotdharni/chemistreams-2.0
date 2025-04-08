@@ -1,24 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg-gradient:  linear-gradient(to right bottom, #36383c, #314652, #195560, #006562, #127355);
+  --color-black: #000000;
+  --color-green: #0b6448;
+  --color-blue: #0871a9;
+  --color-red: #7c1111;
+  --color-white: #ebebeb;
+  --color-dark-white: #cecece;
+  --color-dark-grey: #272727;
+  --color-light-grey: #aaaaaa;
+  --color-light-green: #0b790b;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg-gradient: var(--color-bg-gradient);
+  --color-black: var(--color-black);
+  --color-green: var(--color-green);
+  --color-blue: var(--color-blue);
+  --color-red: var(--color-red);
+  --color-white: var(--color-white);
+  --color-dark-white: var(--color-dark-white);
+  --color-dark-grey: var(--color-dark-grey);
+  --color-light-grey: var(--color-light-grey);
+  --color-light-green: var(--color-light-green);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-jbm: var(--font-jbm);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Add options for color-schemes */
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg-gradient);
 }
