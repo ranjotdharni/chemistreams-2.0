@@ -43,7 +43,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg">
+    <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg text-white">
         <h2 className="text-3xl font-semibold text-center mb-6">Sign Up</h2>
         {error && error !== "" && <p className="text-red-500 text-center mb-4">{error}</p>}
 

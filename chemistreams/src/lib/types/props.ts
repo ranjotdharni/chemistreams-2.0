@@ -8,3 +8,9 @@ export interface AuthProviderProps {
 export interface LoginPageProps {
     loginAction: (email: string, password: string) => void
 }
+
+export interface ToolbarButtonProps {
+    icon: string,
+    alt: string,
+    callback: () => void
+}
