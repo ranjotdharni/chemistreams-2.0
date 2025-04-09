@@ -1,5 +1,5 @@
+import { Geist, Geist_Mono, JetBrains_Mono, Montserrat } from "next/font/google"
 import { filterStandardClaims } from "next-firebase-auth-edge/auth/claims"
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import { AuthProvider } from "@/components/provider/AuthProvider"
 import { clientConfig, serverConfig } from "@/lib/auth/config"
 import { getTokens, Tokens } from "next-firebase-auth-edge"
@@ -19,6 +19,11 @@ const geistMono = Geist_Mono({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jbm",
+  subsets: ["latin"],
+})
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
 })
 
