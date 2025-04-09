@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react"
 import { User } from "./server"
 
 export interface AuthProviderProps {
@@ -10,7 +11,6 @@ export interface LoginPageProps {
 }
 
 export interface ToolbarButtonProps {
-    icon: string,
-    alt: string,
+    Icon: LucideIcon,
     callback: () => void
 }
