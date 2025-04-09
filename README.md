@@ -7,4 +7,5 @@ Browser-based chat application. This is a remake of a plain HTML, CSS, JavaScrip
 - [ ] Google, Github Auth Providers
 - [ ] Refresh Token (possibly)
 - [ ] Media Files
+- [ ] Responsive Design
 - [ ] API

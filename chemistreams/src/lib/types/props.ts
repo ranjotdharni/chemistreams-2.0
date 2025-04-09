@@ -14,3 +14,19 @@ export interface ToolbarButtonProps {
     Icon: LucideIcon,
     callback: () => void
 }
+
+export interface NewChatProps {
+    text: string,
+    onChange: (text: string) => void
+}
+
+export interface ChatBoxProps {
+    id: string | number
+    pfp: string
+    online: boolean
+    isCurrent: boolean
+    name: string
+    timestamp: string
+    lastChat: string
+    onClick: (chat: ChatBoxProps) => void
+}
