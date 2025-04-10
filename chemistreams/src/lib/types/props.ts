@@ -44,3 +44,7 @@ export interface ChatHeaderProps {
 export interface ChatContentProps {
     current?: ChatMetaData
 }
+
+export interface ChatFooterProps {
+    current?: ChatMetaData
+}

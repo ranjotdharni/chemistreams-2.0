@@ -9,7 +9,7 @@ export default function ChatView({ current } : ChatViewProps) {
         <section className="bg-opacity-0 border-l border-dark-grey md:h-full md:w-[70%]">
             <ChatHeader current={current} />
             <ChatContent current={current} />
-            <ChatFooter />
+            <ChatFooter current={current} />
         </section>
     )
 }
