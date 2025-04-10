@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react"
+import { ChatMetaData } from "./client"
 import { User } from "./server"
 
 export interface AuthProviderProps {
@@ -21,12 +22,25 @@ export interface NewChatProps {
 }
 
 export interface ChatBoxProps {
-    id: string | number
-    pfp: string
-    online: boolean
+    metadata: ChatMetaData
     isCurrent: boolean
-    name: string
-    timestamp: string
-    lastChat: string
-    onClick: (chat: ChatBoxProps) => void
+    onClick: (metadata: ChatMetaData) => void
+}
+
+export interface ChatListProps {
+    chatList: ChatMetaData[],
+    current?: ChatMetaData,
+    onClick: (metadata: ChatMetaData) => void
+}
+
+export interface ChatViewProps {
+    current?: ChatMetaData
+}
+
+export interface ChatHeaderProps {
+    current?: ChatMetaData
+}
+
+export interface ChatContentProps {
+    current?: ChatMetaData
 }

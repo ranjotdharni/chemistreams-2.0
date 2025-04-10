@@ -27,7 +27,7 @@ export default function Toolbar() {
     ]
 
     return (
-        <section className="bg-black border-r border-dark-grey md:h-full md:w-[7.5%] md:p-2">
+        <section className="border-r border-dark-grey md:h-full md:w-[7.5%] md:p-2">
             <div className="w-full h-[65%] flex flex-col justify-between items-center">
                 <Image src={LOGO} alt="Logo" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-full md:aspect-square p-3" />
 
