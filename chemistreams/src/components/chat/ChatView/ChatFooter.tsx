@@ -1,6 +1,6 @@
 "use client"
 
-import { FileVideo, ImageIcon, LucideIcon, SendIcon, Volume } from "lucide-react"
+import { FileVideo, ImageIcon, LucideIcon, SendIcon, AudioLines } from "lucide-react"
 import { ChatFooterProps } from "@/lib/types/props"
 import { ChatMetaData } from "@/lib/types/client"
 
@@ -38,9 +38,9 @@ export default function ChatFooter({ current } : ChatFooterProps) {
         },
         {
             current: current,
-            Icon: Volume,
+            Icon: AudioLines,
             onClick: () => {
-                // upload speaker
+                // upload audio
             }
         }
     ]

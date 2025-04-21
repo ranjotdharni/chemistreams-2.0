@@ -13,3 +13,10 @@ export interface ChatMetaData {
     timestamp: string
     lastChat: string
 }
+
+export interface ChatMessage {
+    id: string | number
+    incoming?: boolean
+    message: string
+    timestamp: Date
+}
