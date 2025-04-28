@@ -1,6 +1,11 @@
+import { ChatMetaData, GenericError } from "./client"
 import { LucideIcon } from "lucide-react"
-import { ChatMetaData } from "./client"
 import { User } from "./server"
+
+export interface InterfaceProviderProps {
+    setText: (text: string, color?: string) => void
+    children: React.ReactNode
+}
 
 export interface AuthProviderProps {
     user: User | null
@@ -8,7 +13,7 @@ export interface AuthProviderProps {
 }
 
 export interface LoginPageProps {
-    loginAction: (email: string, password: string) => void
+    loginAction: (email: string, password: string) => Promise<void | GenericError>
 }
 
 export interface ToolbarButtonProps {

@@ -1,39 +1,46 @@
 "use client"
 
-import { isValidPassword } from "@/lib/utils/client"
+import { isValidPassword, isValidUsername } from "@/lib/utils/client"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { FormEvent, useContext, useState } from "react"
 import { PAGE_LOGIN } from "@/lib/constants/routes"
 import { GenericError } from "@/lib/types/client"
 import { signUpAction } from "@/lib/utils/server"
-import useNotify from "@/lib/hooks/useNotify"
-import { FormEvent, useState } from "react"
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const UIControl = useContext(InterfaceContext)
 
-  const [error, setError] = useNotify()
+  const [email, setEmail] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     // add validation here
+    const invalidUsername: GenericError | undefined = isValidUsername(username)
     const invalidPassword: GenericError | undefined = isValidPassword(password)
 
     if (email === "") {
-      setError("Please enter an email.")
+      UIControl.setText("Please enter an email.", "red")
       return
     }
 
-    if (invalidPassword !== undefined) {
-        // sign user up
-        setError((invalidPassword as GenericError).message)
+    if (invalidUsername !== undefined) {
+        UIControl.setText((invalidUsername as GenericError).message, "red")
+        return
+    }
+    else if (invalidPassword !== undefined) {
+        UIControl.setText((invalidPassword as GenericError).message, "red")
         return
     }
     else {
+        // sign user up
         try {
             const response = await signUpAction(email, password)
             console.log({ response })
             setEmail("")
+            setUsername("")
             setPassword("")
         }
         catch (error) {
@@ -43,9 +50,8 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg text-white">
+    <div className="w-full max-w-md bg-black p-8 rounded-lg shadow-lg text-white">
         <h2 className="text-3xl font-semibold text-center mb-6">Sign Up</h2>
-        {error && error !== "" && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <form onSubmit={onSubmit} className="space-y-4">
             <div>
@@ -58,8 +64,23 @@ export default function SignUpPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 bg-dark-grey text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="example@example.com"
+                />
+                </div>
+
+                <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    Username
+                </label>
+                <input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    className="w-full p-3 bg-dark-grey text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter username..."
                 />
                 </div>
 
@@ -73,14 +94,14 @@ export default function SignUpPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 bg-dark-grey text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter password..."
                 />
             </div>
 
             <button
                 type="submit"
-                className="w-full py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full py-3 bg-blue text-white rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                 Sign Up
             </button>
@@ -88,7 +109,7 @@ export default function SignUpPage() {
 
         <p className="text-center text-sm mt-4">
             Already have an account?{" "}
-            <a href={PAGE_LOGIN} className="text-blue-400 hover:underline">
+            <a href={PAGE_LOGIN} className="text-blue hover:underline">
             Log In
             </a>
         </p>

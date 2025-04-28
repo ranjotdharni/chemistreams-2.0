@@ -1,0 +1,10 @@
+import { InterfaceContextValue } from "../types/client"
+import { createContext, useContext } from "react"
+
+export const InterfaceContext = createContext<InterfaceContextValue>({
+    setText: (text: string, color?: string) => {
+        console.log(text)
+    }
+})
+
+export const useInterface = () => useContext(InterfaceContext)

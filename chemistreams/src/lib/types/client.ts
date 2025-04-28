@@ -1,4 +1,8 @@
 
+export interface InterfaceContextValue {
+    setText: (text: string, color?: string) => void
+}
+
 export interface GenericError {
     code: string
     message: string

@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono, JetBrains_Mono, Montserrat } from "next/font/google"
+import { InterfaceProvider } from "@/components/provider/InterfaceProvider"
 import { filterStandardClaims } from "next-firebase-auth-edge/auth/claims"
 import { AuthProvider } from "@/components/provider/AuthProvider"
 import { clientConfig, serverConfig } from "@/lib/auth/config"
@@ -66,15 +67,21 @@ export default async function RootLayout({
   })
 
   const user = tokens ? tokensToUser(tokens) : null
+  
+  async function setText(text: string) {
+    "use server"
+  }
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} antialiased w-screen h-screen flex flex-col justify-center items-center`}
       >
-        <AuthProvider user={user}>
-          { children }
-        </AuthProvider>
+        <InterfaceProvider setText={setText}>
+          <AuthProvider user={user}>
+            { children }
+          </AuthProvider>
+        </InterfaceProvider>
       </body>
     </html>
   )
