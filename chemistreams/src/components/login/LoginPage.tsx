@@ -1,7 +1,7 @@
 "use client"
 
-import { FormEvent, useContext, useState, useTransition } from "react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { FormEvent, useContext, useState } from "react"
 import { PAGE_SIGNUP } from "@/lib/constants/routes"
 import { isValidPassword } from "@/lib/utils/client"
 import { LoginPageProps } from "@/lib/types/props"
@@ -35,7 +35,7 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
 
     const loginResult: void | GenericError = await loginAction(email, password)
 
-    if (loginResult !== undefined && (loginResult as GenericError).message !== undefined) {
+    if (loginResult !== undefined && (loginResult as GenericError).code !== undefined) {
         UIControl.setText(loginResult.message, "red")
     }
 

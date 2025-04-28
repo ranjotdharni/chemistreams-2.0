@@ -9,3 +9,5 @@ Browser-based chat application. This is a remake of a plain HTML, CSS, JavaScrip
 - [ ] Media Files
 - [ ] Responsive Design
 - [ ] API
+- [ ] Synchronize users in auth w/ realtime (sign up + sign in)
+- [ ] Email validation (client sign up + confirmation)

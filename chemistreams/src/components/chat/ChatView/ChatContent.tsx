@@ -54,7 +54,7 @@ function Chat({ current } : ChatProps) {
         <ul className="md:w-full md:h-[75%]">
             {
                 mockData.map(message => {
-                    return <Message id={message.id} incoming={message.incoming} message={message.message} timestamp={message.timestamp} />
+                    return <Message key={message.id} id={message.id} incoming={message.incoming} message={message.message} timestamp={message.timestamp} />
                 })
             }
         </ul>

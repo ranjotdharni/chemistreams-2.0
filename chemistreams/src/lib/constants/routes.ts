@@ -10,6 +10,12 @@ export const API_REFRESH_TOKEN: string = "/api/refresh-token"
 export const API_LOGOUT: string = "/api/logout"
 export const API_LOGIN: string = "/api/login"
 
+// Database Routes
+export const DB_METADATA: string = "metadata"
+export const DB_MESSAGES: string = "messages"
+export const DB_GROUPS: string = "groups"
+export const DB_USERS: string = "users"
+
 export const PUBLIC_ROUTES: string[] = [
     PAGE_LANDING,
     PAGE_SIGNUP,

@@ -22,9 +22,14 @@ export const USERNAME_MAX_LENGTH_ERROR: string = "USERNAME_MAX_LENGTH_ERROR"
 export const PASSWORD_CAPITAL_ERROR: string = "PASSWORD_CAPITAL_ERROR"
 export const PASSWORD_LENGTH_ERROR: string = "PASSWORD_LENGTH_ERROR"
 export const PASSWORD_NUMBER_ERROR: string = "PASSWORD_NUMBER_ERROR"
+export const SIGNUP_FAILURE_ERROR: string = "SIGNUP_FAILURE_ERROR"
 export const LOGIN_FAILURE_ERROR: string = "LOGIN_FAILURE_ERROR"
 
 export const ERRORS: { [key: string]: GenericError } = {
+    SIGNUP_FAILURE_ERROR: {
+        code: SIGNUP_FAILURE_ERROR,
+        message: "Email or Username already exists."
+    },
     LOGIN_FAILURE_ERROR: {
         code: LOGIN_FAILURE_ERROR,
         message: "Failed to log in; check credentials."
