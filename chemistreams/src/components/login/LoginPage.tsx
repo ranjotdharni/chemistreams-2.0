@@ -1,37 +1,50 @@
 "use client"
 
-import { FormEvent, useState, useTransition } from "react"
+import { FormEvent, useContext, useState, useTransition } from "react"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { PAGE_SIGNUP } from "@/lib/constants/routes"
+import { isValidPassword } from "@/lib/utils/client"
 import { LoginPageProps } from "@/lib/types/props"
-import useNotify from "@/lib/hooks/useNotify"
+import { GenericError } from "@/lib/types/client"
 
 export default function LoginPage({ loginAction } : LoginPageProps) {
+  const UIControl = useContext(InterfaceContext)
+
+  const [disable, setDisable] = useState<boolean>(false)
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-
-  let [isLoginActionPending, startTransition] = useTransition()
-  const [error, setError] = useNotify()
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     event.stopPropagation()
 
+    const invalidPassword: GenericError | undefined = isValidPassword(password)
+
     // add validation here
-    if (email === "" || password === "") {
-      setError("Please enter both email and password.")
+    if (email === "") {
+      UIControl.setText("Please enter a valid email.", "red")
       return
     }
 
-    startTransition(() => loginAction(email, password))
-    
-    if (error !== "")
-        setError("") // clear error if set
+    if (invalidPassword !== undefined) {
+        UIControl.setText((invalidPassword as GenericError).message, "red")
+        return
+    }
+
+    setDisable(true)
+
+    const loginResult: void | GenericError = await loginAction(email, password)
+
+    if (loginResult !== undefined && (loginResult as GenericError).message !== undefined) {
+        UIControl.setText(loginResult.message, "red")
+    }
+
+    setDisable(false)
   }
 
   return (
-    <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg text-white">
+    <div className="w-full max-w-md bg-black p-8 rounded-lg shadow-lg text-white">
         <h2 className="text-3xl font-semibold text-center mb-6">Login</h2>
-        {error && error !== "" && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <form onSubmit={onSubmit} className="space-y-4">
             <div>
@@ -44,7 +57,8 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={disable}
+                    className="w-full p-3 bg-dark-grey text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="example@example.com"
                 />
                 </div>
@@ -59,15 +73,16 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={disable}
+                    className="w-full p-3 bg-dark-grey text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter password..."
                 />
             </div>
 
             <button
                 type="submit"
-                disabled={isLoginActionPending}
-                className="w-full py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={disable}
+                className="w-full py-3 bg-blue text-white rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                 Login
             </button>
@@ -75,7 +90,7 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
 
         <p className="text-center text-sm mt-4">
             Don't have an account?{" "}
-            <a href={PAGE_SIGNUP} className="text-blue-400 hover:underline">
+            <a href={PAGE_SIGNUP} className="text-blue hover:underline">
                 Sign Up
             </a>
         </p>
