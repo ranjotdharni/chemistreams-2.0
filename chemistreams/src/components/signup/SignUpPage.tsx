@@ -10,6 +10,7 @@ import { signUpAction } from "@/lib/utils/server"
 export default function SignUpPage() {
   const UIControl = useContext(InterfaceContext)
 
+  const [name, setName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
@@ -17,14 +18,19 @@ export default function SignUpPage() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    // add validation here
-    const invalidUsername: GenericError | undefined = isValidUsername(username)
-    const invalidPassword: GenericError | undefined = isValidPassword(password)
+    if (name === "") {
+        UIControl.setText("Please enter your name.", "red")
+        return
+    }
 
     if (email === "") {
       UIControl.setText("Please enter an email.", "red")
       return
     }
+
+    // add validation here
+    const invalidUsername: GenericError | undefined = isValidUsername(username)
+    const invalidPassword: GenericError | undefined = isValidPassword(password)
 
     if (invalidUsername !== undefined) {
         UIControl.setText((invalidUsername as GenericError).message, "red")
@@ -36,16 +42,17 @@ export default function SignUpPage() {
     }
     else {
         // sign user up
-        try {
-            const response = await signUpAction(email, password)
-            console.log({ response })
-            setEmail("")
-            setUsername("")
-            setPassword("")
+        const response: void | GenericError = await signUpAction(name, email, username, password)
+
+        if (response !== undefined && (response as GenericError).code !== undefined) {
+            UIControl.setText((response as GenericError).message, "red")
+            return
         }
-        catch (error) {
-            console.error(error)
-        }
+
+        setName("")
+        setEmail("")
+        setUsername("")
+        setPassword("")
     }
   }
 
@@ -55,6 +62,21 @@ export default function SignUpPage() {
 
         <form onSubmit={onSubmit} className="space-y-4">
             <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    Name
+                </label>
+                <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className="w-full p-3 bg-dark-grey text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter name..."
+                />
+                </div>
+
+                <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-2">
                     Email
                 </label>
@@ -70,7 +92,7 @@ export default function SignUpPage() {
                 </div>
 
                 <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                <label htmlFor="username" className="block text-sm font-medium mb-2">
                     Username
                 </label>
                 <input
