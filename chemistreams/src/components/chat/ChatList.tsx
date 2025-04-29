@@ -1,8 +1,9 @@
 "use client"
 
+import { ref, off, onChildAdded, DataSnapshot } from "firebase/database"
+import { createDatabaseErrorHandler } from "@/lib/utils/client"
 import { useState, useEffect, useContext } from "react"
 import { AuthContext } from "@/lib/context/AuthContext"
-import { onValue, ref, off } from "firebase/database"
 import { DB_USERS } from "@/lib/constants/routes"
 import { ChatListProps } from "@/lib/types/props"
 import NewChat from "./ChatList/NewChat"
@@ -17,14 +18,19 @@ export default function ChatList({ chatList, current, onClick } : ChatListProps)
     useEffect(() => {
         const reference = ref(rt, `${DB_USERS}/${user?.uid}/chats`)
 
-        const listener = onValue(reference, (snapshot) => {
+        function handleNewChat(snapshot: DataSnapshot) {
             const data = snapshot.val()
-            console.log("Chats Update:", data)
-        }, (error) => {
-            console.error("Chats Listener Error:", error)
-        })
+            console.log("New Chat:", data)
+        }
 
-        return () => off(reference)
+        onChildAdded(reference, handleNewChat, createDatabaseErrorHandler("CHATLIST_CHATS_ADD_ERROR"))
+
+        function unsubscribe() {
+            off(reference, "child_added", handleNewChat)
+            // add any other listeners to be removed for cleanup here
+        }
+
+        return unsubscribe
     }, [])
 
     return (
