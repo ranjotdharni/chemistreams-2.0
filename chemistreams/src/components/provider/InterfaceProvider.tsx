@@ -11,7 +11,7 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
 }) => {
     const [message, setMessage] = useNotify()
 
-    const defaultColor: string = 'dark-grey'
+    const defaultColor: string = 'dark-white'
     const [color, setColor] = useState<string>(defaultColor)
 
     function onMessageChange(message: string, color?: string): void {
