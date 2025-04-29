@@ -1,11 +1,11 @@
 "use server"
 
-import { DEFAULT_PFP, ERRORS, LOGIN_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { refreshCookiesWithIdToken } from "next-firebase-auth-edge/next/cookies"
+import { DEFAULT_PFP, ERRORS, LOGIN_FAILURE_ERROR, SIGNOUT_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
+import { refreshCookiesWithIdToken, removeServerCookies } from "next-firebase-auth-edge/next/cookies"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { ref, query, orderByChild, equalTo, get, set } from "firebase/database"
+import { DB_USERS, PAGE_HOME, PAGE_LOGIN } from "../constants/routes"
 import { clientConfig, serverConfig } from "../auth/config"
-import { DB_USERS, PAGE_HOME } from "../constants/routes"
 import { cookies, headers } from "next/headers"
 import { GenericError } from "../types/client"
 import { auth, rt } from "../auth/firebase"
@@ -78,4 +78,17 @@ export async function signUpAction(name: string, email: string, username: string
     }
 
     redirect(PAGE_HOME)
+}
+
+export async function logoutAction(): Promise<void | GenericError> {
+    try {
+        await signOut(auth)
+        removeServerCookies(await cookies(), { cookieName: serverConfig.cookieName })
+    }
+    catch (error) {
+        console.log(error)
+        return ERRORS[SIGNOUT_FAILURE_ERROR]
+    }
+
+    redirect(PAGE_LOGIN)
 }

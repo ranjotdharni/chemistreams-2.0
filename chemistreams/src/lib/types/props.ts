@@ -1,5 +1,6 @@
 import { ChatMetaData, GenericError } from "./client"
 import { LucideIcon } from "lucide-react"
+import { MouseEvent } from "react"
 import { User } from "./server"
 
 export interface InterfaceProviderProps {
@@ -18,7 +19,8 @@ export interface LoginPageProps {
 
 export interface ToolbarButtonProps {
     Icon: LucideIcon,
-    callback: () => void
+    hoverColor?: string,
+    callback: (event: MouseEvent<HTMLButtonElement>) => void
 }
 
 export interface NewChatProps {

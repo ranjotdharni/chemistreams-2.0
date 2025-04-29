@@ -5,8 +5,25 @@ import { LOGO, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { ToolbarButtonProps } from "@/lib/types/props"
 import ToolbarButton from "./Toolbar/ToolbarButton"
 import Image from "next/image"
+import { MouseEvent, useContext } from "react"
+import { logoutAction } from "@/lib/utils/server"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { GenericError } from "@/lib/types/client"
 
 export default function Toolbar() {
+    const UIControl = useContext(InterfaceContext)
+
+    async function handleLogout(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+
+        const result: void | GenericError = await logoutAction()
+
+        if (result !== undefined && (result as GenericError).code !== undefined) {
+            UIControl.setText((result as GenericError).message, "red")
+            return
+        }
+    }
+
     const buttons: ToolbarButtonProps[] = [
         {
             Icon: UserPen,
@@ -22,7 +39,8 @@ export default function Toolbar() {
         },
         {
             Icon: LogOut,
-            callback: () => {}
+            hoverColor: "red",
+            callback: handleLogout
         }
     ]
 
@@ -34,7 +52,7 @@ export default function Toolbar() {
                 <ul className="md:w-full md:h-auto flex flex-col items-center space-y-8">
                     {
                         buttons.map((button: ToolbarButtonProps, index: number) => {
-                            return <ToolbarButton key={`TOOLBAR_BUTTON_${index}`} Icon={button.Icon} callback={button.callback} />
+                            return <ToolbarButton key={`TOOLBAR_BUTTON_${index}`} Icon={button.Icon} hoverColor={button.hoverColor} callback={button.callback} />
                         })
                     }
                 </ul>
