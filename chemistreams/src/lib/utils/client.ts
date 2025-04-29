@@ -29,3 +29,10 @@ export function isValidPassword(password: string): GenericError | undefined {
         }
     }
 }
+
+// 'message' should follow format "${COMPONENT}_${RECORD}_${ACTION}_ERROR"
+export function createDatabaseErrorHandler(message: string): (error: Error) => void {
+    return (error: Error) => {
+        console.log(message, error)
+    }
+}
