@@ -1,14 +1,14 @@
 "use client"
 
 import { UserPen, PaintBucket, Trash2, LogOut } from "lucide-react"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { LOGO, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { ToolbarButtonProps } from "@/lib/types/props"
 import ToolbarButton from "./Toolbar/ToolbarButton"
-import Image from "next/image"
-import { MouseEvent, useContext } from "react"
 import { logoutAction } from "@/lib/utils/server"
-import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { GenericError } from "@/lib/types/client"
+import { MouseEvent, useContext } from "react"
+import Image from "next/image"
 
 export default function Toolbar() {
     const UIControl = useContext(InterfaceContext)
