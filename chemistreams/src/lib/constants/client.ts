@@ -22,6 +22,7 @@ export const USERNAME_MAX_LENGTH_ERROR: string = "USERNAME_MAX_LENGTH_ERROR"
 export const PASSWORD_CAPITAL_ERROR: string = "PASSWORD_CAPITAL_ERROR"
 export const PASSWORD_LENGTH_ERROR: string = "PASSWORD_LENGTH_ERROR"
 export const PASSWORD_NUMBER_ERROR: string = "PASSWORD_NUMBER_ERROR"
+export const SIGNOUT_FAILURE_ERROR: string = "SIGNOUT_FAILURE_ERROR"
 export const SIGNUP_FAILURE_ERROR: string = "SIGNUP_FAILURE_ERROR"
 export const LOGIN_FAILURE_ERROR: string = "LOGIN_FAILURE_ERROR"
 
@@ -33,6 +34,10 @@ export const ERRORS: { [key: string]: GenericError } = {
     LOGIN_FAILURE_ERROR: {
         code: LOGIN_FAILURE_ERROR,
         message: "Failed to log in; check credentials."
+    },
+    SIGNOUT_FAILURE_ERROR: {
+        code: SIGNOUT_FAILURE_ERROR,
+        message: "Failed to sign out."
     },
     USERNAME_SPECIAL_CHARACTER_ERROR:  {
         code: USERNAME_SPECIAL_CHARACTER_ERROR,
