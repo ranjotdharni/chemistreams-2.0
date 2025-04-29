@@ -1,5 +1,9 @@
+"use client"
+
 import { ERRORS, PASSWORD_MIN_LENGTH, PASSWORD_RULES_REGEX, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH, USERNAME_RULES_REGEX } from "../constants/client"
+import { InterfaceContext } from "../context/InterfaceContext"
 import { GenericError } from "../types/client"
+import { useContext } from "react"
 
 export function isValidUsername(username: string): GenericError | undefined {
     if (!USERNAME_RULES_REGEX.test(username)) {
@@ -32,7 +36,9 @@ export function isValidPassword(password: string): GenericError | undefined {
 
 // 'message' should follow format "${COMPONENT}_${RECORD}_${ACTION}_ERROR"
 export function createDatabaseErrorHandler(message: string): (error: Error) => void {
+    const UIControl = useContext(InterfaceContext)
+
     return (error: Error) => {
-        console.log(message, error)
+        UIControl.setText(`${message}: ${error.message}`, "red")
     }
 }
