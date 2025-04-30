@@ -11,6 +11,7 @@ export const API_LOGOUT: string = "/api/logout"
 export const API_LOGIN: string = "/api/login"
 
 // Database Routes
+export const DB_USERNAMES: string = "usernames"
 export const DB_METADATA: string = "metadata"
 export const DB_MESSAGES: string = "messages"
 export const DB_GROUPS: string = "groups"

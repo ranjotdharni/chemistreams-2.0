@@ -1,5 +1,6 @@
 "use client"
 
+import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { ref, DataSnapshot } from "firebase/database"
 import useListener from "@/lib/hooks/useListener"
@@ -9,7 +10,6 @@ import { useState, useContext } from "react"
 import NewChat from "./ChatList/NewChat"
 import ChatBox from "./ChatList/ChatBox"
 import { rt } from "@/lib/auth/firebase"
-import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 
 export default function ChatList({ chatList, current, onClick } : ChatListProps) {
     const { user } = useContext(AuthContext)
@@ -28,7 +28,7 @@ export default function ChatList({ chatList, current, onClick } : ChatListProps)
 
     return (
         <section className="bg-opacity-0 md:h-full md:w-[27.5%] md:p-4 md:space-y-4">
-            <NewChat text={newChatText} onChange={setNewChatText} />
+            <NewChat />
 
             <ul className="md:w-full md:h-auto md:space-y-4 md:flex md:flex-col">
                 {

@@ -18,19 +18,19 @@ export default function SignUpPage() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (name === "") {
+    if (name.trim() === "") {
         UIControl.setText("Please enter your name.", "red")
         return
     }
 
-    if (email === "") {
+    if (email.trim() === "") {
       UIControl.setText("Please enter an email.", "red")
       return
     }
 
     // add validation here
-    const invalidUsername: GenericError | undefined = isValidUsername(username)
-    const invalidPassword: GenericError | undefined = isValidPassword(password)
+    const invalidUsername: GenericError | undefined = isValidUsername(username.trim())
+    const invalidPassword: GenericError | undefined = isValidPassword(password.trim())
 
     if (invalidUsername !== undefined) {
         UIControl.setText((invalidUsername as GenericError).message, "red")
@@ -42,7 +42,7 @@ export default function SignUpPage() {
     }
     else {
         // sign user up
-        const response: void | GenericError = await signUpAction(name, email, username, password)
+        const response: void | GenericError = await signUpAction(name.trim(), email.trim(), username.trim(), password.trim())
 
         if (response !== undefined && (response as GenericError).code !== undefined) {
             UIControl.setText((response as GenericError).message, "red")
