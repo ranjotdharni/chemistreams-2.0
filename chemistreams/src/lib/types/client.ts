@@ -9,9 +9,10 @@ export interface GenericError {
 }
 
 export interface ChatMetaData {
-    id: string | number
+    id: string
     pfp: string
     online: boolean
+    username: string
     name: string
     status: string
     timestamp: string

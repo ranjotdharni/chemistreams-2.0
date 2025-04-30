@@ -30,7 +30,6 @@ export interface ChatBoxProps {
 }
 
 export interface ChatListProps {
-    chatList: ChatMetaData[],
     current?: ChatMetaData,
     onClick: (metadata: ChatMetaData) => void
 }
