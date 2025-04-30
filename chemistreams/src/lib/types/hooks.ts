@@ -4,7 +4,7 @@ import { DataSnapshot } from "firebase/database"
 
 export interface UseListenerEventDetails {
     callback: (snapshot: DataSnapshot) => void
-    errorTitle: string
+    errorCallback: (error: Error) => void
 }
 
 export interface UseListenerConfig {

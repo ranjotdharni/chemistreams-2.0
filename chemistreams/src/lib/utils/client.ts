@@ -33,12 +33,3 @@ export function isValidPassword(password: string): GenericError | undefined {
         }
     }
 }
-
-// 'message' should follow format "${COMPONENT}_${RECORD}_${ACTION}_ERROR"
-export function createDatabaseErrorHandler(message: string): (error: Error) => void {
-    const UIControl = useContext(InterfaceContext)
-
-    return (error: Error) => {
-        UIControl.setText(`${message}: ${error.message}`, "red")
-    }
-}

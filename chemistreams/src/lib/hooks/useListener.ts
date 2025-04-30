@@ -1,7 +1,7 @@
 "use client"
 
 import { DatabaseReference, off, onChildAdded, onChildChanged, onChildMoved, onChildRemoved, onValue } from "firebase/database"
-import { createDatabaseErrorHandler } from "../utils/client"
+import { useDatabaseErrorHandler } from "./useDatabaseErrorHandler"
 import { UseListenerConfig } from "../types/hooks"
 import { useEffect } from "react"
 
@@ -28,19 +28,19 @@ export default function useListener(reference: DatabaseReference, config: UseLis
         }
 
         if (config.value)
-            onValue(reference, config.value.callback, createDatabaseErrorHandler(config.value.errorTitle))
+            onValue(reference, config.value.callback, config.value.errorCallback)
 
         if (config.added)
-            onChildAdded(reference, config.added.callback, createDatabaseErrorHandler(config.added.errorTitle))
+            onChildAdded(reference, config.added.callback, config.added.errorCallback)
 
         if (config.changed)
-            onChildChanged(reference, config.changed.callback, createDatabaseErrorHandler(config.changed.errorTitle))
+            onChildChanged(reference, config.changed.callback, config.changed.errorCallback)
 
         if (config.removed)
-            onChildRemoved(reference, config.removed.callback, createDatabaseErrorHandler(config.removed.errorTitle))
+            onChildRemoved(reference, config.removed.callback, config.removed.errorCallback)
 
         if (config.moved)
-            onChildMoved(reference, config.moved.callback, createDatabaseErrorHandler(config.moved.errorTitle))
+            onChildMoved(reference, config.moved.callback, config.moved.errorCallback)
 
         return unsubscribe
     }, [reference, config])

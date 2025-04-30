@@ -9,6 +9,7 @@ import { useState, useContext } from "react"
 import NewChat from "./ChatList/NewChat"
 import ChatBox from "./ChatList/ChatBox"
 import { rt } from "@/lib/auth/firebase"
+import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 
 export default function ChatList({ chatList, current, onClick } : ChatListProps) {
     const { user } = useContext(AuthContext)
@@ -23,7 +24,7 @@ export default function ChatList({ chatList, current, onClick } : ChatListProps)
         console.log("New Chat:", data)
     } 
 
-    useListener(reference, { added: { callback: handleNewChat, errorTitle: "CHATLIST_CHATS_ADD_ERROR" } })
+    useListener(reference, { added: { callback: handleNewChat, errorCallback: useDatabaseErrorHandler("CHATLIST_CHATS_ADD_ERROR") } })
 
     return (
         <section className="bg-opacity-0 md:h-full md:w-[27.5%] md:p-4 md:space-y-4">
