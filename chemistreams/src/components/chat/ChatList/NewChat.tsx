@@ -1,6 +1,6 @@
 "use client"
 
-import { DB_METADATA, DB_USERNAMES, DB_USERS } from "@/lib/constants/routes"
+import { DB_GROUPS, DB_METADATA, DB_USERNAMES, DB_USERS } from "@/lib/constants/routes"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { get, ref, set, update } from "firebase/database"
 import { MouseEvent, useContext, useState } from "react"
@@ -41,7 +41,7 @@ function NewChatList({ newChatDetails, removeCallback, cancelCallback, createCal
 
     return (
         <div className="md:px-4 md:space-y-2">
-            <ul>
+            <ul className="md:space-y-1">
                 {
                     newChatDetails.map(detail => {
                         return <NewChatListItem key={detail.uid} details={detail} remove={removeCallback(detail.uid)} />
@@ -169,11 +169,42 @@ export default function NewChat() {
         UIControl.setText("Chat Created.", "green")
     }
 
-    function createGroupChat() {
-        // update metadata + groups + messages
+    async function createGroupChat() {
+        if (!user)
+            return
 
+        const chatId: string = uuidv4()
 
-        // add to all users chats
+        try {
+            // update metadata + groups
+            const metadataUpdate: Record<string, any> = {
+                [`${DB_METADATA}/${chatId}`]: {
+                    creator: user.uid,
+                    group: true,
+                    alias: user.displayName ? `${user.displayName}'s Group` : "New Group Chat"
+                }
+            }
+
+            // add all users to group's members list and users' chats list
+            const groupUpdateMembers: string[] = [user.uid, ...newChatUsers.map(u => u.uid)]
+            const groupUpdates: Record<string, boolean> = {}
+            const chatUpdates: Record<string, boolean> = {}
+
+            for (let uid of groupUpdateMembers) {
+                groupUpdates[`${DB_GROUPS}/${chatId}/${uid}`] = true
+                chatUpdates[`${DB_USERS}/${uid}/chats/${chatId}`] = true
+            }
+
+            await update(ref(rt), {...metadataUpdate, ...groupUpdates, ...chatUpdates})
+        }
+        catch (error) {
+            console.log(error)
+            UIControl.setText("CHATLIST_CREATEGROUPCHAT_ERROR: 500 Internal Server Error", "red")
+            return
+        }
+
+        setNewChatUsers([])
+        UIControl.setText("Group Chat Created.", "green")
     }
 
     function create(event: MouseEvent<HTMLButtonElement>) {

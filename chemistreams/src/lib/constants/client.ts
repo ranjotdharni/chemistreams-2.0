@@ -12,6 +12,7 @@ export const PASSWORD_RULES_REGEX: RegExp = new RegExp(
 )
 
 export const LOGO: string = "https://img.icons8.com/?size=100&id=8hNJp4u2Tt8D&format=png&color=0B6448"
+export const DEFAULT_GROUP_PFP: string = "https://img.icons8.com/color/100/user-group-man-woman.png"
 export const DEFAULT_PFP: string = "https://img.icons8.com/color/100/user-male-circle--v1.png"
 
 // error codes
