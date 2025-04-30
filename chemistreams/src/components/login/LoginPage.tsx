@@ -18,10 +18,10 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
     event.preventDefault()
     event.stopPropagation()
 
-    const invalidPassword: GenericError | undefined = isValidPassword(password)
+    const invalidPassword: GenericError | undefined = isValidPassword(password.trim())
 
     // add validation here
-    if (email === "") {
+    if (email.trim() === "") {
       UIControl.setText("Please enter a valid email.", "red")
       return
     }
@@ -33,7 +33,7 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
 
     setDisable(true)
 
-    const loginResult: void | GenericError = await loginAction(email, password)
+    const loginResult: void | GenericError = await loginAction(email.trim(), password.trim())
 
     if (loginResult !== undefined && (loginResult as GenericError).code !== undefined) {
         UIControl.setText(loginResult.message, "red")

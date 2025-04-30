@@ -23,11 +23,6 @@ export interface ToolbarButtonProps {
     callback: (event: MouseEvent<HTMLButtonElement>) => void
 }
 
-export interface NewChatProps {
-    text: string,
-    onChange: (text: string) => void
-}
-
 export interface ChatBoxProps {
     metadata: ChatMetaData
     isCurrent: boolean

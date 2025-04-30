@@ -3,8 +3,8 @@
 import { DEFAULT_PFP, ERRORS, LOGIN_FAILURE_ERROR, SIGNOUT_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
 import { refreshCookiesWithIdToken, removeServerCookies } from "next-firebase-auth-edge/next/cookies"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
-import { ref, query, orderByChild, equalTo, get, set } from "firebase/database"
-import { DB_USERS, PAGE_HOME, PAGE_LOGIN } from "../constants/routes"
+import { ref, query, orderByChild, equalTo, get, set, update } from "firebase/database"
+import { DB_USERNAMES, DB_USERS, PAGE_HOME, PAGE_LOGIN } from "../constants/routes"
 import { clientConfig, serverConfig } from "../auth/config"
 import { cookies, headers } from "next/headers"
 import { GenericError } from "../types/client"
@@ -40,7 +40,7 @@ export async function loginAction(email: string, password: string): Promise<void
 
 export async function signUpAction(name: string, email: string, username: string, password: string): Promise<void | GenericError> {
     try {
-        const usernameCheck = query(ref(rt, DB_USERS), orderByChild("username"), equalTo(username))
+        const usernameCheck = ref(rt, `${DB_USERNAMES}/${username}`)
         const checkResult = await get(usernameCheck)
 
         if (checkResult.exists())
@@ -61,6 +61,21 @@ export async function signUpAction(name: string, email: string, username: string
             bio: "",
             pfp: DEFAULT_PFP
         })
+
+        const newUserRoute: string = `${DB_USERS}/${user.uid}`
+        const newUsernameRoute: string = `${DB_USERNAMES}/${username}`
+
+        const updates: Record<string, any> = {
+            [newUserRoute]: {
+                username: username,
+                name: name,
+                bio: "",
+                pfp: DEFAULT_PFP
+            },
+            [newUsernameRoute]: user.uid
+        }
+
+        await update(ref(rt), updates)
 
         await refreshCookiesWithIdToken(
             idToken,
