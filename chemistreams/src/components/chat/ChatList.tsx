@@ -13,6 +13,7 @@ import { ChatMetaData } from "@/lib/types/client"
 import NewChat from "./ChatList/NewChat"
 import ChatBox from "./ChatList/ChatBox"
 import { rt } from "@/lib/auth/firebase"
+import { DEFAULT_GROUP_PFP } from "@/lib/constants/client"
 
 export default function ChatList({ current, onClick } : ChatListProps) {
     const UIControl = useContext(InterfaceContext)
@@ -41,38 +42,49 @@ export default function ChatList({ current, onClick } : ChatListProps) {
             }
 
             const metadata = metadataSnapshot.val()
+            let newChat: ChatMetaData
 
             if (metadata.group) {
                 // handle new group chat
-                return
-            }
-
-            let recipientReference
-
-            if (metadata.creator === user.uid) {    // is the creator of the direct chat
-                recipientReference = ref(rt, `${DB_USERS}/${metadata.to}`)
+                newChat = {
+                    id: chatId,
+                    pfp: DEFAULT_GROUP_PFP,
+                    online: true,
+                    username: "",
+                    name: metadata.alias,
+                    status: "",
+                    timestamp: "",
+                    lastChat: ""
+                }
             }
             else {
-                recipientReference = ref(rt, `${DB_USERS}/${metadata.creator}`)
+                let recipientReference
+
+                if (metadata.creator === user.uid) {    // is the creator of the direct chat
+                    recipientReference = ref(rt, `${DB_USERS}/${metadata.to}`)
+                }
+                else {
+                    recipientReference = ref(rt, `${DB_USERS}/${metadata.creator}`)
+                }
+
+                const recipientSnapshot = await get(recipientReference)
+                const recipient = recipientSnapshot.val()
+
+                newChat = {
+                    id: chatId,
+                    pfp: recipient.pfp,
+                    online: true,
+                    username: recipient.username,
+                    name: recipient.name,
+                    status: recipient.bio,
+                    timestamp: "",
+                    lastChat: ""
+                }
             }
 
-            const recipientSnapshot = await get(recipientReference)
-            const recipient = recipientSnapshot.val()
-
-            const newChat: ChatMetaData = {
-                id: chatId,
-                pfp: recipient.pfp,
-                online: true,
-                username: recipient.username,
-                name: recipient.name,
-                status: recipient.bio,
-                timestamp: "",
-                lastChat: ""
-            }
-
-            const updatedChatList: ChatMetaData[] = [...chatList]
-            updatedChatList.push(newChat)
-            setChatList(updatedChatList)
+            setChatList(list => {
+                return [...list, newChat]
+            })
         }
     }, [user])
 

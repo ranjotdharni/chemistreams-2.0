@@ -1,8 +1,8 @@
 "use server"
 
 import { DEFAULT_PFP, ERRORS, LOGIN_FAILURE_ERROR, SIGNOUT_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth"
 import { refreshCookiesWithIdToken, removeServerCookies } from "next-firebase-auth-edge/next/cookies"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { DB_USERNAMES, DB_USERS, PAGE_HOME, PAGE_LOGIN } from "../constants/routes"
 import { clientConfig, serverConfig } from "../auth/config"
 import { ref, get, set, update } from "firebase/database"
@@ -54,6 +54,12 @@ export async function signUpAction(name: string, email: string, username: string
 
         const idToken = await credentials.user.getIdToken()
         const user = credentials.user
+
+        if (!user.displayName || user.displayName === "") {
+            await updateProfile(user, {
+                displayName: name
+            })
+        }
 
         await set(ref(rt, `${DB_USERS}/${user.uid}`), {
             username: username,
