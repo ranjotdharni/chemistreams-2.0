@@ -1,12 +1,13 @@
 "use client"
 
-import { MouseEvent, useContext, useState } from "react"
-import { Plus, X } from "lucide-react"
-import { get, ref } from "firebase/database"
-import { rt } from "@/lib/auth/firebase"
-import { DB_USERNAMES } from "@/lib/constants/routes"
+import { DB_METADATA, DB_USERNAMES, DB_USERS } from "@/lib/constants/routes"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { get, ref, set, update } from "firebase/database"
+import { MouseEvent, useContext, useState } from "react"
 import { AuthContext } from "@/lib/context/AuthContext"
+import { rt } from "@/lib/auth/firebase"
+import { Plus, X } from "lucide-react"
+import { v4 as uuidv4 } from "uuid"
 
 interface NewChatDetails {
     username: string
@@ -79,7 +80,16 @@ export default function NewChat() {
         }
 
         const reference = ref(rt, `${DB_USERNAMES}/${trimmedSearchQuery}`)
-        const snapshot = await get(reference)
+        let snapshot
+
+        try {
+            snapshot = await get(reference)
+        }
+        catch (error) {
+            console.log(error)
+            UIControl.setText("CHATLIST_USERNAME_ADDNEWCHATUSER_ERROR: 500 Internal Server Error", "red")
+            return
+        }
 
         if (!snapshot.exists()) {
             UIControl.setText("User not found.", "red")
@@ -123,11 +133,40 @@ export default function NewChat() {
         setNewChatUsers([])
     }
 
-    function createDirectChat() {
-        // update metadata + messages
-        
+    async function createDirectChat() {
+        if (!user)
+            return
 
-        // add to both users chats
+        const chatId: string = uuidv4()
+        const toUserId: string = newChatUsers[0].uid
+
+        try {
+            // update metadata
+            const metadataReference = ref(rt, `${DB_METADATA}/${chatId}`)
+            await set(metadataReference, {
+                creator: user.uid,
+                to: toUserId
+            })
+
+            // add to both users chats
+            const creatorUpdatePath: string = `${DB_USERS}/${user.uid}/chats/${chatId}`
+            const toUpdatePath: string = `${DB_USERS}/${toUserId}/chats/${chatId}`
+
+            const updates: Record<string, any> = {
+                [creatorUpdatePath]: true,
+                [toUpdatePath]: true
+            }
+
+            await update(ref(rt), updates)
+        }
+        catch (error) {
+            console.log(error)
+            UIControl.setText("CHATLIST_CREATEDIRECTCHAT_ERROR: 500 Internal Server Error", "red")
+            return
+        }
+
+        setNewChatUsers([])
+        UIControl.setText("Chat Created.", "green")
     }
 
     function createGroupChat() {

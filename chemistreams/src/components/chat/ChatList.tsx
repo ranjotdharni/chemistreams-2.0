@@ -1,30 +1,91 @@
 "use client"
 
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
+import { useState, useContext, useMemo, useCallback } from "react"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { DB_METADATA, DB_USERS } from "@/lib/constants/routes"
+import { ref, DataSnapshot, get } from "firebase/database"
 import { AuthContext } from "@/lib/context/AuthContext"
-import { ref, DataSnapshot } from "firebase/database"
+import { UseListenerConfig } from "@/lib/types/hooks"
 import useListener from "@/lib/hooks/useListener"
-import { DB_USERS } from "@/lib/constants/routes"
 import { ChatListProps } from "@/lib/types/props"
-import { useState, useContext } from "react"
+import { ChatMetaData } from "@/lib/types/client"
 import NewChat from "./ChatList/NewChat"
 import ChatBox from "./ChatList/ChatBox"
 import { rt } from "@/lib/auth/firebase"
 
-export default function ChatList({ chatList, current, onClick } : ChatListProps) {
+export default function ChatList({ current, onClick } : ChatListProps) {
+    const UIControl = useContext(InterfaceContext)
     const { user } = useContext(AuthContext)
 
-    const reference = ref(rt, `${DB_USERS}/${user?.uid}/chats`)
+    const [chatList, setChatList] = useState<ChatMetaData[]>([])
+    const [addedErrorCallback, setAddErrorCallback] = useDatabaseErrorHandler("CHATLIST_CHATS_ADD_ERROR")
 
-    const [newChatText, setNewChatText] = useState<string>("")
-    
+    const reference = useMemo(() => {
+        return ref(rt, `${DB_USERS}/${user?.uid}/chats`)
+    }, [user?.uid])
 
-    function handleNewChat(snapshot: DataSnapshot) {
-        const data = snapshot.val()
-        console.log("New Chat:", data)
-    } 
+    const handleNewChat = useCallback(async (snapshot: DataSnapshot) => {
+        if (!user)
+            return
 
-    useListener(reference, { added: { callback: handleNewChat, errorCallback: useDatabaseErrorHandler("CHATLIST_CHATS_ADD_ERROR") } })
+        const chatId = snapshot.key
+        
+        if (chatId) {
+            const metadataReference = ref(rt, `${DB_METADATA}/${chatId}`)
+            const metadataSnapshot = await get(metadataReference)
+
+            if (!metadataSnapshot.exists()) {
+                UIControl.setText("Metadata Does Not Exist.", "red")
+                return
+            }
+
+            const metadata = metadataSnapshot.val()
+
+            if (metadata.group) {
+                // handle new group chat
+                return
+            }
+
+            let recipientReference
+
+            if (metadata.creator === user.uid) {    // is the creator of the direct chat
+                recipientReference = ref(rt, `${DB_USERS}/${metadata.to}`)
+            }
+            else {
+                recipientReference = ref(rt, `${DB_USERS}/${metadata.creator}`)
+            }
+
+            const recipientSnapshot = await get(recipientReference)
+            const recipient = recipientSnapshot.val()
+
+            const newChat: ChatMetaData = {
+                id: chatId,
+                pfp: recipient.pfp,
+                online: true,
+                username: recipient.username,
+                name: recipient.name,
+                status: recipient.bio,
+                timestamp: "",
+                lastChat: ""
+            }
+
+            const updatedChatList: ChatMetaData[] = [...chatList]
+            updatedChatList.push(newChat)
+            setChatList(updatedChatList)
+        }
+    }, [user])
+
+    const listenerConfig: UseListenerConfig = useMemo(() => {
+        return {
+            added: {
+                callback: handleNewChat,
+                errorCallback: addedErrorCallback
+            }
+        }
+    }, [handleNewChat, addedErrorCallback])
+
+    useListener(reference, listenerConfig)
 
     return (
         <section className="bg-opacity-0 md:h-full md:w-[27.5%] md:p-4 md:space-y-4">
