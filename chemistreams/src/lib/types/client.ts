@@ -10,6 +10,7 @@ export interface GenericError {
 
 export interface ChatMetaData {
     id: string
+    isGroup?: true
     pfp: string
     online: boolean
     username: string
@@ -20,8 +21,11 @@ export interface ChatMetaData {
 }
 
 export interface ChatMessage {
-    id: string | number
-    incoming?: boolean
-    message: string
+    id: string
+    sender: string
+    type: number
+    content?: string
+    added?: string
+    removed?: string
     timestamp: Date
 }
