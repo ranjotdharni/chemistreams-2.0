@@ -5,11 +5,14 @@ import { UseListenerConfig } from "../types/hooks"
 import { useEffect } from "react"
 
 // reference and config (including its attributes) MUST BE MEMOIZED TO AVOID DUPLICATION VIA LISTENER REATTACHMENT ON DEPENDECY CHANGE!!!!!!!
-export default function useListener(reference: DatabaseReference, config: UseListenerConfig): void {
+export default function useListener(reference: DatabaseReference, config: UseListenerConfig, precondition?: () => void): void {
     if (!config.value && !config.added && !config.changed && !config.removed && !config.moved)
         throw new Error("useListener config requires at least one event type")
 
     useEffect(() => {
+        if (precondition)
+            precondition()
+
         function unsubscribe() {
             if (config.value)
                 off(reference, "value", config.value.callback)

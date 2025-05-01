@@ -5,6 +5,7 @@ import { useState, useContext, useMemo, useCallback } from "react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import { ref, DataSnapshot, get } from "firebase/database"
+import { DEFAULT_GROUP_PFP } from "@/lib/constants/client"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import useListener from "@/lib/hooks/useListener"
@@ -13,7 +14,6 @@ import { ChatMetaData } from "@/lib/types/client"
 import NewChat from "./ChatList/NewChat"
 import ChatBox from "./ChatList/ChatBox"
 import { rt } from "@/lib/auth/firebase"
-import { DEFAULT_GROUP_PFP } from "@/lib/constants/client"
 
 export default function ChatList({ current, onClick } : ChatListProps) {
     const UIControl = useContext(InterfaceContext)
@@ -48,6 +48,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                 // handle new group chat
                 newChat = {
                     id: chatId,
+                    isGroup: true,
                     pfp: DEFAULT_GROUP_PFP,
                     online: true,
                     username: "",

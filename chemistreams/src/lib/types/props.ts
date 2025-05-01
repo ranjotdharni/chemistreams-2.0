@@ -1,4 +1,4 @@
-import { ChatMetaData, GenericError } from "./client"
+import { ChatMessage, ChatMetaData, GenericError } from "./client"
 import { LucideIcon } from "lucide-react"
 import { MouseEvent } from "react"
 import { User } from "./server"
@@ -35,7 +35,7 @@ export interface ChatListProps {
 }
 
 export interface ChatViewProps {
-    current?: ChatMetaData
+    current: ChatMetaData
 }
 
 export interface ChatHeaderProps {
@@ -44,6 +44,7 @@ export interface ChatHeaderProps {
 
 export interface ChatContentProps {
     current?: ChatMetaData
+    messages: ChatMessage[]
 }
 
 export interface ChatFooterProps {
