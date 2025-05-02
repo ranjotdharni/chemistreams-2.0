@@ -1,11 +1,11 @@
 "use client"
 
-import { DatabaseReference, off, onChildAdded, onChildChanged, onChildMoved, onChildRemoved, onValue } from "firebase/database"
+import { DatabaseReference, off, onChildAdded, onChildChanged, onChildMoved, onChildRemoved, onValue, Query } from "firebase/database"
 import { UseListenerConfig } from "../types/hooks"
 import { useEffect } from "react"
 
 // reference and config (including its attributes) MUST BE MEMOIZED TO AVOID DUPLICATION VIA LISTENER REATTACHMENT ON DEPENDECY CHANGE!!!!!!!
-export default function useListener(reference: DatabaseReference, config: UseListenerConfig, precondition?: () => void): void {
+export default function useListener(reference: DatabaseReference | Query, config: UseListenerConfig, precondition?: () => void): void {
     if (!config.value && !config.added && !config.changed && !config.removed && !config.moved)
         throw new Error("useListener config requires at least one event type")
 

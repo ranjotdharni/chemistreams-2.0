@@ -16,8 +16,6 @@ export interface ChatMetaData {
     username: string
     name: string
     status: string
-    timestamp: string
-    lastChat: string
 }
 
 export interface ChatMessage {

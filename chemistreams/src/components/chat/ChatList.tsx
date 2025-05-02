@@ -53,9 +53,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                     online: true,
                     username: "",
                     name: metadata.alias,
-                    status: "",
-                    timestamp: "",
-                    lastChat: ""
+                    status: ""
                 }
             }
             else {
@@ -77,9 +75,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                     online: true,
                     username: recipient.username,
                     name: recipient.name,
-                    status: recipient.bio,
-                    timestamp: "",
-                    lastChat: ""
+                    status: recipient.bio
                 }
             }
 

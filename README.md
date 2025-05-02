@@ -19,3 +19,6 @@ Browser-based chat application. This is a remake of a plain HTML, CSS, JavaScrip
 - [ ] API
 - [ ] Synchronize users in auth w/ realtime (sign up + sign in)
 - [ ] Email validation (client sign up + confirmation)
+
+## Notes
+- Users can only be added/removed from group chat; all direct chats can only have messages w/ ${message_type} = 0
