@@ -81,6 +81,7 @@ export default function ChatView({ current } : ChatViewProps) {
         }
     }, [current.id])
 
+    // the precondition here will ensure messages are cleared before loading in new ones so there are no duplicates/relics
     useListener(messagesReference, messagesListenerConfig, () => { setMessages([]) })
 
     return (

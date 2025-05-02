@@ -152,9 +152,9 @@ export default function NewChat() {
             const creatorUpdatePath: string = `${DB_USERS}/${user.uid}/chats/${chatId}`
             const toUpdatePath: string = `${DB_USERS}/${toUserId}/chats/${chatId}`
 
-            const updates: Record<string, any> = {
-                [creatorUpdatePath]: true,
-                [toUpdatePath]: true
+            const updates: Record<string, string> = {
+                [creatorUpdatePath]: "",
+                [toUpdatePath]: ""
             }
 
             await update(ref(rt), updates)
@@ -188,11 +188,11 @@ export default function NewChat() {
             // add all users to group's members list and users' chats list
             const groupUpdateMembers: string[] = [user.uid, ...newChatUsers.map(u => u.uid)]
             const groupUpdates: Record<string, boolean> = {}
-            const chatUpdates: Record<string, boolean> = {}
+            const chatUpdates: Record<string, string> = {}
 
             for (let uid of groupUpdateMembers) {
                 groupUpdates[`${DB_GROUPS}/${chatId}/${uid}`] = true
-                chatUpdates[`${DB_USERS}/${uid}/chats/${chatId}`] = true
+                chatUpdates[`${DB_USERS}/${uid}/chats/${chatId}`] = ""
             }
 
             await update(ref(rt), {...metadataUpdate, ...groupUpdates, ...chatUpdates})
