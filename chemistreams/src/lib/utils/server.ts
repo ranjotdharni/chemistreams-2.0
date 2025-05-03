@@ -55,11 +55,9 @@ export async function signUpAction(name: string, email: string, username: string
         const idToken = await credentials.user.getIdToken()
         const user = credentials.user
 
-        if (!user.displayName || user.displayName === "") {
-            await updateProfile(user, {
-                displayName: name
-            })
-        }
+        await updateProfile(user, {
+            displayName: name
+        })
 
         await set(ref(rt, `${DB_USERS}/${user.uid}`), {
             username: username,

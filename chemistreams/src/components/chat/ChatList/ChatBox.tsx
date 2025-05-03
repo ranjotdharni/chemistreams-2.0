@@ -1,4 +1,4 @@
-import { ADD_USER_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE } from "@/lib/constants/server"
+import { ADD_USER_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, USER_LEFT_TYPE_CODE } from "@/lib/constants/server"
 import { MouseEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { limitToLast, orderByKey, ref, query, DataSnapshot, get, set } from "firebase/database"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
@@ -39,10 +39,13 @@ export default function ChatBox({ metadata, isCurrent, onClick } : ChatBoxProps)
             setLastTimestamp(new Date(message.timestamp))
         }
         else if (message.type === ADD_USER_TYPE_CODE) {
-
+            // add user to a chat
+        }
+        else if (message.type === USER_LEFT_TYPE_CODE) {
+            // remove user from a chat (left)
         }
         else if (message.type === REMOVE_USER_TYPE_CODE) {
-
+            // remove user from a chat (kicked)
         }
         else {
             UIControl.setText("CHATBOX_MESSAGES_HANDLENEWMESSAGE_ERROR: 500 Internal Server Error", "red")
@@ -60,7 +63,7 @@ export default function ChatBox({ metadata, isCurrent, onClick } : ChatBoxProps)
         if (snapshot.key === lastRead)
             return
 
-        // must use a ref because parent does not re-render when isCurrent changes, so useCallback will create a stale closure otherwise
+        // must use a ref because parent does not re-render when isCurrent changes, so useCallback will memoize a stale closure otherwise
         if (isCurrentRef.current) {
             // update the lastRead message
             await set(lastReadReference, snapshot.key)

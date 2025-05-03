@@ -1,6 +1,6 @@
 "use client"
 
-import { ADD_USER_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE } from "@/lib/constants/server"
+import { ADD_USER_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, USER_LEFT_TYPE_CODE } from "@/lib/constants/server"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 import { useCallback, useContext, useMemo, useState } from "react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
@@ -50,6 +50,14 @@ export default function ChatView({ current } : ChatViewProps) {
                     id: "0101",
                     sender: "0101",
                     type: ADD_USER_TYPE_CODE,
+                    timestamp: new Date(rawMessageData.timestamp)
+                }
+            }
+            else if (rawMessageData.type === USER_LEFT_TYPE_CODE) {
+                message = {
+                    id: "0303",
+                    sender: "0303",
+                    type: USER_LEFT_TYPE_CODE,
                     timestamp: new Date(rawMessageData.timestamp)
                 }
             }
