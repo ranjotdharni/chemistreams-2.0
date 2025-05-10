@@ -50,9 +50,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                     id: chatId,
                     isGroup: true,
                     pfp: DEFAULT_GROUP_PFP,
-                    username: "",
-                    name: metadata.alias,
-                    status: ""
+                    name: metadata.alias
                 }
             }
             else {

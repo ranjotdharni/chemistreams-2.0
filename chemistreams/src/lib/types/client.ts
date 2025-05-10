@@ -13,9 +13,9 @@ export interface ChatMetaData {
     to?: string
     isGroup?: true
     pfp: string
-    username: string
+    username?: string
     name: string
-    status: string
+    status?: string
 }
 
 export interface ChatMessage {

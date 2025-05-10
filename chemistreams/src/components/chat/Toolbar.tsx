@@ -2,13 +2,12 @@
 
 import { UserPen, PaintBucket, Trash2, LogOut } from "lucide-react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { LOGO, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { ToolbarButtonProps } from "@/lib/types/props"
 import ToolbarButton from "./Toolbar/ToolbarButton"
 import { logoutAction } from "@/lib/utils/server"
 import { GenericError } from "@/lib/types/client"
+import AnimatedLogo from "../utils/AnimatedLogo"
 import { MouseEvent, useContext } from "react"
-import Image from "next/image"
 
 export default function Toolbar() {
     const UIControl = useContext(InterfaceContext)
@@ -47,7 +46,9 @@ export default function Toolbar() {
     return (
         <section className="border-r border-dark-grey md:h-full md:w-[7.5%] md:p-2">
             <div className="w-full h-[65%] flex flex-col justify-between items-center">
-                <Image src={LOGO} alt="Logo" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-full md:aspect-square p-3" />
+                <div className="md:w-full md:h-12 p-3 mt-[15%]">
+                    <AnimatedLogo />
+                </div>
 
                 <ul className="md:w-full md:h-auto flex flex-col items-center space-y-8">
                     {
