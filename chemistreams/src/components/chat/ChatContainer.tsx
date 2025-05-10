@@ -1,18 +1,18 @@
 "use client"
 
+import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
+import { DataSnapshot, onDisconnect, ref, set } from "firebase/database"
+import { useCallback, useContext, useMemo, useState } from "react"
+import { AuthContext } from "@/lib/context/AuthContext"
+import { UseListenerConfig } from "@/lib/types/hooks"
 import { ChatMetaData } from "@/lib/types/client"
+import { DB_USERS } from "@/lib/constants/routes"
+import useListener from "@/lib/hooks/useListener"
+import { notFound } from "next/navigation"
+import { rt } from "@/lib/auth/firebase"
 import ChatList from "./ChatList"
 import ChatView from "./ChatView"
-import { useCallback, useContext, useMemo, useState } from "react"
 import Toolbar from "./Toolbar"
-import { rt } from "@/lib/auth/firebase"
-import { AuthContext } from "@/lib/context/AuthContext"
-import { notFound } from "next/navigation"
-import { DataSnapshot, onDisconnect, ref, set } from "firebase/database"
-import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
-import { DB_USERS } from "@/lib/constants/routes"
-import { UseListenerConfig } from "@/lib/types/hooks"
-import useListener from "@/lib/hooks/useListener"
 
 export default function ChatContainer() {
     const { user } = useContext(AuthContext)
@@ -34,7 +34,9 @@ export default function ChatContainer() {
 
         const statusReference = ref(rt, `${DB_USERS}/${user.uid}/status`)
 
-        await set(statusReference, true)
+        onDisconnect(statusReference).set(false).then(async () => {
+            await set(statusReference, true)
+        })
     }, [user.uid])
 
     const statusListenerConfig: UseListenerConfig = useMemo(() => {
