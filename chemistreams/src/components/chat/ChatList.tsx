@@ -50,7 +50,6 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                     id: chatId,
                     isGroup: true,
                     pfp: DEFAULT_GROUP_PFP,
-                    online: true,
                     username: "",
                     name: metadata.alias,
                     status: ""
@@ -71,8 +70,8 @@ export default function ChatList({ current, onClick } : ChatListProps) {
 
                 newChat = {
                     id: chatId,
+                    to: recipientSnapshot.key || undefined,
                     pfp: recipient.pfp,
-                    online: true,
                     username: recipient.username,
                     name: recipient.name,
                     status: recipient.bio
