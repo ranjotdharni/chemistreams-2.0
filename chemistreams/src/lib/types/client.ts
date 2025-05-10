@@ -10,9 +10,9 @@ export interface GenericError {
 
 export interface ChatMetaData {
     id: string
+    to?: string
     isGroup?: true
     pfp: string
-    online: boolean
     username: string
     name: string
     status: string

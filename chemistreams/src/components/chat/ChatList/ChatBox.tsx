@@ -8,16 +8,104 @@ import { SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import useListener from "@/lib/hooks/useListener"
-import { ChatMessage } from "@/lib/types/client"
+import { ChatMessage, ChatMetaData } from "@/lib/types/client"
 import { ChatBoxProps } from "@/lib/types/props"
 import { rt } from "@/lib/auth/firebase"
 import Image from "next/image"
+
+interface SpecifiedChatBoxProps {
+    metadata: ChatMetaData
+    isCurrent: boolean
+    lastMessage: string
+    lastTimestamp?: Date
+    opened?: boolean
+    handleClick: (event: MouseEvent<HTMLLIElement>) => void
+}
+
+function DirectChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened, handleClick } : SpecifiedChatBoxProps) {
+    if (!metadata.to)
+        return <GroupChatBox metadata={metadata} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} />
+
+    const [statusChangedErrorCallback, setStatusChangedErrorCallback] = useDatabaseErrorHandler("DIRECTCHATBOX_STATUS_VALUE_ERROR")
+    const [online, setOnline] = useState<boolean>()
+
+    const toStatusReference = useMemo(() => {
+        return ref(rt, `${DB_USERS}/${metadata.to}/status`)
+    }, [metadata.id])
+
+    const handleStatusValue = useCallback(async (snapshot: DataSnapshot) => {
+        if (!snapshot.key)
+            return
+
+        const isOnline: boolean = snapshot.val()
+
+        setOnline(isOnline)
+    }, [metadata.id])
+
+    const statusListenerConfig: UseListenerConfig = useMemo(() => {
+        return {
+            value: {
+                callback: handleStatusValue,
+                errorCallback: statusChangedErrorCallback
+            }
+        }
+    }, [metadata.id])
+
+    useListener(toStatusReference, statusListenerConfig)
+
+    return (
+        <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer md:w-full md:h-22 md:rounded-xl md:py-4 md:px-2 md:flex md:flex-row`}>
+            <div className="md:w-[25%] md:h-full md:flex md:flex-col md:justify-center md:items-center md:relative">
+                <Image src={metadata.pfp} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-3/4 md:aspect-square" />
+                <div className="md:w-4 md:aspect-square md:rounded-lg md:border-3 md:border-dark-grey md:absolute md:top-4/5 md:left-1/5" style={{backgroundColor: online ? "var(--color-light-green)" : "var(--color-red)"}}></div>
+            </div>
+
+            <div className="md:w-[60%] md:h-full md:space-y-2 md:px-2">
+                <h4 className="text-md text-dark-white font-jbm">{`${metadata.name.slice(0, 15)}${metadata.name.length > 15 ? "..." : ""}`}</h4>
+                <p className="text-sm text-light-grey font-montserrat">{`${lastMessage.slice(0, 20)}${lastMessage.length > 20 ? "..." : ""}`}</p>
+            </div>
+
+            <div className="md:w-[15%] md:h-full md:flex md:flex-col md:items-center md:space-y-3 md:px-1">
+                <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours()}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}` : ""}</p>
+                {
+                    opened !== undefined &&
+                    !opened &&
+                    <div className="md:w-2 md:aspect-square md:rounded-xl bg-blue"></div>
+                }
+            </div>
+        </li>
+    )
+}
+
+function GroupChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened, handleClick } : SpecifiedChatBoxProps) {
+    return (
+        <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer md:w-full md:h-22 md:rounded-xl md:py-4 md:px-2 md:flex md:flex-row`}>
+            <div className="md:w-[25%] md:h-full md:flex md:flex-col md:justify-center md:items-center md:relative">
+                <Image src={metadata.pfp} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-3/4 md:aspect-square" />
+            </div>
+
+            <div className="md:w-[60%] md:h-full md:space-y-2 md:px-2">
+                <h4 className="text-md text-dark-white font-jbm">{`${metadata.name.slice(0, 15)}${metadata.name.length > 15 ? "..." : ""}`}</h4>
+                <p className="text-sm text-light-grey font-montserrat">{`${lastMessage.slice(0, 20)}${lastMessage.length > 20 ? "..." : ""}`}</p>
+            </div>
+
+            <div className="md:w-[15%] md:h-full md:flex md:flex-col md:items-center md:space-y-3 md:px-1">
+                <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours()}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}` : ""}</p>
+                {
+                    opened !== undefined &&
+                    !opened &&
+                    <div className="md:w-2 md:aspect-square md:rounded-xl bg-blue"></div>
+                }
+            </div>
+        </li>
+    )
+}
 
 export default function ChatBox({ metadata, isCurrent, onClick } : ChatBoxProps) {
     const UIControl = useContext(InterfaceContext)
     const { user } = useContext(AuthContext)
 
-    const [lastMessageAddedErrorCallback, setLastMessageAddedCallback] = useDatabaseErrorHandler("CHATBOX_MESSAGES_ADD_ERROR")
+    const [lastMessageAddedErrorCallback, setLastMessageAddedErrorCallback] = useDatabaseErrorHandler("CHATBOX_MESSAGES_ADD_ERROR")
     const isCurrentRef = useRef(isCurrent)
     const [lastTimestamp, setLastTimestamp] = useState<Date | undefined>()
     const [lastMessage, setLastMessage] = useState<string>("")
@@ -100,25 +188,8 @@ export default function ChatBox({ metadata, isCurrent, onClick } : ChatBoxProps)
     }, [isCurrent])
 
     return (
-        <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer md:w-full md:h-22 md:rounded-xl md:py-4 md:px-2 md:flex md:flex-row`}>
-            <div className="md:w-[25%] md:h-full md:flex md:flex-col md:justify-center md:items-center md:relative">
-                <Image src={metadata.pfp} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-3/4 md:aspect-square" />
-                <div className={`md:w-4 md:aspect-square md:rounded-lg md:border-3 md:border-dark-grey md:absolute md:top-4/5 md:left-1/5 ${metadata.online ? "bg-light-green" : "bg-red"}`}></div>
-            </div>
-
-            <div className="md:w-[60%] md:h-full md:space-y-2 md:px-2">
-                <h4 className="text-md text-dark-white font-jbm">{`${metadata.name.slice(0, 15)}${metadata.name.length > 15 ? "..." : ""}`}</h4>
-                <p className="text-sm text-light-grey font-montserrat">{`${lastMessage.slice(0, 20)}${lastMessage.length > 20 ? "..." : ""}`}</p>
-            </div>
-
-            <div className="md:w-[15%] md:h-full md:flex md:flex-col md:items-center md:space-y-3 md:px-1">
-                <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours()}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}` : ""}</p>
-                {
-                    opened !== undefined &&
-                    !opened &&
-                    <div className="md:w-2 md:aspect-square md:rounded-xl bg-blue"></div>
-                }
-            </div>
-        </li>
+        metadata.isGroup ? 
+        <GroupChatBox metadata={metadata} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} /> :
+        <DirectChatBox metadata={metadata} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} />
     )
 }
