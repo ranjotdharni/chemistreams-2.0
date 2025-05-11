@@ -1,16 +1,15 @@
 "use client"
 
+import { ChatMetaData, DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
+import { DB_GROUPS, DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import { useState, useContext, useMemo, useCallback } from "react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import { ref, DataSnapshot, get } from "firebase/database"
-import { DEFAULT_GROUP_PFP } from "@/lib/constants/client"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import useListener from "@/lib/hooks/useListener"
 import { ChatListProps } from "@/lib/types/props"
-import { ChatMetaData } from "@/lib/types/client"
 import NewChat from "./ChatList/NewChat"
 import ChatBox from "./ChatList/ChatBox"
 import { rt } from "@/lib/auth/firebase"
@@ -46,13 +45,25 @@ export default function ChatList({ current, onClick } : ChatListProps) {
 
             if (metadata.group) {
                 // handle new group chat
+
+                const groupMemberIds = await get(ref(rt, `${DB_GROUPS}/${chatId}`))
+                const groupMembers: GroupMember[] = await Promise.all(Object.keys(groupMemberIds.val()).map(async (uid) => {
+                    const memberDataSnapshot: DataSnapshot = await get(ref(rt, `${DB_USERS}/${uid}`))
+                    const memberData: any = memberDataSnapshot.val()
+                    return {
+                        id: uid,
+                        name: memberData.name,
+                        username: memberData.username
+                    } as GroupMember
+                }))
+
                 newChat = {
                     id: chatId,
                     creator: metadata.creator,
                     isGroup: true,
-                    pfp: DEFAULT_GROUP_PFP,
-                    name: metadata.alias
-                }
+                    name: metadata.alias,
+                    members: groupMembers
+                } as GroupChatMetaData
             }
             else {
                 let recipientReference
@@ -75,7 +86,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                     username: recipient.username,
                     name: recipient.name,
                     status: recipient.bio
-                }
+                } as DirectChatMetaData
             }
 
             setChatList(list => {

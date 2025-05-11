@@ -1,4 +1,4 @@
-import { API_LOGIN, API_LOGOUT, API_REFRESH_TOKEN, PAGE_LANDING, PAGE_LOGIN, PUBLIC_ROUTES } from "./lib/constants/routes"
+import { API_LOGIN, API_LOGOUT, API_REFRESH_TOKEN, PAGE_HOME, PAGE_LANDING, PAGE_LOGIN, PUBLIC_ROUTES } from "./lib/constants/routes"
 import { authMiddleware, redirectToHome, redirectToLogin } from "next-firebase-auth-edge"
 import { clientConfig, serverConfig } from "./lib/auth/config"
 import { NextRequest, NextResponse } from "next/server"
@@ -27,7 +27,9 @@ export async function middleware(request: NextRequest) {
       handleValidToken: async ({ token, decodedToken, customToken }, headers) => {
         // Authenticated user should not be able to access /login, /register and /reset-password routes
         if (PUBLIC_ROUTES.includes(request.nextUrl.pathname)) {
-          return redirectToHome(request)
+          return redirectToHome(request, {
+            path: PAGE_HOME
+          })
         }
 
         return NextResponse.next({
