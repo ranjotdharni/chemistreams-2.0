@@ -48,6 +48,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                 // handle new group chat
                 newChat = {
                     id: chatId,
+                    creator: metadata.creator,
                     isGroup: true,
                     pfp: DEFAULT_GROUP_PFP,
                     name: metadata.alias
@@ -68,6 +69,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
 
                 newChat = {
                     id: chatId,
+                    creator: metadata.creator,
                     to: recipientSnapshot.key || undefined,
                     pfp: recipient.pfp,
                     username: recipient.username,
