@@ -1,3 +1,4 @@
+import { JSX } from "react"
 
 export interface InterfaceContextValue {
     setText: (text: string, color?: string) => void
@@ -10,6 +11,7 @@ export interface GenericError {
 
 export interface ChatMetaData {
     id: string
+    creator: string
     to?: string
     isGroup?: true
     pfp: string
@@ -26,4 +28,18 @@ export interface ChatMessage {
     added?: string
     removed?: string
     timestamp: Date
+}
+
+export interface DropListProps<T> {
+    open: boolean
+    TitleComponent: JSX.Element | JSX.Element[]
+    items: T[]
+    render: (item: T, index: number) => JSX.Element
+    containerTailwind: string
+}
+
+export interface GroupMember {
+    id: string
+    name: string
+    username: string
 }

@@ -12,6 +12,7 @@
   --color-dark-grey: #1d1d1d;
   --color-light-grey: #aaaaaa;
   --color-light-green: #0b790b;
+  --color-gold: #bf9e30;
 }
 
 * {
@@ -34,6 +35,7 @@
   --color-dark-grey: var(--color-dark-grey);
   --color-light-grey: var(--color-light-grey);
   --color-light-green: var(--color-light-green);
+  --color-gold: var(--color-gold);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-jbm: var(--font-jbm);
