@@ -49,4 +49,5 @@ export interface GroupMember {
     id: string
     name: string
     username: string
+    pfp: string
 }

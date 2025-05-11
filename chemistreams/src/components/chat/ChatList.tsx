@@ -53,7 +53,8 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                     return {
                         id: uid,
                         name: memberData.name,
-                        username: memberData.username
+                        username: memberData.username,
+                        pfp: memberData.pfp
                     } as GroupMember
                 }))
 
