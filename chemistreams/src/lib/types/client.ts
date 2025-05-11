@@ -12,12 +12,19 @@ export interface GenericError {
 export interface ChatMetaData {
     id: string
     creator: string
-    to?: string
-    isGroup?: true
-    pfp: string
-    username?: string
     name: string
-    status?: string
+}
+
+export interface DirectChatMetaData extends ChatMetaData {
+    to: string
+    username: string
+    status: string
+    pfp: string
+}
+
+export interface GroupChatMetaData extends ChatMetaData {
+    isGroup: true
+    members: GroupMember[]
 }
 
 export interface ChatMessage {

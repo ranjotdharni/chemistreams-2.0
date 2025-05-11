@@ -1,11 +1,11 @@
 import { ADD_USER_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, USER_LEFT_TYPE_CODE } from "@/lib/constants/server"
 import { MouseEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { limitToLast, orderByKey, ref, query, DataSnapshot, get, set } from "firebase/database"
+import { ChatMessage, DirectChatMetaData, GroupChatMetaData } from "@/lib/types/client"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
+import { DEFAULT_GROUP_PFP, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { DB_MESSAGES, DB_USERS } from "@/lib/constants/routes"
-import { ChatMessage, ChatMetaData } from "@/lib/types/client"
-import { SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import useListener from "@/lib/hooks/useListener"
@@ -13,8 +13,8 @@ import { ChatBoxProps } from "@/lib/types/props"
 import { rt } from "@/lib/auth/firebase"
 import Image from "next/image"
 
-interface SpecifiedChatBoxProps {
-    metadata: ChatMetaData
+interface DirectChatBoxProps {
+    metadata: DirectChatMetaData
     isCurrent: boolean
     lastMessage: string
     lastTimestamp?: Date
@@ -22,10 +22,16 @@ interface SpecifiedChatBoxProps {
     handleClick: (event: MouseEvent<HTMLLIElement>) => void
 }
 
-function DirectChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened, handleClick } : SpecifiedChatBoxProps) {
-    if (!metadata.to)
-        return <GroupChatBox metadata={metadata} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} />
+interface GroupChatBoxProps {
+    metadata: GroupChatMetaData
+    isCurrent: boolean
+    lastMessage: string
+    lastTimestamp?: Date
+    opened?: boolean
+    handleClick: (event: MouseEvent<HTMLLIElement>) => void
+}
 
+function DirectChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened, handleClick } : DirectChatBoxProps) {
     const [statusChangedErrorCallback, setStatusChangedErrorCallback] = useDatabaseErrorHandler("DIRECTCHATBOX_STATUS_VALUE_ERROR")
     const [online, setOnline] = useState<boolean>()
 
@@ -77,11 +83,11 @@ function DirectChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened
     )
 }
 
-function GroupChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened, handleClick } : SpecifiedChatBoxProps) {
+function GroupChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened, handleClick } : GroupChatBoxProps) {
     return (
         <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer md:w-full md:h-22 md:rounded-xl md:py-4 md:px-2 md:flex md:flex-row`}>
             <div className="md:w-[25%] md:h-full md:flex md:flex-col md:justify-center md:items-center md:relative">
-                <Image src={metadata.pfp} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-3/4 md:aspect-square" />
+                <Image src={DEFAULT_GROUP_PFP} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-3/4 md:aspect-square" />
             </div>
 
             <div className="md:w-[60%] md:h-full md:space-y-2 md:px-2">
@@ -188,8 +194,8 @@ export default function ChatBox({ metadata, isCurrent, onClick } : ChatBoxProps)
     }, [isCurrent])
 
     return (
-        metadata.isGroup ? 
-        <GroupChatBox metadata={metadata} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} /> :
-        <DirectChatBox metadata={metadata} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} />
+        (metadata as GroupChatMetaData).isGroup ? 
+        <GroupChatBox metadata={metadata as GroupChatMetaData} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} /> :
+        <DirectChatBox metadata={metadata as DirectChatMetaData} isCurrent={isCurrent} lastMessage={lastMessage} lastTimestamp={lastTimestamp} opened={opened} handleClick={handleClick} />
     )
 }
