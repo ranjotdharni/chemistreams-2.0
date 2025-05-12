@@ -36,7 +36,10 @@ export default function ChatContainer() {
 
         onDisconnect(statusReference).set(false).then(async () => {
             await set(statusReference, true)
+            await set(ref(rt, `${DB_USERS}/${user.uid}/typing`), "")
         })
+
+        onDisconnect(ref(rt, `${DB_USERS}/${user.uid}/typing`)).set("")
     }, [user.uid])
 
     const statusListenerConfig: UseListenerConfig = useMemo(() => {

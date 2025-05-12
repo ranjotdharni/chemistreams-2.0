@@ -50,7 +50,7 @@ function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
     useListener(toStatusReference, statusListenerConfig)
 
     return (
-        <li key={item.id} className="w-full h-auto p-2 mb-2 flex flex-row justify-between items-center rounded-md bg-black">
+        <li key={item.id} className="w-full h-auto p-2 mb-2 flex flex-row justify-between items-center rounded-md bg-black" style={{borderBottom: "solid 1px var(--color-dark-grey)"}} >
             <div className="h-2 aspect-square rounded-lg" style={{backgroundColor: online ? "var(--color-green)" : "var(--color-red)"}}></div>
             <div className="w-[90%] px-4 flex flex-col items-end">
                 <p style={{color: isCreator ? "var(--color-gold)" : "var(--color-dark-white)", display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "calc(100%)"}}>{item.name}</p>
