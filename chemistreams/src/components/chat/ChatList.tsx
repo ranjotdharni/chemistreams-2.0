@@ -82,7 +82,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
                 newChat = {
                     id: chatId,
                     creator: metadata.creator,
-                    to: recipientSnapshot.key || undefined,
+                    to: recipientSnapshot.key,
                     pfp: recipient.pfp,
                     username: recipient.username,
                     name: recipient.name,

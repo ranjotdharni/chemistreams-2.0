@@ -8,7 +8,7 @@ export default function DropList<T>({ open, TitleComponent, items, render, conta
                 TitleComponent
             }
             
-            <ul className="rounded p-2" style={{display: open ? "block" : "none", overflow: "hidden", backgroundColor: "var(--color-dark-grey)"}}>
+            <ul className="rounded p-2" style={{display: open ? "block" : "none", overflow: "hidden", backgroundColor: "var(--color-black)", border: "solid 1px var(--color-dark-grey)"}}>
                 {
                     items.map((item, index) => {
                         return render(item, index)
