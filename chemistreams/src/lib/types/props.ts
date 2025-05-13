@@ -1,4 +1,4 @@
-import { ChatMessage, ChatMetaData, GenericError } from "./client"
+import { ChatMessage, ChatMetaData, GenericError, Profile } from "./client"
 import { LucideIcon } from "lucide-react"
 import { MouseEvent } from "react"
 import { User } from "./server"
@@ -57,4 +57,16 @@ export interface ToolbarProps {
 
 export interface ProfileEditorProps {
     show: boolean
+}
+
+export interface EditorProps {
+    profile: Profile
+}
+
+export interface PFPEditorProps {
+    initial: string
+}
+
+export interface DetailsEditorProps {
+    profile: Profile
 }
