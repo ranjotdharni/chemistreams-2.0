@@ -108,7 +108,7 @@ export default function ChatList({ current, onClick } : ChatListProps) {
     useListener(reference, listenerConfig)
 
     return (
-        <section className="bg-opacity-0 md:h-full md:w-[27.5%] md:p-4 md:space-y-4">
+        <section className="bg-black flex-shrink-0 md:h-full md:w-[27.5%] md:p-4 md:space-y-4" style={{zIndex: current ? 10 : 20}}>
             <NewChat />
 
             <ul className="md:w-full md:h-auto md:space-y-4 md:flex md:flex-col">

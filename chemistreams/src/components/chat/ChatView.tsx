@@ -93,7 +93,7 @@ export default function ChatView({ current } : ChatViewProps) {
     useListener(messagesReference, messagesListenerConfig, () => { setMessages([]) })
 
     return (
-        <section className="bg-opacity-0 border-l border-dark-grey md:h-full md:w-[70%]">
+        <section className="bg-opacity-0 border-l border-dark-grey flex-shrink-0 md:h-full md:w-[65%]" style={{zIndex: 20}}>
             <ChatHeader current={current} />
             <ChatContent messages={messages} current={current} />
             <ChatFooter current={current} />
