@@ -1,9 +1,9 @@
 import styles from "../../css/Loader.module.css"
 
 
-export default function Loader({ containerTailwind } : { containerTailwind: string }) {
+export default function Loader({ containerTailwind, options } : { containerTailwind: string, options?: Record<string, string | number> }) {
     return (
-        <div className={containerTailwind}>
+        <div className={containerTailwind} style={options ? options : {}}>
             <div className={styles.loader}>
                 <div className={`${styles.dot} ${styles.dot1}`}><i></i></div>
                 <div className={`${styles.dot} ${styles.dot2}`}><i></i></div>

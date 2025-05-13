@@ -51,3 +51,12 @@ export interface GroupMember {
     username: string
     pfp: string
 }
+
+export interface Profile {
+    id: string
+    name: string
+    username: string
+    pfp: string
+    email: string
+    status: string
+}
