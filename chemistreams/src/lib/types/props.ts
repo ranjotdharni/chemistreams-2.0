@@ -50,3 +50,11 @@ export interface ChatContentProps {
 export interface ChatFooterProps {
     current?: ChatMetaData
 }
+
+export interface ToolbarProps {
+    buttons: ToolbarButtonProps[]
+}
+
+export interface ProfileEditorProps {
+    show: boolean
+}

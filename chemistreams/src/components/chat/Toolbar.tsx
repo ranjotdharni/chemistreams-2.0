@@ -1,50 +1,16 @@
 "use client"
 
-import { UserPen, PaintBucket, Trash2, LogOut } from "lucide-react"
+import { ToolbarButtonProps, ToolbarProps } from "@/lib/types/props"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { ToolbarButtonProps } from "@/lib/types/props"
 import ToolbarButton from "./Toolbar/ToolbarButton"
-import { logoutAction } from "@/lib/utils/server"
-import { GenericError } from "@/lib/types/client"
 import AnimatedLogo from "../utils/AnimatedLogo"
-import { MouseEvent, useContext } from "react"
+import { useContext } from "react"
 
-export default function Toolbar() {
+export default function Toolbar({ buttons } : ToolbarProps) {
     const UIControl = useContext(InterfaceContext)
 
-    async function handleLogout(event: MouseEvent<HTMLButtonElement>) {
-        event.preventDefault()
-
-        const result: void | GenericError = await logoutAction()
-
-        if (result !== undefined && (result as GenericError).code !== undefined) {
-            UIControl.setText((result as GenericError).message, "red")
-            return
-        }
-    }
-
-    const buttons: ToolbarButtonProps[] = [
-        {
-            Icon: UserPen,
-            callback: () => {}
-        },
-        {
-            Icon: PaintBucket,
-            callback: () => {}
-        },
-        {
-            Icon: Trash2,
-            callback: () => {}
-        },
-        {
-            Icon: LogOut,
-            hoverColor: "red",
-            callback: handleLogout
-        }
-    ]
-
     return (
-        <section className="border-r border-dark-grey md:h-full md:w-[7.5%] md:p-2">
+        <section className="flex-shrink-0 border-r border-dark-grey md:h-full md:w-[7.5%] md:p-2">
             <div className="w-full h-[65%] flex flex-col justify-between items-center">
                 <div className="md:w-full md:h-12 p-3 mt-[15%]">
                     <AnimatedLogo />
