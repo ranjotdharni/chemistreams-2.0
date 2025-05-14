@@ -1,9 +1,12 @@
 import { GenericError } from "../types/client"
 
+export const DISPLAY_NAME_MIN_LENGTH: number = 3
+export const DISPLAY_NAME_MAX_LENGTH: number = 32
 export const USERNAME_MAX_LENGTH: number = 16
 export const PASSWORD_MIN_LENGTH: number = 12
 export const USERNAME_MIN_LENGTH: number = 8
 export const SQUARE_IMAGE_SIZE: number = 100
+export const STATUS_MAX_LENGTH: number = 64
 
 export const USERNAME_RULES_REGEX: RegExp = /^[A-Za-z0-9_]+$/
 
@@ -18,53 +21,73 @@ export const DEFAULT_PFP: string = "https://img.icons8.com/3d-fluency/100/person
 // error codes
 export const USERNAME_SPECIAL_CHARACTER_ERROR: string = "USERNAME_SPECIAL_CHARACTER_ERROR"
 export const PASSWORD_SPECIAL_CHARACTER_ERROR: string = "PASSWORD_SPECIAL_CHARACTER_ERROR"
+export const DISPLAY_NAME_MIN_LENGTH_ERROR: string = "DISPLAY_NAME_MIN_LENGTH_ERROR"
+export const DISPLAY_NAME_MAX_LENGTH_ERROR: string = "DISPLAY_NAME_MAX_LENGTH_ERROR"
 export const USERNAME_MIN_LENGTH_ERROR: string = "USERNAME_MIN_LENGTH_ERROR"
 export const USERNAME_MAX_LENGTH_ERROR: string = "USERNAME_MAX_LENGTH_ERROR"
+export const STATUS_MAX_LENGTH_ERROR: string = "STATUS_MAX_LENGTH_ERROR"
 export const PASSWORD_CAPITAL_ERROR: string = "PASSWORD_CAPITAL_ERROR"
 export const PASSWORD_LENGTH_ERROR: string = "PASSWORD_LENGTH_ERROR"
 export const PASSWORD_NUMBER_ERROR: string = "PASSWORD_NUMBER_ERROR"
 export const SIGNOUT_FAILURE_ERROR: string = "SIGNOUT_FAILURE_ERROR"
+export const FATAL_NULL_USER_ERROR: string = "FATAL_NULL_USER_ERROR"
 export const SIGNUP_FAILURE_ERROR: string = "SIGNUP_FAILURE_ERROR"
 export const LOGIN_FAILURE_ERROR: string = "LOGIN_FAILURE_ERROR"
 
 export const ERRORS: { [key: string]: GenericError } = {
-    SIGNUP_FAILURE_ERROR: {
+    [FATAL_NULL_USER_ERROR]: {
+        code: FATAL_NULL_USER_ERROR,
+        message: "Internal Server Error 500 [Fatal]: User object null"
+    },
+    [STATUS_MAX_LENGTH_ERROR]: {
+        code: STATUS_MAX_LENGTH_ERROR,
+        message: `Status maximum length: ${STATUS_MAX_LENGTH}`
+    },
+    [DISPLAY_NAME_MIN_LENGTH_ERROR]: {
+        code: DISPLAY_NAME_MIN_LENGTH_ERROR,
+        message: `Display name minimum length: ${DISPLAY_NAME_MIN_LENGTH}`
+    },
+    [DISPLAY_NAME_MAX_LENGTH_ERROR]: {
+        code: DISPLAY_NAME_MAX_LENGTH_ERROR,
+        message: `Display name maximum length: ${DISPLAY_NAME_MAX_LENGTH}`
+    },
+    [SIGNUP_FAILURE_ERROR]: {
         code: SIGNUP_FAILURE_ERROR,
         message: "Email or Username already exists."
     },
-    LOGIN_FAILURE_ERROR: {
+    [LOGIN_FAILURE_ERROR]: {
         code: LOGIN_FAILURE_ERROR,
         message: "Failed to log in; check credentials."
     },
-    SIGNOUT_FAILURE_ERROR: {
+    [SIGNOUT_FAILURE_ERROR]: {
         code: SIGNOUT_FAILURE_ERROR,
         message: "Failed to sign out."
     },
-    USERNAME_SPECIAL_CHARACTER_ERROR:  {
+    [USERNAME_SPECIAL_CHARACTER_ERROR]:  {
         code: USERNAME_SPECIAL_CHARACTER_ERROR,
         message: "Username may only contain '_' special character."
     },
-    USERNAME_MIN_LENGTH_ERROR: {
+    [USERNAME_MIN_LENGTH_ERROR]: {
         code: USERNAME_MIN_LENGTH_ERROR,
         message: `Username must be ${USERNAME_MIN_LENGTH} characters minimum.`
     },
-    USERNAME_MAX_LENGTH_ERROR: {
+    [USERNAME_MAX_LENGTH_ERROR]: {
         code: USERNAME_MAX_LENGTH_ERROR,
         message: `Username must be ${USERNAME_MAX_LENGTH} characters maximum.`
     },
-    PASSWORD_SPECIAL_CHARACTER_ERROR: {
+    [PASSWORD_SPECIAL_CHARACTER_ERROR]: {
         code: PASSWORD_SPECIAL_CHARACTER_ERROR,
         message: "Password requires character @, #, ?, !, or &.",
     },
-    PASSWORD_CAPITAL_ERROR: {
+    [PASSWORD_CAPITAL_ERROR]: {
         code: PASSWORD_CAPITAL_ERROR,
         message: "Password requires a capital letter.",
     },
-    PASSWORD_LENGTH_ERROR: {
+    [PASSWORD_LENGTH_ERROR]: {
         code: PASSWORD_LENGTH_ERROR,
         message: `Password must be ${PASSWORD_MIN_LENGTH} characters minimum.`
     },
-    PASSWORD_NUMBER_ERROR: {
+    [PASSWORD_NUMBER_ERROR]: {
         code: PASSWORD_NUMBER_ERROR,
         message: "Password requires a number."
     }

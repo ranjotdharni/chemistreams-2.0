@@ -1,7 +1,23 @@
 "use client"
 
-import { ERRORS, PASSWORD_MIN_LENGTH, PASSWORD_RULES_REGEX, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH, USERNAME_RULES_REGEX } from "../constants/client"
+import { DISPLAY_NAME_MAX_LENGTH, DISPLAY_NAME_MIN_LENGTH, ERRORS, PASSWORD_MIN_LENGTH, PASSWORD_RULES_REGEX, STATUS_MAX_LENGTH, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH, USERNAME_RULES_REGEX } from "../constants/client"
 import { GenericError } from "../types/client"
+
+export function isValidDisplayName(displayName: string): GenericError | undefined {
+    if (displayName.length < DISPLAY_NAME_MIN_LENGTH) {
+        return ERRORS.DISPLAY_NAME_MIN_LENGTH_ERROR
+    }
+
+    if (displayName.length > DISPLAY_NAME_MAX_LENGTH) {
+        return ERRORS.DISPLAY_NAME_MAX_LENGTH_ERROR
+    }
+}
+
+export function isValidStatus(status: string) {
+    if (status.length > STATUS_MAX_LENGTH) {
+        return ERRORS.STATUS_MAX_LENGTH_ERROR
+    }
+}
 
 export function isValidUsername(username: string): GenericError | undefined {
     if (!USERNAME_RULES_REGEX.test(username)) {

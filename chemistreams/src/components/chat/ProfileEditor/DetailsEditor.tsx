@@ -1,25 +1,117 @@
-import { DetailsEditorProps } from "@/lib/types/props"
+"use client"
 
-export default function DetailsEditor({ profile } : DetailsEditorProps) {
+import Loader from "@/components/utils/Loader"
+import { auth, rt } from "@/lib/auth/firebase"
+import { DB_USERS } from "@/lib/constants/routes"
+import { AuthContext } from "@/lib/context/AuthContext"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { GenericError } from "@/lib/types/client"
+import { DetailsEditorProps } from "@/lib/types/props"
+import { isValidDisplayName, isValidStatus } from "@/lib/utils/client"
+import { updateProfile } from "firebase/auth"
+import { ref, update } from "firebase/database"
+import { FormEvent, MouseEvent, useContext, useState } from "react"
+
+export default function DetailsEditor({ profile, setProfile } : DetailsEditorProps) {
+    const { user } = useContext(AuthContext)
+
+    const UIControl = useContext(InterfaceContext)
+
+    const [loader, setLoader] = useState<boolean>(false)
+    const [displayName, setDisplayName] = useState<string>(profile.name)
+    const [status, setStatus] = useState<string>(profile.status)
+
+    async function save(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+
+        if (!user || loader)
+            return
+
+        setLoader(true)
+
+        const name: string = displayName.trim()
+        const bio: string = status.trim()
+
+        if (name === profile.name && bio === profile.status) {
+            setLoader(false)
+            return
+        }
+        
+        const invalidName: GenericError | undefined = isValidDisplayName(name)
+        const invalidStatus: GenericError | undefined = isValidStatus(bio)
+
+        if (invalidName) {
+            setLoader(false)
+            UIControl.setText(invalidName.message, "red")
+            return
+        }
+        
+        if (invalidStatus) {
+            setLoader(false)
+            UIControl.setText(invalidStatus.message, "red")
+            return
+        }
+
+        const displayNameRoute: string = `${DB_USERS}/${user.uid}/name`
+        const statusRoute: string = `${DB_USERS}/${user.uid}/bio`
+
+        let updates: Record<string, string> = {}
+
+        if (name !== profile.name)
+            updates[displayNameRoute] = name
+
+        if (status !== profile.status)
+            updates[statusRoute] = bio
+
+        try {
+            await update(ref(rt), updates)
+        }
+        catch (error) {
+            setLoader(false)
+            UIControl.setText("Failed to update profile.", "red")
+            return
+        }
+
+        setLoader(false)
+        UIControl.setText("Profile Updated.", "green")
+        setProfile({...profile, name: name, status: bio})
+    }
+
+    function cancel(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+        setDisplayName(profile.name)
+        setStatus(profile.status)
+    }
 
     return (
-        <form className="h-full w-3/4 px-10 py-4 space-y-8">
-            <h2 className="text-light-grey font-jbm">Email: <p className="text-dark-white font-montserrat text-lg underline">{profile.email}</p></h2>
-            <h2 className="text-light-grey font-jbm">Username: <p className="text-green font-roboto text-lg">{`@${profile.username}`}</p></h2>
+        <form onSubmit={save} className="h-full w-[70%] px-10 py-4 border border-dark-grey flex flex-col justify-evenly">
+            <h2 className="text-light-grey w-full h-[15%] font-jbm p-2 space-y-2">
+                Account 
+                <span className="w-full flex flex-row justify-between">
+                    <p className="text-dark-white font-montserrat text-md underline">{profile.email}</p>
+                    <p className="text-green font-roboto text-sm">{`@${profile.username}`}</p>
+                </span>
+            </h2>
 
-            <div className="w-full flex flex-col">
-                <label className="text-light-grey font-jbm">Edit Name</label>
-                <input value={profile.name} className="w-full h-8 p-2 font-jbm border-b border-dark-white text-dark-white focus:text-green outline-none" />
+            <div className="w-full h-[15%] flex flex-col p-2">
+                <label className="text-light-grey font-jbm text-sm">Edit Display Name</label>
+                <input value={displayName} onChange={e => { setDisplayName(e.target.value) }} className="w-full h-8 p-2 font-jbm border-b border-dark-white text-dark-white focus:text-green outline-none" />
             </div>
 
-            <div className="w-full flex flex-col">
-                <label className="text-light-grey font-jbm">Edit Status</label>
-                <input value={profile.status} placeholder="Enter status..." className="w-full h-8 p-2 font-jbm border-b border-dark-white text-dark-white focus:text-green outline-none" />
+            <div className="w-full h-[15%] flex flex-col p-2">
+                <label className="text-light-grey font-jbm text-sm">Edit Status</label>
+                <input value={status} onChange={e => { setStatus(e.target.value) }} placeholder="Enter status..." className="w-full h-8 p-2 font-jbm border-b border-dark-white text-dark-white focus:text-green outline-none" />
             </div>   
 
-            <div className="w-full p-2 flex flex-row justify-end space-x-4">
-                <button className="px-2 rounded border border-dark-white text-dark-white font-jbm hover:bg-dark-white hover:text-black hover:cursor-pointer">Cancel</button>
-                <button className="px-2 rounded hover:bg-green hover:border-green hover:text-white border border-white text-white font-jbm hover:cursor-pointer">Save</button>
+            <div className="w-full h-[45%] p-2 flex flex-row justify-end items-end space-x-4">
+                <button onClick={cancel} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-sm rounded-md border border-dark-white text-light-grey font-jbm hover:bg-dark-white hover:text-black hover:cursor-pointer">Cancel</button>
+                {
+                    loader ? 
+                    <Loader containerTailwind="w-[15%] h-1/4 py-3 px-2 bg-black" /> :
+                    <button type="submit" disabled={loader} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-sm rounded-md hover:bg-green border border-green text-white font-jbm hover:cursor-pointer">
+                        Save
+                    </button>
+                }
             </div>       
         </form>
     )

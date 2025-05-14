@@ -3,7 +3,7 @@
 import { DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { DEFAULT_GROUP_PFP, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
-import { JSX, useCallback, useMemo, useState } from "react"
+import { JSX, MouseEvent, useCallback, useContext, useMemo, useState } from "react"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import { DataSnapshot, ref } from "firebase/database"
 import { ChatHeaderProps } from "@/lib/types/props"
@@ -12,6 +12,8 @@ import { DB_USERS } from "@/lib/constants/routes"
 import useListener from "@/lib/hooks/useListener"
 import { rt } from "@/lib/auth/firebase"
 import Image from "next/image"
+import { Edit } from "lucide-react"
+import { AuthContext } from "@/lib/context/AuthContext"
 
 interface DirectHeaderProps {
     current: DirectChatMetaData
@@ -19,6 +21,40 @@ interface DirectHeaderProps {
 
 interface GroupHeaderProps {
     current: GroupChatMetaData
+}
+
+function GroupAliasEditor({ current, editable } : { current: GroupChatMetaData, editable: boolean }) {
+    const [editorOpen, setEditorOpen] = useState<boolean>(false)
+    const [text, setText] = useState<string>(current.name)
+
+    function toggle(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+
+        if (text !== current.name)
+            setText(current.name)
+
+        setEditorOpen(previous => !previous)
+    }
+    
+    return (
+        <div className="w-full flex flex-row">
+            {
+                editorOpen ?
+                <form className="md:w-[90%] md:flex md:flex-row md:justify-evenly md:items-center">
+                    <input value={text} onChange={e => { setText(e.target.value) }} className="font-jbm text-white px-2 focus:text-green w-[85%] outline-none border-b border-dark-white" />
+                    <button className="w-[10%] h-3/4 rounded text-[0.8em] font-jbm border border-green text-white hover:bg-green hover:cursor-pointer transition-colors duration-200">Save</button>
+                </form> :
+                <h2 className="font-jbm text-white border border-dark-grey px-2 rounded md:text-lg md:w-[90%]" style={{display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{current.name}</h2>
+            }
+            {
+                editable ?
+                <button onClick={toggle} className="md:h-[90%] md:aspect-square text-light-grey hover:cursor-pointer hover:text-green">
+                    <Edit className="p-1 w-full h-full" />
+                </button> : 
+                <></>
+            }
+        </div>
+    )
 }
 
 function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
@@ -61,15 +97,16 @@ function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
 }
 
 function GroupChatHeader({ current } : GroupHeaderProps) {
+    const { user } = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     function DropListTitle() {
         return (
-            <button onClick={() => { setIsOpen(!isOpen) }} className="w-full h-full text-sm flex flex-col justify-center items-center font-jbm hover:cursor-pointer">
+            <button onClick={() => { setIsOpen(!isOpen) }} className="text-sm w-full flex flex-col justify-center items-center font-jbm hover:cursor-pointer">
                 {
                     isOpen ? 
-                    "Close" : 
-                    "View Members"
+                    <p className="w-full py-1 border border-light-grey text-light-grey rounded hover:text-black hover:cursor-pointer hover:bg-light-grey transition-colors duration-200">Close</p> : 
+                    <p className="w-full py-1 border border-green text-white rounded hover:cursor-pointer hover:bg-green transition-colors duration-200">View Members</p>
                 }
             </button>
         )
@@ -81,10 +118,10 @@ function GroupChatHeader({ current } : GroupHeaderProps) {
 
     return (
         <>
-            <Image src={DEFAULT_GROUP_PFP} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:p-2 md:space-x-4" />
-            <div className="md:w-auto md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
-                <h2 className="font-jbm text-white md:text-lg">{current.name}</h2>
-                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-60 h-5 p-1 text-light-grey space-y-4 border border-light-grey rounded z-10" />
+            <Image src={DEFAULT_GROUP_PFP} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:p-2 md:w-[10%] aspect-square md:space-x-4" />
+            <div className="md:w-[90%] md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
+                <GroupAliasEditor current={current} editable={user?.uid === current.creator} />
+                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-[35%] h-5 text-light-grey space-y-4 z-10" />
             </div>
         </>
     )

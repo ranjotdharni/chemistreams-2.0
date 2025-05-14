@@ -32,7 +32,7 @@ export default function ProfileEditor({ show } : ProfileEditorProps) {
         setProfile({
             id: user.uid,
             username: profileData.username,
-            name: user.displayName || "",
+            name: profileData.name,
             email: user.email || "",
             pfp: profileData.pfp,
             status: profileData.bio
@@ -55,7 +55,7 @@ export default function ProfileEditor({ show } : ProfileEditorProps) {
                 show ? 
                 loader || !profile ? 
                 <Loader containerTailwind="md:w-40 md:h-8" options={{zIndex: show ? 20 : 0}} /> : 
-                <Editor profile={profile} /> :
+                <Editor profile={profile} setProfile={setProfile} /> :
                 <></>
             }
         </section>

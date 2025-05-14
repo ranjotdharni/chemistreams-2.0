@@ -27,8 +27,8 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
         >
             <>
                 { children }
-                <span style={{color: `var(--color-${color})`}} className="w-screen h-[7.5%] fixed top-[92.5%] flex flex-col justify-center items-center font-roboto text-xl">
-                    { message !== "" && <p className="bg-black p-2 rounded-lg">{message}</p> }
+                <span style={{color: `var(--color-${color})`}} className="w-[85%] h-[7.5%] fixed top-[92.5%] flex flex-col justify-center items-end font-jbm text-sm">
+                    { message !== "" && <p className="bg-black p-4 rounded-md">{message}</p> }
                 </span>
             </>
         </InterfaceContext.Provider>
