@@ -1,19 +1,21 @@
 "use client"
 
-import { DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
+import { ChatMetaData, DirectChatMetaData, GenericError, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { DEFAULT_GROUP_PFP, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
-import { JSX, MouseEvent, useCallback, useContext, useMemo, useState } from "react"
+import { FormEvent, JSX, MouseEvent, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { UseListenerConfig } from "@/lib/types/hooks"
-import { DataSnapshot, ref } from "firebase/database"
+import { DataSnapshot, get, ref, set } from "firebase/database"
 import { ChatHeaderProps } from "@/lib/types/props"
 import DropList from "@/components/utils/DropList"
-import { DB_USERS } from "@/lib/constants/routes"
+import { DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import useListener from "@/lib/hooks/useListener"
 import { rt } from "@/lib/auth/firebase"
 import Image from "next/image"
 import { Edit } from "lucide-react"
 import { AuthContext } from "@/lib/context/AuthContext"
+import { isValidAlias } from "@/lib/utils/client"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
 
 interface DirectHeaderProps {
     current: DirectChatMetaData
@@ -21,17 +23,61 @@ interface DirectHeaderProps {
 
 interface GroupHeaderProps {
     current: GroupChatMetaData
+    editChat: (update: ChatMetaData) => void
 }
 
-function GroupAliasEditor({ current, editable } : { current: GroupChatMetaData, editable: boolean }) {
+function GroupAliasEditor({ current, editable, editChat } : { current: GroupChatMetaData, editable: boolean, editChat: (update: ChatMetaData) => void }) {
+    const { user } = useContext(AuthContext)
+    const UIControl = useContext(InterfaceContext)
+
     const [editorOpen, setEditorOpen] = useState<boolean>(false)
+    const [copy, setCopy] = useState<string>(current.name)
     const [text, setText] = useState<string>(current.name)
+
+    async function save(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+
+        if (!user)
+            return
+
+        const alias: string = text.trim()
+
+        if (alias === current.name)
+            return
+
+        const invalidAlias: GenericError | undefined = isValidAlias(alias)
+
+        if (invalidAlias) {
+            UIControl.setText((invalidAlias as GenericError).message, "red")
+            return
+        }
+
+        const chatOwnerSnapshot = await get(ref(rt, `${DB_METADATA}/${current.id}/creator`))
+        const chatOwner = chatOwnerSnapshot.val()
+
+        if (!chatOwner || chatOwner !== user.uid) {
+            UIControl.setText("Only chat owner may change group name.", "red")
+            return
+        }
+
+        await set(ref(rt, `${DB_METADATA}/${current.id}/alias`), alias)
+
+        const updateChat: GroupChatMetaData = {
+            ...current,
+            name: alias
+        }
+
+        setText(alias)
+        setCopy(alias)
+        editChat(updateChat)
+        UIControl.setText("Group name changed.", "green")
+    }
 
     function toggle(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault()
 
-        if (text !== current.name)
-            setText(current.name)
+        if (text !== copy)
+            setText(copy)
 
         setEditorOpen(previous => !previous)
     }
@@ -40,11 +86,11 @@ function GroupAliasEditor({ current, editable } : { current: GroupChatMetaData, 
         <div className="w-full flex flex-row">
             {
                 editorOpen ?
-                <form className="md:w-[90%] md:flex md:flex-row md:justify-evenly md:items-center">
+                <form onSubmit={save} className="md:w-[90%] md:flex md:flex-row md:justify-evenly md:items-center">
                     <input value={text} onChange={e => { setText(e.target.value) }} className="font-jbm text-white px-2 focus:text-green w-[85%] outline-none border-b border-dark-white" />
-                    <button className="w-[10%] h-3/4 rounded text-[0.8em] font-jbm border border-green text-white hover:bg-green hover:cursor-pointer transition-colors duration-200">Save</button>
+                    <button type="submit" className="w-[10%] h-3/4 rounded text-[0.8em] font-jbm border border-green text-white hover:bg-green hover:cursor-pointer transition-colors duration-200">Save</button>
                 </form> :
-                <h2 className="font-jbm text-white border border-dark-grey px-2 rounded md:text-lg md:w-[90%]" style={{display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{current.name}</h2>
+                <h2 className="font-jbm text-white border border-dark-grey px-2 rounded md:text-lg md:w-[90%]" style={{display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{text}</h2>
             }
             {
                 editable ?
@@ -96,7 +142,7 @@ function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
     )
 }
 
-function GroupChatHeader({ current } : GroupHeaderProps) {
+function GroupChatHeader({ current, editChat } : GroupHeaderProps) {
     const { user } = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -120,7 +166,7 @@ function GroupChatHeader({ current } : GroupHeaderProps) {
         <>
             <Image src={DEFAULT_GROUP_PFP} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:p-2 md:w-[10%] aspect-square md:space-x-4" />
             <div className="md:w-[90%] md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
-                <GroupAliasEditor current={current} editable={user?.uid === current.creator} />
+                <GroupAliasEditor current={current} editable={user?.uid === current.creator} editChat={editChat} />
                 <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-[35%] h-5 text-light-grey space-y-4 z-10" />
             </div>
         </>
@@ -140,13 +186,13 @@ function DirectChatHeader({ current } : DirectHeaderProps) {
     )
 }
 
-export default function ChatHeader({ current } : ChatHeaderProps) {
+export default function ChatHeader({ current, editChat } : ChatHeaderProps) {
 
     return (
         <header className="md:w-full md:h-[15%] border-b border-dark-grey md:flex md:flex-row md:justify-start md:items-center md:p-4">
             {
                 current ?
-                ((current as GroupChatMetaData).isGroup ? <GroupChatHeader current={current as GroupChatMetaData} /> : <DirectChatHeader current={current as DirectChatMetaData} />) : 
+                ((current as GroupChatMetaData).isGroup ? <GroupChatHeader current={current as GroupChatMetaData} editChat={editChat} /> : <DirectChatHeader current={current as DirectChatMetaData} />) : 
                 <></>
             }
         </header>

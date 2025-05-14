@@ -22,7 +22,7 @@ interface FooterButtonProps {
     onClick: () => void
 }
 
-function TypingListener({ uid, display, isGroup, disable } : { uid: string, display: string, isGroup: boolean, disable?: true }) {
+function TypingListener({ chatId, uid, display, isGroup, disable } : { chatId: string, uid: string, display: string, isGroup: boolean, disable?: true }) {
     const [typingStatusValueErrorCallback, setTypingStatusValueErrorCallback] = useDatabaseErrorHandler("DIRECTCHATFOOTER_TYPINGSTATUS_CHANGE_ERROR")
     const [isTyping, setIsTyping] = useState<boolean>(false)
 
@@ -34,7 +34,7 @@ function TypingListener({ uid, display, isGroup, disable } : { uid: string, disp
         if (snapshot.val() === null || snapshot.val() === undefined)
             return
 
-        setIsTyping(snapshot.val())
+        setIsTyping(snapshot.val() === chatId)
     }, [uid])
 
     const typingStatusListenerConfig: UseListenerConfig = useMemo(() => {
@@ -163,7 +163,7 @@ function GroupChatFooter({ current, buttons } : { current?: GroupChatMetaData, b
                     current.members.map((member) => {
                         return ( 
                             member.id !== user.uid &&
-                            <TypingListener key={`MEMBER_TYPING_STATUS_${member.id}`} uid={member.id} display={member.name} isGroup={true} />
+                            <TypingListener key={`MEMBER_TYPING_STATUS_${member.id}`} chatId={current.id} uid={member.id} display={member.name} isGroup={true} />
                         )
                     })
                 }
@@ -284,7 +284,7 @@ function DirectChatFooter({ current, buttons } : { current?: DirectChatMetaData,
             <span className="md:w-full md:h-[40%] md:px-2 md:flex md:flex-row md:items-end text-green md:text-[0.75em]">
                 {
                     current && 
-                    <TypingListener key={`MEMBER_TYPING_STATUS_${current.to !== user.uid ? current.to : current.creator}`} uid={current.to !== user.uid ? current.to : current.creator} display={current.to !== user.uid ? current.name : ""} isGroup={false} />
+                    <TypingListener key={`MEMBER_TYPING_STATUS_${current.to !== user.uid ? current.to : current.creator}`} chatId={current.id} uid={current.to !== user.uid ? current.to : current.creator} display={current.to !== user.uid ? current.name : ""} isGroup={false} />
                 }
             </span>
             <div className="md:w-full md:h-[90%] md:p-1 md:flex md:flex-row md:justify-evenly md:items-center">

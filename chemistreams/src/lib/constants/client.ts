@@ -1,12 +1,14 @@
 import { GenericError } from "../types/client"
 
-export const DISPLAY_NAME_MIN_LENGTH: number = 3
 export const DISPLAY_NAME_MAX_LENGTH: number = 32
+export const DISPLAY_NAME_MIN_LENGTH: number = 3
 export const USERNAME_MAX_LENGTH: number = 16
 export const PASSWORD_MIN_LENGTH: number = 12
 export const USERNAME_MIN_LENGTH: number = 8
 export const SQUARE_IMAGE_SIZE: number = 100
 export const STATUS_MAX_LENGTH: number = 64
+export const ALIAS_MAX_LENGTH: number = 38
+export const ALIAS_MIN_LENGTH: number = 3
 
 export const USERNAME_RULES_REGEX: RegExp = /^[A-Za-z0-9_]+$/
 
@@ -27,6 +29,8 @@ export const USERNAME_MIN_LENGTH_ERROR: string = "USERNAME_MIN_LENGTH_ERROR"
 export const USERNAME_MAX_LENGTH_ERROR: string = "USERNAME_MAX_LENGTH_ERROR"
 export const STATUS_MAX_LENGTH_ERROR: string = "STATUS_MAX_LENGTH_ERROR"
 export const PASSWORD_CAPITAL_ERROR: string = "PASSWORD_CAPITAL_ERROR"
+export const ALIAS_MAX_LENGTH_ERROR: string= "ALIAS_MAX_LENGTH_ERROR"
+export const ALIAS_MIN_LENGTH_ERROR: string= "ALIAS_MIN_LENGTH_ERROR"
 export const PASSWORD_LENGTH_ERROR: string = "PASSWORD_LENGTH_ERROR"
 export const PASSWORD_NUMBER_ERROR: string = "PASSWORD_NUMBER_ERROR"
 export const SIGNOUT_FAILURE_ERROR: string = "SIGNOUT_FAILURE_ERROR"
@@ -35,6 +39,14 @@ export const SIGNUP_FAILURE_ERROR: string = "SIGNUP_FAILURE_ERROR"
 export const LOGIN_FAILURE_ERROR: string = "LOGIN_FAILURE_ERROR"
 
 export const ERRORS: { [key: string]: GenericError } = {
+    [ALIAS_MIN_LENGTH_ERROR]: {
+        code: ALIAS_MIN_LENGTH_ERROR,
+        message: `Group name minimum length: ${ALIAS_MIN_LENGTH}`
+    },
+    [ALIAS_MAX_LENGTH_ERROR]: {
+        code: ALIAS_MAX_LENGTH_ERROR,
+        message: `Group name maximum length: ${ALIAS_MAX_LENGTH}`
+    },
     [FATAL_NULL_USER_ERROR]: {
         code: FATAL_NULL_USER_ERROR,
         message: "Internal Server Error 500 [Fatal]: User object null"
