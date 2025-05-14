@@ -30,16 +30,19 @@ export interface ChatBoxProps {
 }
 
 export interface ChatListProps {
-    current?: ChatMetaData,
+    current?: ChatMetaData
+    chats: ChatMetaData[]
     onClick: (metadata: ChatMetaData) => void
 }
 
 export interface ChatViewProps {
     current: ChatMetaData
+    editChat: (update: ChatMetaData) => void
 }
 
 export interface ChatHeaderProps {
     current?: ChatMetaData
+    editChat: (update: ChatMetaData) => void
 }
 
 export interface ChatContentProps {

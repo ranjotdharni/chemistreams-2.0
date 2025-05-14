@@ -1,6 +1,6 @@
 "use client"
 
-import { DISPLAY_NAME_MAX_LENGTH, DISPLAY_NAME_MIN_LENGTH, ERRORS, PASSWORD_MIN_LENGTH, PASSWORD_RULES_REGEX, STATUS_MAX_LENGTH, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH, USERNAME_RULES_REGEX } from "../constants/client"
+import { ALIAS_MAX_LENGTH, ALIAS_MIN_LENGTH, DISPLAY_NAME_MAX_LENGTH, DISPLAY_NAME_MIN_LENGTH, ERRORS, PASSWORD_MIN_LENGTH, PASSWORD_RULES_REGEX, STATUS_MAX_LENGTH, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH, USERNAME_RULES_REGEX } from "../constants/client"
 import { GenericError } from "../types/client"
 
 export function isValidDisplayName(displayName: string): GenericError | undefined {
@@ -16,6 +16,16 @@ export function isValidDisplayName(displayName: string): GenericError | undefine
 export function isValidStatus(status: string) {
     if (status.length > STATUS_MAX_LENGTH) {
         return ERRORS.STATUS_MAX_LENGTH_ERROR
+    }
+}
+
+export function isValidAlias(alias: string): GenericError | undefined {
+    if (alias.length < ALIAS_MIN_LENGTH) {
+        return ERRORS.ALIAS_MIN_LENGTH_ERROR
+    }
+
+    if (alias.length > ALIAS_MAX_LENGTH) {
+        return ERRORS.ALIAS_MAX_LENGTH_ERROR
     }
 }
 
