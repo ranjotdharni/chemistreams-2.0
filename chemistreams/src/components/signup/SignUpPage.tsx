@@ -1,6 +1,6 @@
 "use client"
 
-import { isValidPassword, isValidUsername } from "@/lib/utils/client"
+import { isValidDisplayName, isValidPassword, isValidUsername } from "@/lib/utils/client"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { FormEvent, useContext, useState } from "react"
 import { PAGE_LOGIN } from "@/lib/constants/routes"
@@ -29,10 +29,15 @@ export default function SignUpPage() {
     }
 
     // add validation here
+    const invalidDisplayName: GenericError | undefined = isValidDisplayName(name.trim())
     const invalidUsername: GenericError | undefined = isValidUsername(username.trim())
     const invalidPassword: GenericError | undefined = isValidPassword(password.trim())
 
-    if (invalidUsername !== undefined) {
+    if (invalidDisplayName !== undefined) {
+        UIControl.setText((invalidDisplayName as GenericError).message, "red")
+        return
+    }
+    else if (invalidUsername !== undefined) {
         UIControl.setText((invalidUsername as GenericError).message, "red")
         return
     }

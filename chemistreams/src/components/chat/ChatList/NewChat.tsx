@@ -226,7 +226,7 @@ export default function NewChat() {
     return (
         <div className="md:w-full md:h-auto md:flex md:flex-col md:space-y-2">
             <div className="md:w-full md:h-10 md:flex md:flex-row md:justify-between">
-                <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search by username..." className={`md:w-[87.5%] md:h-full md:rounded-3xl md:px-3 font-montserrat ${searchQuery.trim() === "" ? "text-light-grey" : "text-dark-white"} bg-dark-grey outline-none`} />
+                <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search by username..." className={`md:w-[87.5%] md:h-full md:rounded-3xl md:px-3 font-jbm ${searchQuery.trim() === "" ? "text-light-grey" : "text-dark-white"} bg-dark-grey outline-none`} />
                 <button onClick={addNewChatUser} className="md:w-[12.5%] md:h-full md:p-2 md:flex md:flex-row md:justify-center text-light-grey hover:text-green hover:cursor-pointer">
                     <Plus className="w-full h-full" />
                 </button>

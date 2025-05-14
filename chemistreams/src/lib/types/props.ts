@@ -61,12 +61,15 @@ export interface ProfileEditorProps {
 
 export interface EditorProps {
     profile: Profile
+    setProfile: (update: Profile) => void
 }
 
 export interface PFPEditorProps {
-    initial: string
+    profile: Profile
+    setProfile: (previous: Profile) => void
 }
 
 export interface DetailsEditorProps {
     profile: Profile
+    setProfile: (previous: Profile) => void
 }
