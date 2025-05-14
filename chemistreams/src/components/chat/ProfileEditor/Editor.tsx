@@ -1,7 +1,7 @@
 import { EditorProps } from "@/lib/types/props"
-import PFPEditor from "./PFPEditor"
 import DetailsEditor from "./DetailsEditor"
 import BadgeEditor from "./BadgeEditor"
+import PFPEditor from "./PFPEditor"
 
 export default function Editor({ profile, setProfile } : EditorProps) {
     return (

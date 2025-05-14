@@ -1,14 +1,14 @@
 "use server"
 
-import { DEFAULT_PFP, ERRORS, FATAL_NULL_USER_ERROR, LOGIN_FAILURE_ERROR, SIGNOUT_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
+import { DEFAULT_PFP, ERRORS, LOGIN_FAILURE_ERROR, SIGNOUT_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
 import { refreshCookiesWithIdToken, removeServerCookies } from "next-firebase-auth-edge/next/cookies"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { DB_USERNAMES, DB_USERS, PAGE_HOME, PAGE_LOGIN } from "../constants/routes"
 import { clientConfig, serverConfig } from "../auth/config"
 import { ref, get, set, update } from "firebase/database"
 import { cookies, headers } from "next/headers"
 import { GenericError } from "../types/client"
-import { auth, loggedInUser, rt } from "../auth/firebase"
+import { auth, rt } from "../auth/firebase"
 import { redirect } from "next/navigation"
 
 export async function loginAction(email: string, password: string): Promise<void | GenericError> {

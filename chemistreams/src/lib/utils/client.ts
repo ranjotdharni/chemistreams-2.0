@@ -1,7 +1,19 @@
 "use client"
 
-import { ALIAS_MAX_LENGTH, ALIAS_MIN_LENGTH, DISPLAY_NAME_MAX_LENGTH, DISPLAY_NAME_MIN_LENGTH, ERRORS, PASSWORD_MIN_LENGTH, PASSWORD_RULES_REGEX, STATUS_MAX_LENGTH, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH, USERNAME_RULES_REGEX } from "../constants/client"
 import { GenericError } from "../types/client"
+import {  
+    DISPLAY_NAME_MAX_LENGTH, 
+    DISPLAY_NAME_MIN_LENGTH, 
+    USERNAME_RULES_REGEX,
+    PASSWORD_RULES_REGEX, 
+    PASSWORD_MIN_LENGTH, 
+    USERNAME_MAX_LENGTH, 
+    USERNAME_MIN_LENGTH,
+    STATUS_MAX_LENGTH,
+    ALIAS_MAX_LENGTH, 
+    ALIAS_MIN_LENGTH,
+    ERRORS, 
+} from "../constants/client"
 
 export function isValidDisplayName(displayName: string): GenericError | undefined {
     if (displayName.length < DISPLAY_NAME_MIN_LENGTH) {

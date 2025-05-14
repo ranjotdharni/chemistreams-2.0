@@ -1,6 +1,7 @@
 import { JSX } from "react"
 
 export interface InterfaceContextValue {
+    toggleTheme: () => void
     setText: (text: string, color?: string) => void
 }
 
