@@ -1,16 +1,15 @@
 "use client"
 
-import Loader from "@/components/utils/Loader"
-import { auth, rt } from "@/lib/auth/firebase"
-import { DB_USERS } from "@/lib/constants/routes"
-import { AuthContext } from "@/lib/context/AuthContext"
-import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { GenericError } from "@/lib/types/client"
-import { DetailsEditorProps } from "@/lib/types/props"
 import { isValidDisplayName, isValidStatus } from "@/lib/utils/client"
-import { updateProfile } from "firebase/auth"
-import { ref, update } from "firebase/database"
 import { FormEvent, MouseEvent, useContext, useState } from "react"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { AuthContext } from "@/lib/context/AuthContext"
+import { DetailsEditorProps } from "@/lib/types/props"
+import { DB_USERS } from "@/lib/constants/routes"
+import { GenericError } from "@/lib/types/client"
+import { ref, update } from "firebase/database"
+import Loader from "@/components/utils/Loader"
+import { rt } from "@/lib/auth/firebase"
 
 export default function DetailsEditor({ profile, setProfile } : DetailsEditorProps) {
     const { user } = useContext(AuthContext)

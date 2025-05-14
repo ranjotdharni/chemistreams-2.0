@@ -1,18 +1,8 @@
 "use client"
 
-import { ChatMetaData, DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
-import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
-import { DB_GROUPS, DB_METADATA, DB_USERS } from "@/lib/constants/routes"
-import { useState, useContext, useMemo, useCallback } from "react"
-import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { ref, DataSnapshot, get } from "firebase/database"
-import { AuthContext } from "@/lib/context/AuthContext"
-import { UseListenerConfig } from "@/lib/types/hooks"
-import useListener from "@/lib/hooks/useListener"
 import { ChatListProps } from "@/lib/types/props"
 import NewChat from "./ChatList/NewChat"
 import ChatBox from "./ChatList/ChatBox"
-import { rt } from "@/lib/auth/firebase"
 
 export default function ChatList({ current, chats, onClick } : ChatListProps) {
 

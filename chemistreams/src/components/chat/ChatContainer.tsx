@@ -1,15 +1,15 @@
 "use client"
 
+import { ChatMetaData, DirectChatMetaData, GenericError, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { MouseEvent, useCallback, useContext, useMemo, useState } from "react"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 import { DataSnapshot, get, onDisconnect, ref, set } from "firebase/database"
+import { DB_GROUPS, DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import { LogOut, PaintBucket, Trash2, UserPen } from "lucide-react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { ChatMetaData, DirectChatMetaData, GenericError, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { ToolbarButtonProps } from "@/lib/types/props"
 import { UseListenerConfig } from "@/lib/types/hooks"
-import { DB_GROUPS, DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import useListener from "@/lib/hooks/useListener"
 import { logoutAction } from "@/lib/utils/server"
 import ProfileEditor from "./ProfileEditor"
@@ -40,7 +40,9 @@ export default function ChatContainer() {
         },
         {
             Icon: PaintBucket,
-            callback: () => {}
+            callback: () => {
+                UIControl.toggleTheme()
+            }
         },
         {
             Icon: Trash2,

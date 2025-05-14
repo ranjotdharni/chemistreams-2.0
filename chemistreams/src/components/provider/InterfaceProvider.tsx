@@ -3,15 +3,17 @@
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { InterfaceProviderProps } from "@/lib/types/props"
 import useNotify from "@/lib/hooks/useNotify"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> = ({
+    toggleTheme,
     setText,
     children
 }) => {
     const [message, setMessage] = useNotify()
 
     const defaultColor: string = 'dark-white'
+    const [darkTheme, setDarkTheme] = useState<boolean>()
     const [color, setColor] = useState<string>(defaultColor)
 
     function onMessageChange(message: string, color?: string): void {
@@ -19,9 +21,36 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
         setColor(color ? color : defaultColor)
     }
 
+    function changeTheme() {
+        setDarkTheme(previous => !previous)
+    }
+
+    useEffect(() => {
+        if (darkTheme === undefined) {
+            const prefersLightTheme = window.matchMedia("(prefers-color-scheme: light)").matches
+            if (prefersLightTheme) {
+                document.body.setAttribute("data-theme", "light")
+                setDarkTheme(false)
+            }
+            else {
+                document.body.setAttribute("data-theme", "dark")
+                setDarkTheme(true)
+            }
+        }
+        else {
+            if (darkTheme) {
+                document.body.setAttribute("data-theme", "dark")
+            }
+            else {
+                document.body.setAttribute("data-theme", "light")
+            }
+        }
+    }, [darkTheme])
+
     return (
         <InterfaceContext.Provider
             value={{
+                toggleTheme: changeTheme,
                 setText: onMessageChange   
             }}
         >

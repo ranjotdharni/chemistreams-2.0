@@ -1,19 +1,16 @@
 "use client"
 
-import { ProfileEditorProps } from "@/lib/types/props"
-import Loader from "@/components/utils/Loader"
 import { AuthContext } from "@/lib/context/AuthContext"
-import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { useContext, useEffect, useState } from "react"
-import Editor from "./ProfileEditor/Editor"
+import { ProfileEditorProps } from "@/lib/types/props"
+import { DB_USERS } from "@/lib/constants/routes"
+import Loader from "@/components/utils/Loader"
 import { Profile } from "@/lib/types/client"
 import { get, ref } from "firebase/database"
+import Editor from "./ProfileEditor/Editor"
 import { rt } from "@/lib/auth/firebase"
-import { DB_USERS } from "@/lib/constants/routes"
 
 export default function ProfileEditor({ show } : ProfileEditorProps) {
-
-    const UIControl = useContext(InterfaceContext)
     const { user } = useContext(AuthContext)
 
     const [loader, setLoader] = useState<boolean>(true)

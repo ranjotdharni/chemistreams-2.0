@@ -4,6 +4,7 @@ import { MouseEvent } from "react"
 import { User } from "./server"
 
 export interface InterfaceProviderProps {
+    toggleTheme: () => void
     setText: (text: string, color?: string) => void
     children: React.ReactNode
 }

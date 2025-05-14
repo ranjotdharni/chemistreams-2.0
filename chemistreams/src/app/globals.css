@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg-gradient: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  --color-bg-gradient: linear-gradient(0deg, #03645e, #044037, #032224);
   --color-black-light: #00000072;
   --color-black: #000000;
   --color-green: #0b6448;
@@ -11,6 +11,22 @@
   --color-dark-white: #c1bfbf;
   --color-dark-grey: #1d1d1d;
   --color-light-grey: #aaaaaa;
+  --color-light-green: #0b790b;
+  --color-gold: #bf9e30;
+}
+
+body[data-theme="light"] {
+  /* Add options for color-schemes */
+  --color-bg-gradient: linear-gradient(0deg, #099063, #024f35, #03282a);
+  --color-black-light: #00000072;
+  --color-black: #eeeeee;
+  --color-green: #138561;
+  --color-blue: #0b86c8;
+  --color-red: #b72929;
+  --color-white: #000000;
+  --color-dark-white: #1f1f1f;
+  --color-dark-grey: #aaaaaa;
+  --color-light-grey: #303030;
   --color-light-green: #0b790b;
   --color-gold: #bf9e30;
 }
@@ -40,10 +56,6 @@
   --font-mono: var(--font-geist-mono);
   --font-jbm: var(--font-jbm);
   --font-montserrat: var(--font-montserrat);
-}
-
-@media (prefers-color-scheme: dark) {
-  /* Add options for color-schemes */
 }
 
 body {
