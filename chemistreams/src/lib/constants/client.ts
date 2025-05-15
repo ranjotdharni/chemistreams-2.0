@@ -18,7 +18,7 @@ export const PASSWORD_RULES_REGEX: RegExp = new RegExp(
 
 export const DEFAULT_GROUP_PFP: string = "https://img.icons8.com/3d-fluency/100/user-group-man-woman--v2.png"
 export const LOGO: string = "https://img.icons8.com/?size=100&id=8hNJp4u2Tt8D&format=png&color=0B6448"
-export const DEFAULT_PFP: string = "https://img.icons8.com/3d-fluency/100/person-male--v5.png"
+export const DEFAULT_PFP: string = "https://img.icons8.com/color/100/user-male-circle--v1.png"
 
 // error codes
 export const USERNAME_SPECIAL_CHARACTER_ERROR: string = "USERNAME_SPECIAL_CHARACTER_ERROR"
