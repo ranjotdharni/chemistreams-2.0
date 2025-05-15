@@ -72,12 +72,16 @@ export default async function RootLayout({
     "use server"
   }
 
+  async function toggleTheme() {
+    "use server"
+  }
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${montserrat.variable} antialiased w-screen h-screen flex flex-col justify-center items-center`}
       >
-        <InterfaceProvider setText={setText}>
+        <InterfaceProvider setText={setText} toggleTheme={toggleTheme}>
           <AuthProvider user={user}>
             { children }
           </AuthProvider>
