@@ -50,8 +50,8 @@ function NewChatList({ newChatDetails, removeCallback, cancelCallback, createCal
             </ul>
 
             <div className="md:space-x-2 md:flex md:flex-row md:justify-end">
-                <button className="hover:cursor-pointer bg-red text-dark-grey md:px-2 md:rounded-sm" onClick={cancelCallback}>Cancel</button>
-                <button className="hover:cursor-pointer bg-green text-white md:px-2 md:rounded-sm" onClick={createCallback}>Create</button>
+                <button className="transition-colors duration-150 border border-dark-white text-light-grey font-montserrat hover:bg-dark-white hover:text-black hover:cursor-pointer md:px-2 md:rounded-sm" onClick={cancelCallback}>Cancel</button>
+                <button className="transition-colors duration-150 hover:bg-green border border-green text-white font-montserrat hover:cursor-pointer md:px-2 md:rounded-sm" onClick={createCallback}>Create</button>
             </div>
         </div>
     )
