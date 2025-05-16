@@ -83,31 +83,31 @@ export default function DetailsEditor({ profile, setProfile } : DetailsEditorPro
     }
 
     return (
-        <form onSubmit={save} className="h-full w-[70%] px-10 py-4 border border-dark-grey flex flex-col justify-evenly">
-            <h2 className="text-light-grey w-full h-[15%] font-jbm p-2 space-y-2">
+        <form onSubmit={save} className="h-full w-[70%] px-10 py-4 rounded border border-dark-grey flex flex-col justify-evenly">
+            <h2 className="text-light-grey w-full h-[15%] font-lato md:text-md p-2 space-y-2">
                 Account 
                 <span className="w-full flex flex-row justify-between">
-                    <p className="text-dark-white font-montserrat text-md underline">{profile.email}</p>
-                    <p className="text-green font-roboto text-sm">{`@${profile.username}`}</p>
+                    <p className="text-dark-white font-lato text-md underline">{profile.email}</p>
+                    <p className="text-green font-lato text-sm">{`@${profile.username}`}</p>
                 </span>
             </h2>
 
             <div className="w-full h-[15%] flex flex-col p-2">
-                <label className="text-light-grey font-jbm text-sm">Edit Display Name</label>
+                <label className="text-light-grey font-lato text-md">Edit Display Name</label>
                 <input value={displayName} onChange={e => { setDisplayName(e.target.value) }} className="w-full h-8 p-2 font-jbm border-b border-dark-white text-dark-white focus:text-green outline-none" />
             </div>
 
             <div className="w-full h-[15%] flex flex-col p-2">
-                <label className="text-light-grey font-jbm text-sm">Edit Status</label>
+                <label className="text-light-grey font-lato text-md">Edit Status</label>
                 <input value={status} onChange={e => { setStatus(e.target.value) }} placeholder="Enter status..." className="w-full h-8 p-2 font-jbm border-b border-dark-white text-dark-white focus:text-green outline-none" />
             </div>   
 
             <div className="w-full h-[45%] p-2 flex flex-row justify-end items-end space-x-4">
-                <button onClick={cancel} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-sm rounded-md border border-dark-white text-light-grey font-jbm hover:bg-dark-white hover:text-black hover:cursor-pointer">Cancel</button>
+                <button onClick={cancel} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-md rounded-md border border-dark-white text-light-grey font-lato hover:bg-dark-white hover:text-black hover:cursor-pointer">Cancel</button>
                 {
                     loader ? 
                     <Loader containerTailwind="w-[15%] h-1/4 py-3 px-2 bg-black" /> :
-                    <button type="submit" disabled={loader} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-sm rounded-md hover:bg-green border border-green text-white font-jbm hover:cursor-pointer">
+                    <button type="submit" disabled={loader} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-md rounded-md hover:bg-green border border-green text-white font-lato hover:cursor-pointer">
                         Save
                     </button>
                 }
