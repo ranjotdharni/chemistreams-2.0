@@ -1,4 +1,4 @@
-import { MAXIMUM_PFP_FILE_SIZE } from "../constants/server"
+import { CLOUD_PREFIX, MAXIMUM_PFP_FILE_SIZE } from "../constants/server"
 import { CUSTOM_ERROR, ERRORS, INVALID_PFP_FILE_SIZE_ERROR, INVALID_PFP_FILE_TYPE_ERROR } from "../constants/client"
 import { GenericError } from "../types/client"
 import { DriveFileType, DriveMimeType } from "../types/server"
@@ -24,4 +24,8 @@ export function isValidImageFile(file: File): GenericError | void {
         console.log(error)
         return { code: CUSTOM_ERROR, message: "Could not read image." }
     }
+}
+
+export function generateCloudUrl(fileId: string): string {
+    return `${CLOUD_PREFIX}${fileId}`
 }

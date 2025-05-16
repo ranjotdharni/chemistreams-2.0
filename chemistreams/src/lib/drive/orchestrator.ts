@@ -26,3 +26,7 @@ export function getNextAvailableDrive(): DriveSpaceAccess  {
 
     return spaces[next]
 }
+
+export function getDrive(space: DriveSpaceId) {
+    return spaces[space]
+}

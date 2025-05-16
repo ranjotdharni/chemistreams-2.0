@@ -31,7 +31,10 @@ export default function ProfileEditor({ show } : ProfileEditorProps) {
             username: profileData.username,
             name: profileData.name,
             email: user.email || "",
-            pfp: profileData.pfp,
+            pfp: {
+                space: profileData.pfp.space,
+                link: profileData.pfp.link
+            },
             status: profileData.bio
         })
 

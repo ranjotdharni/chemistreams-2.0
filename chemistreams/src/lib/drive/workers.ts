@@ -1,4 +1,4 @@
-import { getNextAvailableDrive } from "./orchestrator"
+import { getDrive, getNextAvailableDrive } from "./orchestrator"
 import { google } from "googleapis"
 import { Readable } from "stream"
 import { DriveFileType, DriveItem, DriveMimeType, DriveSpaceId } from "../types/server"
@@ -47,5 +47,26 @@ export async function upload(file: File): Promise<DriveItem | GenericError> {
     }
     catch (error) {
         return { code: CUSTOM_ERROR, message: "Failed to upload file." } as GenericError
+    }
+}
+
+export async function remove(space: DriveSpaceId, fileId: string): Promise<boolean> {
+    const driveSpace = getDrive(space)
+
+    if (!driveSpace)
+        return false
+
+    try {
+        const drive = google.drive({ version: "v3", auth: driveSpace.auth })
+
+        const res = await drive.files.delete({
+            fileId: fileId
+        })
+
+        return true
+    }
+    catch (error) {
+        console.log(error)
+        return false
     }
 }
