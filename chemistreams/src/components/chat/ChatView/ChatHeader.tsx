@@ -177,7 +177,7 @@ function DirectChatHeader({ current } : DirectHeaderProps) {
 
     return (
         <>
-            <Image src={current.pfp} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:p-2 md:space-x-4" />
+            <Image src={current.pfp.link} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:p-2 md:space-x-4" />
             <div className="md:w-auto md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
                 <h2 className="font-jbm text-white md:text-lg">{current.name}</h2>
                 <p className="font-jbm text-light-grey md:text-sm">{current.status}</p>

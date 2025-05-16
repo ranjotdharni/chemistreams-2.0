@@ -171,7 +171,10 @@ export default function ChatContainer() {
                         id: uid,
                         name: memberData.name,
                         username: memberData.username,
-                        pfp: memberData.pfp
+                        pfp: {
+                            space: memberData.pfp.space,
+                            link: memberData.pfp.link
+                        }
                     } as GroupMember
                 }))
 
@@ -200,7 +203,10 @@ export default function ChatContainer() {
                     id: chatId,
                     creator: metadata.creator,
                     to: recipientSnapshot.key,
-                    pfp: recipient.pfp,
+                    pfp: {
+                        space: recipient.pfp.space,
+                        link: recipient.pfp.link
+                    },
                     username: recipient.username,
                     name: recipient.name,
                     status: recipient.bio

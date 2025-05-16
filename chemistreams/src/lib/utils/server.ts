@@ -55,14 +55,19 @@ export async function signUpAction(name: string, email: string, username: string
         const idToken = await credentials.user.getIdToken()
         const user = credentials.user
 
-        await set(ref(rt, `${DB_USERS}/${user.uid}`), {
+        const newUserRoute: string = `${DB_USERS}/${user.uid}`
+
+        // This set() is redundant. The update() call below already does this...i think?
+        // Why did i do it this way??? 
+        await set(ref(rt, newUserRoute), {
             username: username,
             name: name,
             bio: "",
-            pfp: DEFAULT_PFP
+            pfp: {
+                link: DEFAULT_PFP
+            }
         })
 
-        const newUserRoute: string = `${DB_USERS}/${user.uid}`
         const newUsernameRoute: string = `${DB_USERNAMES}/${username}`
 
         const updates: Record<string, any> = {
@@ -70,7 +75,9 @@ export async function signUpAction(name: string, email: string, username: string
                 username: username,
                 name: name,
                 bio: "",
-                pfp: DEFAULT_PFP
+                pfp: {
+                    link: DEFAULT_PFP
+                }
             },
             [newUsernameRoute]: user.uid
         }

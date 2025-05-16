@@ -98,7 +98,7 @@ export default function ChatContent({ current, messages } : ChatProps) {
                                 first && 
                                 <div className="w-full pt-2 flex items-center justify-start flex-row space-x-2" >
                                     <div className="h-12 aspect-square">
-                                        <Image src={sender.pfp} alt={`$MESSAGE_SENDER_PFP`} width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="w-full h-full" />
+                                        <Image src={sender.pfp.link} alt={`$MESSAGE_SENDER_PFP`} width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="w-full h-full" />
                                     </div>
                                     <p className="text-dark-white text-[1em]">{sender.name}</p>
                                     <p className="text-light-grey text-[0.75em] font-jbm">{`(@${sender.username})`}</p>

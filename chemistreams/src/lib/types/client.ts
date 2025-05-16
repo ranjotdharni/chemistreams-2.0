@@ -20,7 +20,10 @@ export interface DirectChatMetaData extends ChatMetaData {
     to: string
     username: string
     status: string
-    pfp: string
+    pfp: {
+        space?: string
+        link: string
+    }
 }
 
 export interface GroupChatMetaData extends ChatMetaData {
@@ -50,14 +53,20 @@ export interface GroupMember {
     id: string
     name: string
     username: string
-    pfp: string
+    pfp: {
+        space?: string
+        link: string
+    }
 }
 
 export interface Profile {
     id: string
     name: string
     username: string
-    pfp: string
+    pfp: {
+        space?: string
+        link: string
+    }
     email: string
     status: string
 }
