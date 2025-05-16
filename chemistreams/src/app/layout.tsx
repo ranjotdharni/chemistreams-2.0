@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, JetBrains_Mono, Montserrat } from "next/font/google"
+import { Geist, Geist_Mono, JetBrains_Mono, Montserrat, Lato } from "next/font/google"
 import { InterfaceProvider } from "@/components/provider/InterfaceProvider"
 import { filterStandardClaims } from "next-firebase-auth-edge/auth/claims"
 import { AuthProvider } from "@/components/provider/AuthProvider"
@@ -26,6 +26,12 @@ const jetbrainsMono = JetBrains_Mono({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
+})
+
+const lato = Lato({
+  variable: "--font-lato",
+  subsets: ["latin"],
+  weight: "400"
 })
 
 function tokensToUser({ decodedToken } : Tokens): User {
@@ -79,7 +85,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${montserrat.variable} antialiased w-screen h-screen flex flex-col justify-center items-center`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${montserrat.variable} ${lato.variable} antialiased w-screen h-screen flex flex-col justify-center items-center`}
       >
         <InterfaceProvider setText={setText} toggleTheme={toggleTheme}>
           <AuthProvider user={user}>

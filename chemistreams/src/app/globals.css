@@ -56,6 +56,7 @@ body[data-theme="light"] {
   --font-mono: var(--font-geist-mono);
   --font-jbm: var(--font-jbm);
   --font-montserrat: var(--font-montserrat);
+  --font-lato: var(--font-lato);
 }
 
 body {

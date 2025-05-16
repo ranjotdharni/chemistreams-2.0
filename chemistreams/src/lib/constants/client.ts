@@ -1,3 +1,4 @@
+import { MAXIMUM_PFP_FILE_SIZE } from "./server"
 import { GenericError } from "../types/client"
 
 export const DISPLAY_NAME_MAX_LENGTH: number = 32
@@ -25,6 +26,8 @@ export const USERNAME_SPECIAL_CHARACTER_ERROR: string = "USERNAME_SPECIAL_CHARAC
 export const PASSWORD_SPECIAL_CHARACTER_ERROR: string = "PASSWORD_SPECIAL_CHARACTER_ERROR"
 export const DISPLAY_NAME_MIN_LENGTH_ERROR: string = "DISPLAY_NAME_MIN_LENGTH_ERROR"
 export const DISPLAY_NAME_MAX_LENGTH_ERROR: string = "DISPLAY_NAME_MAX_LENGTH_ERROR"
+export const INVALID_PFP_FILE_TYPE_ERROR: string = "INVALID_PFP_FILE_TYPE_ERROR"
+export const INVALID_PFP_FILE_SIZE_ERROR: string = "INVALID_PFP_FILE_SIZE_ERROR"
 export const USERNAME_MIN_LENGTH_ERROR: string = "USERNAME_MIN_LENGTH_ERROR"
 export const USERNAME_MAX_LENGTH_ERROR: string = "USERNAME_MAX_LENGTH_ERROR"
 export const STATUS_MAX_LENGTH_ERROR: string = "STATUS_MAX_LENGTH_ERROR"
@@ -37,8 +40,17 @@ export const SIGNOUT_FAILURE_ERROR: string = "SIGNOUT_FAILURE_ERROR"
 export const FATAL_NULL_USER_ERROR: string = "FATAL_NULL_USER_ERROR"
 export const SIGNUP_FAILURE_ERROR: string = "SIGNUP_FAILURE_ERROR"
 export const LOGIN_FAILURE_ERROR: string = "LOGIN_FAILURE_ERROR"
+export const CUSTOM_ERROR: string = "CUSTOM_ERROR"  // for custom errors, does not have a value in ERRORS object
 
 export const ERRORS: { [key: string]: GenericError } = {
+    [INVALID_PFP_FILE_TYPE_ERROR]: {
+        code: INVALID_PFP_FILE_TYPE_ERROR,
+        message: "Invalid file type."
+    },
+    [INVALID_PFP_FILE_SIZE_ERROR]: {
+        code: INVALID_PFP_FILE_SIZE_ERROR,
+        message: `Maximum file size: ${MAXIMUM_PFP_FILE_SIZE} MB`
+    },
     [ALIAS_MIN_LENGTH_ERROR]: {
         code: ALIAS_MIN_LENGTH_ERROR,
         message: `Group name minimum length: ${ALIAS_MIN_LENGTH}`
