@@ -2,10 +2,9 @@
 
 import { ChatMessage, ChatMetaData, DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { useContext, useEffect, useRef, useState } from "react"
-import { SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { dateToFormat } from "@/lib/utils/client"
-import Image from "next/image"
+import PFP from "@/components/utils/PFP"
 
 interface ChatMessageItem {
     incoming: boolean
@@ -96,10 +95,8 @@ export default function ChatContent({ current, messages } : ChatProps) {
                         <li key={message.id} className="w-full">
                             {
                                 first && 
-                                <div className="w-full pt-2 flex items-center justify-start flex-row space-x-2" >
-                                    <div className="h-12 aspect-square">
-                                        <Image src={sender.pfp.link} alt={`$MESSAGE_SENDER_PFP`} width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="w-full h-full" />
-                                    </div>
+                                <div className="w-full pt-2 flex flex-row items-center justify-start space-x-2" >
+                                    <PFP src={sender.pfp.link} disable bgColor="var(--color-black)" length="4em" useHeight />
                                     <p className="text-dark-white text-[1em]">{sender.name}</p>
                                     <p className="text-light-grey text-[0.75em] font-jbm">{`(@${sender.username})`}</p>
                                 </div>

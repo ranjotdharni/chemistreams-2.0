@@ -70,3 +70,13 @@ export interface Profile {
     email: string
     status: string
 }
+
+export interface PFPProps {
+    length: string | number
+    useHeight?: boolean
+    bgColor: string
+    src: string
+    online?: boolean
+    disable?: boolean
+    badge?: string
+}
