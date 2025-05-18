@@ -1,7 +1,7 @@
-import { CLOUD_PREFIX, MAXIMUM_PFP_FILE_SIZE } from "../constants/server"
 import { CUSTOM_ERROR, ERRORS, INVALID_PFP_FILE_SIZE_ERROR, INVALID_PFP_FILE_TYPE_ERROR } from "../constants/client"
-import { GenericError } from "../types/client"
+import { CLOUD_PREFIX, MAXIMUM_PFP_FILE_SIZE } from "../constants/server"
 import { DriveFileType, DriveMimeType } from "../types/server"
+import { GenericError } from "../types/client"
 
 export function getFileExt(file: File): string {
     return file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2)

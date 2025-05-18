@@ -6,7 +6,7 @@ export const serverConfig = {
     path: "/",
     httpOnly: true,
     secure: process.env.USE_SECURE_COOKIES! === "true",
-    sameSite: "lax" as const,
+    sameSite: "strict" as const,
     maxAge: 12 * 60 * 60 * 24,
   },
   serviceAccount: {

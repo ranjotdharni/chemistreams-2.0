@@ -1,10 +1,10 @@
+import { DriveFileType, DriveItem, DriveMimeType, DriveSpaceId } from "../types/server"
 import { getDrive, getNextAvailableDrive } from "./orchestrator"
+import { CUSTOM_ERROR } from "../constants/client"
+import { GenericError } from "../types/client"
+import { getFileExt } from "../utils/general"
 import { google } from "googleapis"
 import { Readable } from "stream"
-import { DriveFileType, DriveItem, DriveMimeType, DriveSpaceId } from "../types/server"
-import { GenericError } from "../types/client"
-import { CUSTOM_ERROR } from "../constants/client"
-import { getFileExt } from "../utils/general"
 
 export async function upload(file: File): Promise<DriveItem | GenericError> {
     const driveSpace = getNextAvailableDrive()

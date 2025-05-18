@@ -4,7 +4,7 @@
   --color-bg-gradient: linear-gradient(0deg, #03645e, #044037, #032224);
   --color-black-light: #00000072;
   --color-black: #000000;
-  --color-green: #0b6448;
+  --color-green: #0b8e7c;
   --color-blue: #0871a9;
   --color-red: #7c1111;
   --color-white: #ebebeb;
@@ -20,7 +20,7 @@ body[data-theme="light"] {
   --color-bg-gradient: linear-gradient(0deg, #099063, #024f35, #03282a);
   --color-black-light: #00000072;
   --color-black: #eeeeee;
-  --color-green: #138561;
+  --color-green: #0b8e7c;
   --color-blue: #0b86c8;
   --color-red: #b72929;
   --color-white: #000000;

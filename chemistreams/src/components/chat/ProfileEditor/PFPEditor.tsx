@@ -1,12 +1,12 @@
 "use client"
 
-import Loader from "@/components/utils/Loader"
-import { API_PROFILE } from "@/lib/constants/routes"
-import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { GenericError } from "@/lib/types/client"
-import { PFPEditorProps } from "@/lib/types/props"
-import Image from "next/image"
 import { ChangeEvent, MouseEvent, useContext, useState } from "react"
+import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { API_PROFILE } from "@/lib/constants/routes"
+import { PFPEditorProps } from "@/lib/types/props"
+import { GenericError } from "@/lib/types/client"
+import Loader from "@/components/utils/Loader"
+import Image from "next/image"
 
 function Uploader({ cancel, close, update } : { cancel: (event: MouseEvent<HTMLButtonElement>) => void, close: () => void, update: (link: string) => void }) {
     const UIControl = useContext(InterfaceContext)
@@ -30,21 +30,28 @@ function Uploader({ cancel, close, update } : { cancel: (event: MouseEvent<HTMLB
         setLoader(true)
 
         try {
-            await fetch(`${process.env.NEXT_PUBLIC_ORIGIN}${API_PROFILE}`, {
+            const first = await fetch(`${process.env.NEXT_PUBLIC_ORIGIN}${API_PROFILE}`, {
                 method: "PUT",
                 body: formData
-            }).then(middle => {
-                return middle.json()
-            }).then(res => {
-                if (res.success) {
-                    update(res.link)
-                }
-                else {
-                    UIControl.setText((res as GenericError).message, "red")
-                    setLoader(false)
-                    return
-                }
             })
+
+            if (!first.ok) {
+                UIControl.setText("Failed to update Profile.", "red")
+                setLoader(false)
+                return
+            }
+            
+            const res = await first.json()
+
+            if (res.success) {
+                UIControl.setText("Profile Updated.", "green")
+                update(res.link)
+            }
+            else {
+                UIControl.setText((res as GenericError).message, "red")
+                setLoader(false)
+                return
+            }
         }
         catch (error) {
             UIControl.setText("FATAL ERROR: Internal Server Error 500", "red")
@@ -54,7 +61,6 @@ function Uploader({ cancel, close, update } : { cancel: (event: MouseEvent<HTMLB
 
         setImage(null)
         setLoader(false)
-        UIControl.setText("Profile Updated.", "green")
         close() // should be very last
     }
 
