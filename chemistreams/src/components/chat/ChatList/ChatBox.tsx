@@ -11,6 +11,7 @@ import { UseListenerConfig } from "@/lib/types/hooks"
 import useListener from "@/lib/hooks/useListener"
 import { ChatBoxProps } from "@/lib/types/props"
 import { rt } from "@/lib/auth/firebase"
+import PFP from "@/components/utils/PFP"
 import Image from "next/image"
 
 interface DirectChatBoxProps {
@@ -62,8 +63,7 @@ function DirectChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened
     return (
         <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer md:w-full md:h-22 md:rounded-xl md:py-4 md:px-2 md:flex md:flex-row`}>
             <div className="md:w-[25%] md:h-full md:flex md:flex-col md:justify-center md:items-center md:relative">
-                <Image src={metadata.pfp.link} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-3/4 md:aspect-square" />
-                <div className="md:w-4 md:aspect-square md:rounded-lg md:border-3 md:border-dark-grey md:absolute md:top-4/5 md:left-1/5" style={{backgroundColor: online ? "var(--color-light-green)" : "var(--color-red)"}}></div>
+                <PFP src={metadata.pfp.link} length={"90%"} bgColor="var(--color-dark-grey)" online={online} />
             </div>
 
             <div className="md:w-[60%] md:h-full md:space-y-2 md:px-2">

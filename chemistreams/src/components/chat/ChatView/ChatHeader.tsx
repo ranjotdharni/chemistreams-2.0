@@ -14,6 +14,7 @@ import DropList from "@/components/utils/DropList"
 import useListener from "@/lib/hooks/useListener"
 import { isValidAlias } from "@/lib/utils/client"
 import { rt } from "@/lib/auth/firebase"
+import PFP from "@/components/utils/PFP"
 import { Edit } from "lucide-react"
 import Image from "next/image"
 
@@ -133,7 +134,7 @@ function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
 
     return (
         <li key={item.id} className="w-full h-auto p-2 mb-2 flex flex-row justify-between items-center rounded-md bg-black" style={{borderBottom: "solid 1px var(--color-dark-grey)"}} >
-            <div className="h-2 aspect-square rounded-lg" style={{backgroundColor: online ? "var(--color-green)" : "var(--color-red)"}}></div>
+            <PFP length="4em" useHeight src={item.pfp.link} online={online} bgColor="var(--color-black)" />
             <div className="w-[90%] px-4 flex flex-col items-end">
                 <p style={{color: isCreator ? "var(--color-gold)" : "var(--color-dark-white)", display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "calc(100%)"}}>{item.name}</p>
                 <p className="text-green font-jbm" style={{display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "calc(100%)"}}>{`@${item.username}`}</p>
@@ -177,9 +178,9 @@ function DirectChatHeader({ current } : DirectHeaderProps) {
 
     return (
         <>
-            <Image src={current.pfp.link} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:p-2 md:space-x-4" />
+            <PFP src={current.pfp.link} length={"100%"} useHeight disable bgColor="var(--color-black)" />
             <div className="md:w-auto md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
-                <h2 className="font-jbm text-white md:text-lg">{current.name}</h2>
+                <h2 className="font-jbm text-white md:text-lg md:mt-3">{current.name}</h2>
                 <p className="font-jbm text-light-grey md:text-sm">{current.status}</p>
             </div>
         </>
