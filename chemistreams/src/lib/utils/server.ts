@@ -1,15 +1,18 @@
 "use server"
 
-import { DEFAULT_PFP, ERRORS, LOGIN_FAILURE_ERROR, SIGNOUT_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
+import { CUSTOM_ERROR, DEFAULT_PFP, ERRORS, LOGIN_FAILURE_ERROR, SIGNOUT_FAILURE_ERROR, SIGNUP_FAILURE_ERROR } from "../constants/client"
 import { refreshCookiesWithIdToken, removeServerCookies } from "next-firebase-auth-edge/next/cookies"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { DB_USERNAMES, DB_USERS, PAGE_HOME, PAGE_LOGIN } from "../constants/routes"
 import { clientConfig, serverConfig } from "../auth/config"
 import { ref, get, set, update } from "firebase/database"
+import { DecodedIdToken } from "firebase-admin/auth"
 import { cookies, headers } from "next/headers"
 import { GenericError } from "../types/client"
 import { auth, rt } from "../auth/firebase"
 import { redirect } from "next/navigation"
+import { NextRequest } from "next/server"
+import { admin } from "../auth/admin"
 
 export async function loginAction(email: string, password: string): Promise<void | GenericError> {
     try {
@@ -113,4 +116,26 @@ export async function logoutAction(): Promise<void | GenericError> {
     }
 
     redirect(PAGE_LOGIN)
+}
+
+export async function extractTokenFromRequest(request: NextRequest): Promise<DecodedIdToken | GenericError> {
+    const failure: GenericError = { code: CUSTOM_ERROR, message: "Token Authentication Failure." }
+    
+    try {
+        const cookie = request.cookies.get(process.env.AUTH_COOKIE_NAME!)
+
+        if (!cookie)
+            return failure
+
+        const token = JSON.parse(Buffer.from(cookie.value.split('.')[1], "base64").toString())
+
+        if (!token || !token.id_token)
+            return failure
+
+        return await admin.verifyIdToken(token.id_token)
+    }
+    catch (error) {
+        console.log(error)
+        return failure
+    }
 }
