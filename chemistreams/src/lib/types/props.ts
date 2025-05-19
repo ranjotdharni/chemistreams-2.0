@@ -1,6 +1,6 @@
 import { ChatMessage, ChatMetaData, GenericError, Profile } from "./client"
 import { LucideIcon } from "lucide-react"
-import { MouseEvent } from "react"
+import { JSX, MouseEvent } from "react"
 import { User } from "./server"
 
 export interface InterfaceProviderProps {
@@ -59,6 +59,15 @@ export interface ToolbarProps {
     buttons: ToolbarButtonProps[]
 }
 
+export interface DropListProps<T> {
+    open: boolean
+    TitleComponent: JSX.Element | JSX.Element[]
+    items: T[]
+    render: (item: T, index: number) => JSX.Element
+    containerTailwind: string
+    height: string | number
+}
+
 export interface ProfileEditorProps {
     show: boolean
 }
@@ -76,4 +85,13 @@ export interface PFPEditorProps {
 export interface DetailsEditorProps {
     profile: Profile
     setProfile: (previous: Profile) => void
+}
+
+export interface GroupPFPProps {
+    length: number | string
+    useHeight?: boolean
+    pfps: {
+        space?: string
+        link: string
+    }[]
 }

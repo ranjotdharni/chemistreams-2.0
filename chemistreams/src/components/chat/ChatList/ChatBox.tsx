@@ -3,16 +3,15 @@ import { MouseEvent, useCallback, useContext, useEffect, useMemo, useRef, useSta
 import { limitToLast, orderByKey, ref, query, DataSnapshot, get, set } from "firebase/database"
 import { ChatMessage, DirectChatMetaData, GroupChatMetaData } from "@/lib/types/client"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
-import { DEFAULT_GROUP_PFP, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { DB_MESSAGES, DB_USERS } from "@/lib/constants/routes"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
+import GroupPFP from "@/components/utils/GroupPFP"
 import useListener from "@/lib/hooks/useListener"
 import { ChatBoxProps } from "@/lib/types/props"
 import { rt } from "@/lib/auth/firebase"
 import PFP from "@/components/utils/PFP"
-import Image from "next/image"
 
 interface DirectChatBoxProps {
     metadata: DirectChatMetaData
@@ -87,7 +86,7 @@ function GroupChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened,
     return (
         <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer md:w-full md:h-22 md:rounded-xl md:py-4 md:px-2 md:flex md:flex-row`}>
             <div className="md:w-[25%] md:h-full md:flex md:flex-col md:justify-center md:items-center md:relative">
-                <Image src={DEFAULT_GROUP_PFP} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:w-3/4 md:aspect-square" />
+                <GroupPFP pfps={metadata.members.map(m => m.pfp)} length="75%" />
             </div>
 
             <div className="md:w-[60%] md:h-full md:space-y-2 md:px-2">

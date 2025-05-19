@@ -56,7 +56,7 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
         >
             <>
                 { children }
-                <span style={{color: `var(--color-${color})`}} className="w-[85%] h-[7.5%] fixed top-[92.5%] flex flex-col justify-center items-end font-jbm text-sm">
+                <span style={{color: `var(--color-${color})`, top: message !== "" ? "92.5%" : "100%"}} className="w-[85%] h-[7.5%] fixed transition-all duration-200 flex flex-col justify-center items-end font-jbm text-sm">
                     { message !== "" && <p className="bg-black p-4 rounded-md">{message}</p> }
                 </span>
             </>

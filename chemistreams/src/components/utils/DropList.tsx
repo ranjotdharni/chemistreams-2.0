@@ -1,6 +1,6 @@
-import { DropListProps } from "@/lib/types/client"
+import { DropListProps } from "@/lib/types/props"
 
-export default function DropList<T>({ open, TitleComponent, items, render, containerTailwind } : DropListProps<T>) {
+export default function DropList<T>({ open, TitleComponent, items, render, containerTailwind, height } : DropListProps<T>) {
 
     return (
         <div className={containerTailwind}>
@@ -8,7 +8,7 @@ export default function DropList<T>({ open, TitleComponent, items, render, conta
                 TitleComponent
             }
             
-            <ul className="rounded p-2" style={{display: open ? "block" : "none", overflow: "hidden", backgroundColor: "var(--color-black)", border: "solid 1px var(--color-dark-grey)"}}>
+            <ul className="rounded p-2 relative" style={{height: open ? height : 0, opacity: open ? 1 : 0, top: open ? 0 : -10, transition: "all 0.25s ease-in-out", overflowX: "hidden", overflowY: "scroll", backgroundColor: "var(--color-black)", border: "solid 1px var(--color-dark-grey)"}}>
                 {
                     items.map((item, index) => {
                         return render(item, index)
