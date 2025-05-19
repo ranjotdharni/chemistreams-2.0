@@ -1,5 +1,5 @@
+import { Badge, BadgeAnimation, GenericError } from "../types/client"
 import { MAXIMUM_PFP_FILE_SIZE } from "./server"
-import { GenericError } from "../types/client"
 
 export const DISPLAY_NAME_MAX_LENGTH: number = 32
 export const DISPLAY_NAME_MIN_LENGTH: number = 3
@@ -18,8 +18,68 @@ export const PASSWORD_RULES_REGEX: RegExp = new RegExp(
 )
 
 export const DEFAULT_GROUP_PFP: string = "https://img.icons8.com/3d-fluency/100/user-group-man-woman--v2.png"
+export const DEFAULT_PFP: string = "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
 export const LOGO: string = "https://img.icons8.com/?size=100&id=8hNJp4u2Tt8D&format=png&color=0B6448"
-export const DEFAULT_PFP: string = "https://img.icons8.com/color/100/user-male-circle--v1.png"
+
+// badges codes
+export type BadgeCode = "BADGE_BLENDER" | "BADGE_CHROME" | "BADGE_NVIDIA" | "BADGE_STARBUCKS" | "BADGE_DISCORD"
+export type AnimationCode = "NULL" | "SPIN" | "SPIN_DELAY" | "SHAKE" | "PULSE" | "DANCE"
+
+export const BADGES: Record<BadgeCode, Badge> = {
+    "BADGE_BLENDER": {
+        code: "BADGE_BLENDER",
+        link: "https://img.icons8.com/color/100/blender-3d.png"
+    },
+    "BADGE_CHROME": {
+        code: "BADGE_CHROME",
+        link: "https://img.icons8.com/color/100/chrome--v1.png"
+    },
+    "BADGE_NVIDIA": {
+        code: "BADGE_NVIDIA",
+        link: "https://img.icons8.com/color/100/nvidia.png"
+    }, 
+    "BADGE_STARBUCKS": {
+        code: "BADGE_STARBUCKS",
+        link: "https://img.icons8.com/color/100/starbucks.png"
+    }, 
+    "BADGE_DISCORD": {
+        code: "BADGE_DISCORD",
+        link: "https://img.icons8.com/color/100/discord--v2.png"
+    }
+}
+
+export const ANIMATIONS: Record<AnimationCode, BadgeAnimation> = {
+    "NULL": {
+        code: "NULL",
+        name: "None",
+        animation: ""
+    },
+    "SPIN": {
+        code: "SPIN",
+        name: "Spin",
+        animation: "spin 1s linear infinite reverse"
+    }, 
+    "SPIN_DELAY": {
+        code: "SPIN_DELAY",
+        name: "Spin Delay",
+        animation: "spinDelay 2s ease-in-out infinite reverse"
+    }, 
+    "SHAKE": {
+        code: "SHAKE",
+        name: "Shake",
+        animation: "shake 2s linear infinite"
+    },
+    "PULSE": {
+        code: "PULSE",
+        name: "Pulse",
+        animation: "pulse 2s ease-in-out infinite"
+    }, 
+    "DANCE": {
+        code: "DANCE",
+        name: "Dance",
+        animation: "dance 2s ease-in-out infinite"
+    }
+}
 
 // error codes
 export const USERNAME_SPECIAL_CHARACTER_ERROR: string = "USERNAME_SPECIAL_CHARACTER_ERROR"
@@ -116,3 +176,5 @@ export const ERRORS: { [key: string]: GenericError } = {
         message: "Password requires a number."
     }
 }
+
+

@@ -63,3 +63,93 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--color-bg-gradient);
 }
+
+@keyframes spin {
+  from {
+    transform: initial;
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinDelay {
+  0% {
+    transform: initial;
+  }
+  75% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: initial;
+  }
+  5% {
+    transform: rotate(45deg);
+  }
+  10% {
+    transform: rotate(-45deg);
+  }
+  15% {
+    transform: rotate(30deg);
+  }
+  20% {
+    transform: rotate(-30deg);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  30% {
+    transform: rotate(-15deg);
+  }
+  35% {
+    transform: initial;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: initial;
+  }
+  10% {
+    transform: scale(0.5);
+  }
+  20% {
+    transform: initial;
+  }
+  30% {
+    transform: scale(0.75);
+  }
+  40% {
+    transform: initial;
+  }
+}
+
+@keyframes dance {
+  0% {
+    transform: initial;
+  }
+  16% {
+    transform: rotate(-15deg) translateY(5px);
+  }
+  33% {
+    transform: rotate(15deg) translateY(0px);
+  }
+  46% {
+    transform: rotate(-15deg) translateY(5px);
+  }
+  66% {
+    transform: rotate(15deg) translateY(0px);
+  }
+  81% {
+    transform: rotate(-15deg) translateY(5px);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+}

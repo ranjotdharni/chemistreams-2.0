@@ -1,5 +1,4 @@
 import type { NextConfig } from "next"
-import { URL } from "next/dist/compiled/@edge-runtime/primitives/url";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -12,6 +11,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "drive.google.com"
+      }, 
+      {
+        protocol: "https",
+        hostname: "cdn.pixabay.com"
       }
     ]
   }

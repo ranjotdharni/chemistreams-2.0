@@ -12,7 +12,7 @@ export default function Editor({ profile, setProfile } : EditorProps) {
                 <DetailsEditor profile={profile} setProfile={setProfile} />
             </div>
             <div className="md:w-full md:h-[35%] p-4 md:flex md:flex-col">
-                <BadgeEditor />
+                <BadgeEditor profile={profile} setProfile={setProfile} />
             </div>
         </div>
     )

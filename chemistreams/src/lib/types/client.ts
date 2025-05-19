@@ -1,3 +1,4 @@
+import { AnimationCode, BadgeCode } from "../constants/client"
 import { JSX } from "react"
 
 export interface InterfaceContextValue {
@@ -23,6 +24,10 @@ export interface DirectChatMetaData extends ChatMetaData {
     pfp: {
         space?: string
         link: string
+    }
+    badge?: {
+        badgeCode: BadgeCode,
+        animationCode: AnimationCode
     }
 }
 
@@ -57,6 +62,10 @@ export interface GroupMember {
         space?: string
         link: string
     }
+    badge?: {
+        badgeCode: BadgeCode,
+        animationCode: AnimationCode
+    }
 }
 
 export interface Profile {
@@ -66,6 +75,10 @@ export interface Profile {
     pfp: {
         space?: string
         link: string
+    }
+    badge?: {
+        animationCode: string
+        badgeCode: string
     }
     email: string
     status: string
@@ -78,5 +91,24 @@ export interface PFPProps {
     src: string
     online?: boolean
     disable?: boolean
-    badge?: string
+    badge?: {
+        badgeCode: BadgeCode,
+        animationCode: AnimationCode
+    }
+}
+
+export interface BadgeEditorProps {
+    profile: Profile
+    setProfile: (profile: Profile) => void
+}
+
+export interface Badge {
+    code: BadgeCode
+    link: string
+}
+
+export interface BadgeAnimation {
+    code: AnimationCode
+    name: string
+    animation: string
 }

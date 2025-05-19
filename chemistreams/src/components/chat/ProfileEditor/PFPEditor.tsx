@@ -1,14 +1,15 @@
 "use client"
 
 import { ChangeEvent, MouseEvent, useContext, useState } from "react"
+import { AnimationCode, BadgeCode } from "@/lib/constants/client"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { GenericError, Profile } from "@/lib/types/client"
 import { API_PROFILE } from "@/lib/constants/routes"
 import { PFPEditorProps } from "@/lib/types/props"
-import { GenericError } from "@/lib/types/client"
 import Loader from "@/components/utils/Loader"
-import Image from "next/image"
+import PFP from "@/components/utils/PFP"
 
-function Uploader({ cancel, close, update } : { cancel: (event: MouseEvent<HTMLButtonElement>) => void, close: () => void, update: (link: string) => void }) {
+function Uploader({ profile, cancel, close, update } : { profile: Profile, cancel: (event: MouseEvent<HTMLButtonElement>) => void, close: () => void, update: (profile: Profile) => void }) {
     const UIControl = useContext(InterfaceContext)
 
     const [loader, setLoader] = useState<boolean>(false)
@@ -35,17 +36,24 @@ function Uploader({ cancel, close, update } : { cancel: (event: MouseEvent<HTMLB
                 body: formData
             })
 
+            const res = await first.json()
+
             if (!first.ok) {
-                UIControl.setText("Failed to update Profile.", "red")
+                UIControl.setText(res.message || "Failed to update Profile.", "red")
                 setLoader(false)
                 return
             }
-            
-            const res = await first.json()
 
             if (res.success) {
                 UIControl.setText("Profile Updated.", "green")
-                update(res.link)
+                const newProfile: Profile = {
+                    ...profile,
+                    pfp: {
+                        link: res.link,
+                        space: res.space
+                    }
+                }
+                update(newProfile)
             }
             else {
                 UIControl.setText((res as GenericError).message, "red")
@@ -79,9 +87,8 @@ function Uploader({ cancel, close, update } : { cancel: (event: MouseEvent<HTMLB
     )
 }
 
-export default function PFPEditor({ profile } : PFPEditorProps) {
+export default function PFPEditor({ profile, setProfile } : PFPEditorProps) {
     const [showUpload, setShowUpload] = useState<boolean>(false)
-    const [updated, setUpdated] = useState<string>()
 
     function toggleUploader(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault()
@@ -94,10 +101,10 @@ export default function PFPEditor({ profile } : PFPEditorProps) {
 
     return (
         <div className="h-full w-[25%] rounded border border-dark-grey md:py-20 md:flex md:flex-col md:justify-between md:items-center">
-            <Image src={updated ? updated : profile.pfp.link} alt="PFP" width={100} height={100} className="md:w-1/2 aspect-square rounded-[100px]" />
+            <PFP length="75%" useHeight online bgColor="var(--color-black)" src={profile.pfp.link} badge={profile.badge as { badgeCode: BadgeCode, animationCode: AnimationCode } | undefined} />
             {
                 showUpload ?
-                <Uploader cancel={toggleUploader} close={close} update={setUpdated} /> :
+                <Uploader profile={profile} cancel={toggleUploader} close={close} update={setProfile} /> :
                 <button onClick={toggleUploader} className="font-jbm text-light-grey hover:text-blue hover:cursor-pointer">Upload Photo</button>
             }
         </div>
