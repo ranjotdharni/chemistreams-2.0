@@ -1,5 +1,4 @@
 import { AnimationCode, BadgeCode } from "../constants/client"
-import { JSX } from "react"
 
 export interface InterfaceContextValue {
     toggleTheme: () => void
@@ -44,14 +43,6 @@ export interface ChatMessage {
     added?: string
     removed?: string
     timestamp: Date
-}
-
-export interface DropListProps<T> {
-    open: boolean
-    TitleComponent: JSX.Element | JSX.Element[]
-    items: T[]
-    render: (item: T, index: number) => JSX.Element
-    containerTailwind: string
 }
 
 export interface GroupMember {

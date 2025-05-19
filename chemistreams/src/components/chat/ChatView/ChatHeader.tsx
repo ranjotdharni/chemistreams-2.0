@@ -2,7 +2,6 @@
 
 import { ChatMetaData, DirectChatMetaData, GenericError, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { FormEvent, JSX, MouseEvent, useCallback, useContext, useMemo, useState } from "react"
-import { DEFAULT_GROUP_PFP, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { DataSnapshot, get, ref, set } from "firebase/database"
@@ -10,13 +9,13 @@ import { DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import { ChatHeaderProps } from "@/lib/types/props"
+import GroupPFP from "@/components/utils/GroupPFP"
 import DropList from "@/components/utils/DropList"
 import useListener from "@/lib/hooks/useListener"
 import { isValidAlias } from "@/lib/utils/client"
 import { rt } from "@/lib/auth/firebase"
 import PFP from "@/components/utils/PFP"
 import { Edit } from "lucide-react"
-import Image from "next/image"
 
 interface DirectHeaderProps {
     current: DirectChatMetaData
@@ -165,10 +164,10 @@ function GroupChatHeader({ current, editChat } : GroupHeaderProps) {
 
     return (
         <>
-            <Image src={DEFAULT_GROUP_PFP} alt="pfp" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} className="md:p-2 md:w-[10%] aspect-square md:space-x-4" />
+            <GroupPFP pfps={current.members.map(m => m.pfp)} length="10%" />
             <div className="md:w-[90%] md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
                 <GroupAliasEditor current={current} editable={user?.uid === current.creator} editChat={editChat} />
-                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-[35%] h-5 text-light-grey space-y-4 z-10" />
+                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-[35%] h-5 text-light-grey space-y-4 z-10" height="400px" />
             </div>
         </>
     )
