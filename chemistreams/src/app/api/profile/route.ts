@@ -64,5 +64,5 @@ export async function PUT(request: NextRequest) {
         await remove(profile.pfp.space as DriveSpaceId, profile.pfp.id)
     }
 
-    return NextResponse.json({ success: true, link: cloudUrl }, { status: 200 })
+    return NextResponse.json({ success: true, space: profile.pfp.space, link: cloudUrl }, { status: 200 })
 }

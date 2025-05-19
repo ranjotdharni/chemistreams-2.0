@@ -96,7 +96,7 @@ export default function ChatContent({ current, messages } : ChatProps) {
                             {
                                 first && 
                                 <div className="w-full pt-2 flex flex-row items-center justify-start space-x-2" >
-                                    <PFP src={sender.pfp.link} disable bgColor="var(--color-black)" length="4em" useHeight />
+                                    <PFP src={sender.pfp.link} disable={!sender.badge} badge={sender.badge} bgColor="var(--color-black)" length="4em" useHeight />
                                     <p className="text-dark-white text-[1em]">{sender.name}</p>
                                     <p className="text-light-grey text-[0.75em] font-jbm">{`(@${sender.username})`}</p>
                                 </div>

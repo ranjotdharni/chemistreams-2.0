@@ -178,7 +178,7 @@ function DirectChatHeader({ current } : DirectHeaderProps) {
 
     return (
         <>
-            <PFP src={current.pfp.link} length={"100%"} useHeight disable bgColor="var(--color-black)" />
+            <PFP src={current.pfp.link} length={"100%"} useHeight disable={!current.badge} badge={current.badge} bgColor="var(--color-black)" />
             <div className="md:w-auto md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
                 <h2 className="font-jbm text-white md:text-lg md:mt-3">{current.name}</h2>
                 <p className="font-jbm text-light-grey md:text-sm">{current.status}</p>

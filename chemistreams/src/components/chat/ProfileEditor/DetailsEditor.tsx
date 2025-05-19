@@ -106,7 +106,7 @@ export default function DetailsEditor({ profile, setProfile } : DetailsEditorPro
                 <button onClick={cancel} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-md rounded-md border border-dark-white text-light-grey font-lato hover:bg-dark-white hover:text-black hover:cursor-pointer">Cancel</button>
                 {
                     loader ? 
-                    <Loader containerTailwind="w-[15%] h-1/4 py-3 px-2 bg-black" /> :
+                    <Loader containerTailwind="w-[15%] h-1/4 py-3 px-6 bg-black" /> :
                     <button type="submit" disabled={loader} className="w-[15%] h-1/4 flex flex-row justify-center items-center transition-colors duration-150 text-md rounded-md hover:bg-green border border-green text-white font-lato hover:cursor-pointer">
                         Save
                     </button>

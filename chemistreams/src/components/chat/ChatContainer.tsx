@@ -174,7 +174,8 @@ export default function ChatContainer() {
                         pfp: {
                             space: memberData.pfp.space,
                             link: memberData.pfp.link
-                        }
+                        },
+                        badge: memberData.badge
                     } as GroupMember
                 }))
 
@@ -209,7 +210,8 @@ export default function ChatContainer() {
                     },
                     username: recipient.username,
                     name: recipient.name,
-                    status: recipient.bio
+                    status: recipient.bio,
+                    badge: recipient.badge
                 } as DirectChatMetaData
             }
 

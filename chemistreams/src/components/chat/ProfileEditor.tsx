@@ -35,6 +35,7 @@ export default function ProfileEditor({ show } : ProfileEditorProps) {
                 space: profileData.pfp.space,
                 link: profileData.pfp.link
             },
+            badge: profileData.badge,
             status: profileData.bio
         })
 
