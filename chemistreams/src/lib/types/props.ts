@@ -72,6 +72,7 @@ export interface DropListProps<T> {
     render: (item: T, index: number) => JSX.Element
     containerTailwind: string
     height: string | number
+    maxHeight: string | number
 }
 
 export interface ProfileEditorProps {
