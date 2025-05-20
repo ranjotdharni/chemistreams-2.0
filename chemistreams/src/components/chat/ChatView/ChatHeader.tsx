@@ -1,7 +1,7 @@
 "use client"
 
 import { ChatMetaData, DirectChatMetaData, GenericError, GroupChatMetaData, GroupMember } from "@/lib/types/client"
-import { FormEvent, JSX, MouseEvent, useCallback, useContext, useMemo, useState } from "react"
+import { FormEvent, JSX, MouseEvent, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { DataSnapshot, get, ref, set } from "firebase/database"
@@ -85,6 +85,11 @@ function GroupAliasEditor({ current, editable, editChat } : { current: GroupChat
 
         setEditorOpen(previous => !previous)
     }
+
+    useEffect(() => {
+        setText(current.name)
+        setCopy(current.name)
+    }, [current])
     
     return (
         <div className="w-full flex flex-row">
@@ -194,7 +199,7 @@ function GroupChatHeader({ current, editChat, setCurrentChat, chatList } : Group
             <GroupPFP pfps={current.members.map(m => m.pfp)} length="10%" />
             <div className="md:w-[90%] md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
                 <GroupAliasEditor current={current} editable={user?.uid === current.creator} editChat={editChat} />
-                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-[35%] h-5 text-light-grey space-y-4 z-10" height="400px" />
+                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-[35%] h-5 text-light-grey space-y-4 z-10" height="auto" maxHeight="400px" />
             </div>
         </>
     )
