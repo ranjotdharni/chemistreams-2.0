@@ -107,7 +107,7 @@ function GroupAliasEditor({ current, editable, editChat } : { current: GroupChat
     )
 }
 
-function GroupMemberStatusItem(item: GroupMember, isCreator: boolean, chatList: ChatMetaData[], setCurrentChat: (chat: ChatMetaData) => void) {
+function GroupMemberStatusItem({ item, isCreator, chatList, setCurrentChat } : { item: GroupMember, isCreator: boolean, chatList: ChatMetaData[], setCurrentChat: (chat: ChatMetaData) => void }) {
     const [statusChangedErrorCallback, setStatusChangedErrorCallback] = useDatabaseErrorHandler("GROUPMEMBERSTATUSITEM_STATUS_VALUE_ERROR")
     const [online, setOnline] = useState<boolean>(false)
     const { user } = useContext(AuthContext)
@@ -186,7 +186,7 @@ function GroupChatHeader({ current, editChat, setCurrentChat, chatList } : Group
     }
 
     function renderDropList(item: GroupMember, index: number): JSX.Element {
-        return GroupMemberStatusItem(item, item.id === current.creator, chatList, setCurrentChat)
+        return <GroupMemberStatusItem key={item.id} item={item} isCreator={item.id === current.creator} chatList={chatList} setCurrentChat={setCurrentChat} />
     }
 
     return (
