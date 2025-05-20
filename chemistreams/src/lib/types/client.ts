@@ -3,6 +3,7 @@ import { AnimationCode, BadgeCode } from "../constants/client"
 export interface InterfaceContextValue {
     toggleTheme: () => void
     setText: (text: string, color?: string) => void
+    setProfileView: (currentUserId: string, profile: ReadOnlyProfile, setCurrentChat: (chat: ChatMetaData) => void, direct?: ChatMetaData) => void
 }
 
 export interface GenericError {
@@ -49,6 +50,7 @@ export interface GroupMember {
     id: string
     name: string
     username: string
+    status: string
     pfp: {
         space?: string
         link: string
@@ -75,24 +77,6 @@ export interface Profile {
     status: string
 }
 
-export interface PFPProps {
-    length: string | number
-    useHeight?: boolean
-    bgColor: string
-    src: string
-    online?: boolean
-    disable?: boolean
-    badge?: {
-        badgeCode: BadgeCode,
-        animationCode: AnimationCode
-    }
-}
-
-export interface BadgeEditorProps {
-    profile: Profile
-    setProfile: (profile: Profile) => void
-}
-
 export interface Badge {
     code: BadgeCode
     link: string
@@ -102,4 +86,19 @@ export interface BadgeAnimation {
     code: AnimationCode
     name: string
     animation: string
+}
+
+export interface ReadOnlyProfile {
+    uid: string
+    name: string
+    username: string
+    status: string
+    pfp: {
+        space?: string
+        link: string
+    }
+    badge?: {
+        badgeCode: BadgeCode,
+        animationCode: AnimationCode
+    }
 }

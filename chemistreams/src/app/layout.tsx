@@ -6,6 +6,7 @@ import { clientConfig, serverConfig } from "@/lib/auth/config"
 import { getTokens, Tokens } from "next-firebase-auth-edge"
 import { User } from "@/lib/types/server"
 import { cookies } from "next/headers"
+import { Metadata } from "next"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -59,6 +60,10 @@ function tokensToUser({ decodedToken } : Tokens): User {
   }
 }
 
+export const metadata: Metadata = {
+  title: "ChemiStreams - Messaging Made Easy",
+  description: "Messaging Made Easy"
+}
 
 export default async function RootLayout({
   children,
@@ -82,12 +87,16 @@ export default async function RootLayout({
     "use server"
   }
 
+  async function setProfileView() {
+    "use server"
+  }
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${montserrat.variable} ${lato.variable} antialiased w-screen h-screen flex flex-col justify-center items-center`}
       >
-        <InterfaceProvider setText={setText} toggleTheme={toggleTheme}>
+        <InterfaceProvider setText={setText} toggleTheme={toggleTheme} setProfileView={setProfileView}>
           <AuthProvider user={user}>
             { children }
           </AuthProvider>

@@ -16,7 +16,7 @@ import ChatFooter from "./ChatView/ChatFooter"
 import ChatHeader from "./ChatView/ChatHeader"
 import { rt } from "@/lib/auth/firebase"
 
-export default function ChatView({ current, editChat } : ChatViewProps) {
+export default function ChatView({ current, editChat, chatList, setCurrentChat } : ChatViewProps) {
     const UIControl = useContext(InterfaceContext)
     const { user } = useContext(AuthContext)
 
@@ -94,7 +94,7 @@ export default function ChatView({ current, editChat } : ChatViewProps) {
 
     return (
         <section className="bg-opacity-0 border-l border-dark-grey flex-shrink-0 md:h-full md:w-[65%]" style={{zIndex: 20}}>
-            <ChatHeader current={current} editChat={editChat} />
+            <ChatHeader current={current} editChat={editChat} chatList={chatList} setCurrentChat={setCurrentChat} />
             <ChatContent messages={messages} current={current} />
             <ChatFooter current={current} />
         </section>

@@ -1,10 +1,11 @@
 "use client"
 
 import { AnimationCode, ANIMATIONS, BadgeCode, BADGES, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
-import { Badge, BadgeAnimation, BadgeEditorProps } from "@/lib/types/client"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { Badge, BadgeAnimation } from "@/lib/types/client"
 import { MouseEvent, useContext, useState } from "react"
 import { AuthContext } from "@/lib/context/AuthContext"
+import { BadgeEditorProps } from "@/lib/types/props"
 import { DB_USERS } from "@/lib/constants/routes"
 import Loader from "@/components/utils/Loader"
 import { ref, set } from "firebase/database"

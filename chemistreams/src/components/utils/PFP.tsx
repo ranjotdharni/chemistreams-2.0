@@ -1,5 +1,6 @@
 import { ANIMATIONS, BADGES, SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
-import { Badge, BadgeAnimation, PFPProps } from "@/lib/types/client"
+import { Badge, BadgeAnimation } from "@/lib/types/client"
+import { PFPProps } from "@/lib/types/props"
 import Image from "next/image"
 
 function AnimatedBadge({ badge, animation } : { badge: Badge, animation: BadgeAnimation }) {
