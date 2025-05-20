@@ -1,9 +1,10 @@
 "use client"
 
 import { ChatMessage, ChatMetaData, DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
-import { useContext, useEffect, useRef, useState } from "react"
 import { AuthContext } from "@/lib/context/AuthContext"
+import { useContext, useEffect, useRef } from "react"
 import { dateToFormat } from "@/lib/utils/client"
+import { notFound } from "next/navigation"
 import PFP from "@/components/utils/PFP"
 
 interface ChatMessageItem {
@@ -33,14 +34,14 @@ function Message({ incoming = false, message, messageCurve } : ChatMessageItem) 
 export default function ChatContent({ current, messages } : ChatProps) {
     const { user } = useContext(AuthContext)
     const elementRef = useRef<HTMLUListElement>(null)
-    const [voluntaryScroll, setVoluntaryScroll] = useState<boolean>(false)
+    const voluntaryScrollRef = useRef(false)
 
     if (!user)
-        return <></>
+        notFound()
 
     // auto-scroll on new message, auto-scroll will disable and re-enable automatically depending on if the user scrolled voluntarily away from the most recent message
     useEffect(() => {
-        if (elementRef.current && !voluntaryScroll) {
+        if (elementRef.current && !voluntaryScrollRef.current) {
             elementRef.current.scrollTop = elementRef.current.scrollHeight
         }
     }, [elementRef.current, messages])
@@ -50,19 +51,17 @@ export default function ChatContent({ current, messages } : ChatProps) {
             return
 
         function handleScroll() {
-            // if user has voluntarily scrolled and it wasn't a scroll all the way to the bottom, then set the variable
-            if (elementRef!.current!.scrollTop + elementRef!.current!.clientHeight >= elementRef!.current!.scrollHeight - 1) {
-                setVoluntaryScroll(false)
-            }
-            else {
-                setVoluntaryScroll(true)
-            }
+            const isAtBottom =
+                elementRef.current!.scrollTop + elementRef.current!.clientHeight >= elementRef.current!.scrollHeight - 1
+
+            voluntaryScrollRef.current = !isAtBottom
         }
 
-        elementRef.current.addEventListener("scroll", handleScroll)
+        const ref = elementRef.current
+        ref.addEventListener("scroll", handleScroll)
 
         return () => {
-            elementRef.current?.removeEventListener("scroll", handleScroll)
+            ref.removeEventListener("scroll", handleScroll)
         }
     }, [])
 
@@ -72,7 +71,20 @@ export default function ChatContent({ current, messages } : ChatProps) {
                 messages.map((message, index) => {
                     const incoming: boolean = message.sender !== user.uid
                     const chat: GroupChatMetaData = current as GroupChatMetaData
-                    const sender: GroupMember | DirectChatMetaData = chat.isGroup ? chat.members.find(m => m.id === message.sender) || current as DirectChatMetaData : current as DirectChatMetaData
+
+                    let sender: GroupMember | undefined
+
+                    if (chat.isGroup) {
+                        sender = chat.members.find(m => m.id === message.sender)
+                    } 
+                    else {
+                        sender = current as DirectChatMetaData
+                    }
+
+                    // sometimes rendering is faster than data fetching (at least i think this is the issue), either way this line ensures an undefined sender isn't passed 
+                    if (!sender)
+                        return 
+
                     const first: boolean = message.sender !== messages[Math.max(index - 1, 0)].sender || index === 0
                     const last: boolean = message.sender !== messages[Math.min(index + 1, messages.length - 1)].sender || index === messages.length - 1
 
@@ -96,7 +108,7 @@ export default function ChatContent({ current, messages } : ChatProps) {
                             {
                                 first && 
                                 <div className="w-full pt-2 flex flex-row items-center justify-start space-x-2" >
-                                    <PFP src={sender.pfp.link} disable={!sender.badge} badge={sender.badge} bgColor="var(--color-black)" length="4em" useHeight />
+                                    <PFP src={sender.pfp.link || ""} disable={!sender.badge} badge={sender.badge} bgColor="var(--color-black)" length="4em" useHeight />
                                     <p className="text-dark-white text-[1em]">{sender.name}</p>
                                     <p className="text-light-grey text-[0.75em] font-jbm">{`(@${sender.username})`}</p>
                                 </div>

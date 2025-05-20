@@ -90,7 +90,7 @@ export default function ChatView({ current, editChat, chatList, setCurrentChat }
     }, [current.id])
 
     // the precondition here will ensure messages are cleared before loading in new ones so there are no duplicates/relics
-    useListener(messagesReference, messagesListenerConfig, () => { setMessages([]) })
+    useListener(messagesReference, messagesListenerConfig, () => { setMessages([]) }, () => { setMessages([]) })
 
     return (
         <section className="bg-opacity-0 border-l border-dark-grey flex-shrink-0 md:h-full md:w-[65%]" style={{zIndex: 20}}>
