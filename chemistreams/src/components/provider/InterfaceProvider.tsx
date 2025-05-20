@@ -1,18 +1,22 @@
 "use client"
 
+import { ChatMetaData, ReadOnlyProfile } from "@/lib/types/client"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { InterfaceProviderProps } from "@/lib/types/props"
+import ProfileView from "../utils/ProfileView"
 import useNotify from "@/lib/hooks/useNotify"
 import { useEffect, useState } from "react"
 
 export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> = ({
     toggleTheme,
     setText,
+    setProfileView,
     children
 }) => {
     const [message, setMessage] = useNotify()
 
     const defaultColor: string = 'dark-white'
+    const [viewingProfile, setViewingProfile] = useState<{ currentUserId: string, profile: ReadOnlyProfile, setCurrentChat: (chat: ChatMetaData) => void, direct?: ChatMetaData }>()
     const [darkTheme, setDarkTheme] = useState<boolean>()
     const [color, setColor] = useState<string>(defaultColor)
 
@@ -23,6 +27,15 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
 
     function changeTheme() {
         setDarkTheme(previous => !previous)
+    }
+
+    function showProfile(currentUserId: string, profile: ReadOnlyProfile, setCurrentChat: (chat: ChatMetaData) => void, direct?: ChatMetaData) {
+        setViewingProfile({
+            currentUserId: currentUserId,
+            profile: profile,
+            setCurrentChat: setCurrentChat,
+            direct: direct
+        })
     }
 
     useEffect(() => {
@@ -51,11 +64,13 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
         <InterfaceContext.Provider
             value={{
                 toggleTheme: changeTheme,
-                setText: onMessageChange   
+                setText: onMessageChange,
+                setProfileView: showProfile   
             }}
         >
             <>
                 { children }
+                { viewingProfile !== undefined && <ProfileView currentUserId={viewingProfile.currentUserId} profile={viewingProfile.profile} setCurrentChat={viewingProfile.setCurrentChat} direct={viewingProfile.direct} close={() => { setViewingProfile(undefined) }} /> }
                 <span style={{color: `var(--color-${color})`, top: message !== "" ? "92.5%" : "100%"}} className="w-[85%] h-[7.5%] fixed transition-all duration-200 flex flex-col justify-center items-end font-jbm text-sm">
                     { message !== "" && <p className="bg-black p-4 rounded-md">{message}</p> }
                 </span>

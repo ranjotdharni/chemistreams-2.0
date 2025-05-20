@@ -86,7 +86,7 @@ function GroupChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened,
     return (
         <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer md:w-full md:h-22 md:rounded-xl md:py-4 md:px-2 md:flex md:flex-row`}>
             <div className="md:w-[25%] md:h-full md:flex md:flex-col md:justify-center md:items-center md:relative">
-                <GroupPFP pfps={metadata.members.map(m => m.pfp)} length="75%" />
+                <GroupPFP pfps={metadata.members.map(m => m.pfp)} length="80%" />
             </div>
 
             <div className="md:w-[60%] md:h-full md:space-y-2 md:px-2">

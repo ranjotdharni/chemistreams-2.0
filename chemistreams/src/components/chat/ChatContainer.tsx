@@ -171,6 +171,7 @@ export default function ChatContainer() {
                         id: uid,
                         name: memberData.name,
                         username: memberData.username,
+                        status: memberData.bio,
                         pfp: {
                             space: memberData.pfp.space,
                             link: memberData.pfp.link
@@ -296,7 +297,7 @@ export default function ChatContainer() {
             <ChatList current={currentChat} chats={chatList} onClick={setCurrentChat} />
             {
                 currentChat ? 
-                <ChatView current={currentChat} editChat={handleEditChat} /> : 
+                <ChatView current={currentChat} editChat={handleEditChat} setCurrentChat={setCurrentChat} chatList={chatList} /> : 
                 <section className="border-l border-dark-grey flex-shrink-0 md:h-full md:w-[65%] md:flex md:flex-col md:justify-center md:items-center" style={{zIndex: 10}}>
                     <p className="text-light-grey font-jbm text-xl">Add or Select a Chat</p>
                 </section>

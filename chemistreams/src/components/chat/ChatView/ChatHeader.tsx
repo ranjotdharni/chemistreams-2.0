@@ -19,11 +19,15 @@ import { Edit } from "lucide-react"
 
 interface DirectHeaderProps {
     current: DirectChatMetaData
+    chatList: ChatMetaData[]
+    setCurrentChat: (current: ChatMetaData) => void
 }
 
 interface GroupHeaderProps {
     current: GroupChatMetaData
     editChat: (update: ChatMetaData) => void
+    chatList: ChatMetaData[]
+    setCurrentChat: (current: ChatMetaData) => void
 }
 
 function GroupAliasEditor({ current, editable, editChat } : { current: GroupChatMetaData, editable: boolean, editChat: (update: ChatMetaData) => void }) {
@@ -103,9 +107,32 @@ function GroupAliasEditor({ current, editable, editChat } : { current: GroupChat
     )
 }
 
-function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
+function GroupMemberStatusItem(item: GroupMember, isCreator: boolean, chatList: ChatMetaData[], setCurrentChat: (chat: ChatMetaData) => void) {
     const [statusChangedErrorCallback, setStatusChangedErrorCallback] = useDatabaseErrorHandler("GROUPMEMBERSTATUSITEM_STATUS_VALUE_ERROR")
-    const [online, setOnline] = useState<boolean>()
+    const [online, setOnline] = useState<boolean>(false)
+    const { user } = useContext(AuthContext)
+    const UIControl = useContext(InterfaceContext)
+
+    function viewProfile(event: MouseEvent<HTMLLIElement>) {
+        event.preventDefault()
+
+        if (!user)
+            return
+
+        UIControl.setProfileView(
+            user.uid,
+            {
+                uid: item.id,
+                username: item.username,
+                status: item.status,
+                name: item.name,
+                pfp: item.pfp,
+                badge: item.badge
+            },
+            setCurrentChat,
+            item.id === user.uid ? undefined : chatList.find(c => c.creator === item.id || ((c as DirectChatMetaData).to !== undefined && (c as DirectChatMetaData).to === item.id))
+        )
+    }
 
     const toStatusReference = useMemo(() => {
         return ref(rt, `${DB_USERS}/${item.id}/status`)
@@ -132,7 +159,7 @@ function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
     useListener(toStatusReference, statusListenerConfig)
 
     return (
-        <li key={item.id} className="w-full h-auto p-2 mb-2 flex flex-row justify-between items-center rounded-md bg-black" style={{borderBottom: "solid 1px var(--color-dark-grey)"}} >
+        <li key={item.id} onClick={viewProfile} className="w-full h-auto p-2 mb-2 flex flex-row justify-between items-center rounded-md bg-black hover:cursor-pointer" style={{borderBottom: "solid 1px var(--color-dark-grey)"}} >
             <PFP length="4em" useHeight src={item.pfp.link} online={online} bgColor="var(--color-black)" />
             <div className="w-[90%] px-4 flex flex-col items-end">
                 <p style={{color: isCreator ? "var(--color-gold)" : "var(--color-dark-white)", display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "calc(100%)"}}>{item.name}</p>
@@ -142,7 +169,7 @@ function GroupMemberStatusItem(item: GroupMember, isCreator: boolean) {
     )
 }
 
-function GroupChatHeader({ current, editChat } : GroupHeaderProps) {
+function GroupChatHeader({ current, editChat, setCurrentChat, chatList } : GroupHeaderProps) {
     const { user } = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -159,7 +186,7 @@ function GroupChatHeader({ current, editChat } : GroupHeaderProps) {
     }
 
     function renderDropList(item: GroupMember, index: number): JSX.Element {
-        return GroupMemberStatusItem(item, item.id === current.creator)
+        return GroupMemberStatusItem(item, item.id === current.creator, chatList, setCurrentChat)
     }
 
     return (
@@ -173,11 +200,36 @@ function GroupChatHeader({ current, editChat } : GroupHeaderProps) {
     )
 }
 
-function DirectChatHeader({ current } : DirectHeaderProps) {
+function DirectChatHeader({ current, setCurrentChat, chatList } : DirectHeaderProps) {
+    const { user } = useContext(AuthContext)
+    const UIControl = useContext(InterfaceContext)
+
+    function viewProfile(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+
+        if (!user)
+            return
+
+        UIControl.setProfileView(
+            user.uid,
+            {
+                uid: current.to,
+                username: current.username,
+                name: current.name,
+                status: current.status,
+                pfp: current.pfp,
+                badge: current.badge
+            },
+            setCurrentChat,
+            current
+        )
+    }
 
     return (
         <>
-            <PFP src={current.pfp.link} length={"100%"} useHeight disable={!current.badge} badge={current.badge} bgColor="var(--color-black)" />
+            <button className="h-full aspect-square hover:cursor-pointer hover:opacity-[0.75]" onClick={viewProfile}>
+                <PFP src={current.pfp.link} length={"100%"} useHeight disable={!current.badge} badge={current.badge} bgColor="var(--color-black)" />
+            </button>
             <div className="md:w-auto md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
                 <h2 className="font-jbm text-white md:text-lg md:mt-3">{current.name}</h2>
                 <p className="font-jbm text-light-grey md:text-sm">{current.status}</p>
@@ -186,13 +238,13 @@ function DirectChatHeader({ current } : DirectHeaderProps) {
     )
 }
 
-export default function ChatHeader({ current, editChat } : ChatHeaderProps) {
+export default function ChatHeader({ current, editChat, chatList, setCurrentChat } : ChatHeaderProps) {
 
     return (
         <header className="md:w-full md:h-[15%] border-b border-dark-grey md:flex md:flex-row md:justify-start md:items-center md:p-4">
             {
                 current ?
-                ((current as GroupChatMetaData).isGroup ? <GroupChatHeader current={current as GroupChatMetaData} editChat={editChat} /> : <DirectChatHeader current={current as DirectChatMetaData} />) : 
+                ((current as GroupChatMetaData).isGroup ? <GroupChatHeader current={current as GroupChatMetaData} editChat={editChat} setCurrentChat={setCurrentChat} chatList={chatList} /> : <DirectChatHeader current={current as DirectChatMetaData} setCurrentChat={setCurrentChat} chatList={chatList} />) : 
                 <></>
             }
         </header>

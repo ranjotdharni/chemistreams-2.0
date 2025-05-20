@@ -1,4 +1,5 @@
-import { ChatMessage, ChatMetaData, GenericError, Profile } from "./client"
+import { ChatMessage, ChatMetaData, GenericError, Profile, ReadOnlyProfile } from "./client"
+import { AnimationCode, BadgeCode } from "../constants/client"
 import { LucideIcon } from "lucide-react"
 import { JSX, MouseEvent } from "react"
 import { User } from "./server"
@@ -6,6 +7,7 @@ import { User } from "./server"
 export interface InterfaceProviderProps {
     toggleTheme: () => void
     setText: (text: string, color?: string) => void
+    setProfileView: (currentUserId: string, profile: ReadOnlyProfile, setCurrentChat: (chat: ChatMetaData) => void, direct?: ChatMetaData) => void
     children: React.ReactNode
 }
 
@@ -38,12 +40,16 @@ export interface ChatListProps {
 
 export interface ChatViewProps {
     current: ChatMetaData
+    chatList: ChatMetaData[]
     editChat: (update: ChatMetaData) => void
+    setCurrentChat: (current: ChatMetaData) => void
 }
 
 export interface ChatHeaderProps {
     current?: ChatMetaData
     editChat: (update: ChatMetaData) => void
+    chatList: ChatMetaData[]
+    setCurrentChat: (current: ChatMetaData) => void
 }
 
 export interface ChatContentProps {
@@ -87,6 +93,24 @@ export interface DetailsEditorProps {
     setProfile: (previous: Profile) => void
 }
 
+export interface PFPProps {
+    length: string | number
+    useHeight?: boolean
+    bgColor: string
+    src: string
+    online?: boolean
+    disable?: boolean
+    badge?: {
+        badgeCode: BadgeCode,
+        animationCode: AnimationCode
+    }
+}
+
+export interface BadgeEditorProps {
+    profile: Profile
+    setProfile: (profile: Profile) => void
+}
+
 export interface GroupPFPProps {
     length: number | string
     useHeight?: boolean
@@ -94,4 +118,12 @@ export interface GroupPFPProps {
         space?: string
         link: string
     }[]
+}
+
+export interface ProfileViewProps {
+    currentUserId: string
+    close: () => void
+    profile: ReadOnlyProfile
+    setCurrentChat: (chat: ChatMetaData) => void
+    direct?: ChatMetaData
 }

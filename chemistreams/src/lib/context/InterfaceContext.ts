@@ -7,6 +7,9 @@ export const InterfaceContext = createContext<InterfaceContextValue>({
     },
     setText: (text: string, color?: string) => {
         console.log(text)
+    },
+    setProfileView: () => {
+        
     }
 })
 
