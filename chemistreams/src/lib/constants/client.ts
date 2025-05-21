@@ -22,10 +22,81 @@ export const DEFAULT_PFP: string = "https://cdn.pixabay.com/photo/2023/02/18/11/
 export const LOGO: string = "https://img.icons8.com/?size=100&id=8hNJp4u2Tt8D&format=png&color=0B6448"
 
 // badges codes
-export type BadgeCode = "BADGE_BLENDER" | "BADGE_CHROME" | "BADGE_NVIDIA" | "BADGE_STARBUCKS" | "BADGE_DISCORD"
+export type BadgeCode = 
+    "BADGE_HEARTHSTONE" |    
+    "BADGE_GHOSTBUSTER" |    
+    "BADGE_PLAYSTATION" |    
+    "BADGE_HUFFLEPUFF" |     
+    "BADGE_GRYFFINDOR" |     
+    "BADGE_CLOUDFLARE" |     
+    "BADGE_STARBUCKS" |      
+    "BADGE_MINECRAFT" |      
+    "BADGE_SLYTHERIN" |      
+    "BADGE_RAVENCLAW" |      
+    "BADGE_MICROSOFT" |      
+    "BADGE_ELDENRING" | 
+    "BADGE_ETHEREUM" |            
+    "BADGE_TERRARIA" |       
+    "BADGE_ROCKSTAR" | 
+    "BADGE_DEEPSEEK" |       
+    "BADGE_DISCORD" |        
+    "BADGE_WINDOWS" |              
+    "BADGE_GENSHIN" |             
+    "BADGE_FALLOUT" |        
+    "BADGE_BLENDER" |        
+    "BADGE_BITCOIN" | 
+    "BADGE_HEROKU" |       
+    "BADGE_SWITCH" |         
+    "BADGE_NVIDIA" |         
+    "BADGE_CHROME" |         
+    "BADGE_SKYRIM" |         
+    "BADGE_SAFARI" |         
+    "BADGE_AMAZON" |         
+    "BADGE_APPLE" |          
+    "BADGE_STEAM" |          
+    "BADGE_XBOX" |           
+    "BADGE_EPIC" |           
+    "BADGE_EDGE" |  
+    "BADGE_DOOM" |        
+    "BADGE_GPT" |            
+    "BADGE_MAC" |            
+    "BADGE_AMD"       
+
 export type AnimationCode = "NULL" | "SPIN" | "SPIN_DELAY" | "SHAKE" | "PULSE" | "DANCE"
 
 export const BADGES: Record<BadgeCode, Badge> = {
+    "BADGE_GHOSTBUSTER": {
+        code: "BADGE_GHOSTBUSTER",
+        link: "https://img.icons8.com/color/100/ghostbusters.png"
+    },
+    "BADGE_GRYFFINDOR": {
+        code: "BADGE_GRYFFINDOR",
+        link: "https://img.icons8.com/color/100/gryffindor.png"
+    },
+    "BADGE_HUFFLEPUFF": {
+        code: "BADGE_HUFFLEPUFF",
+        link: "https://img.icons8.com/color/100/hufflepuff.png"
+    },
+    "BADGE_SLYTHERIN": {
+        code: "BADGE_SLYTHERIN",
+        link: "https://img.icons8.com/color/100/slytherin.png"
+    },
+    "BADGE_RAVENCLAW": {
+        code: "BADGE_RAVENCLAW",
+        link: "https://img.icons8.com/color/100/ravenclaw.png"
+    },
+    "BADGE_EDGE": {
+        code: "BADGE_EDGE",
+        link: "https://img.icons8.com/color/100/ms-edge-new.png"
+    },
+    "BADGE_SAFARI": {
+        code: "BADGE_SAFARI",
+        link: "https://img.icons8.com/color/100/safari--v1.png"
+    },
+    "BADGE_APPLE": {
+        code: "BADGE_APPLE",
+        link: "https://img.icons8.com/color/100/mac-os--v1.png"
+    },
     "BADGE_BLENDER": {
         code: "BADGE_BLENDER",
         link: "https://img.icons8.com/color/100/blender-3d.png"
@@ -37,14 +108,114 @@ export const BADGES: Record<BadgeCode, Badge> = {
     "BADGE_NVIDIA": {
         code: "BADGE_NVIDIA",
         link: "https://img.icons8.com/color/100/nvidia.png"
-    }, 
+    },
     "BADGE_STARBUCKS": {
         code: "BADGE_STARBUCKS",
         link: "https://img.icons8.com/color/100/starbucks.png"
-    }, 
+    },
     "BADGE_DISCORD": {
         code: "BADGE_DISCORD",
         link: "https://img.icons8.com/color/100/discord--v2.png"
+    },
+    "BADGE_DEEPSEEK": {
+        code: "BADGE_DEEPSEEK",
+        link: "https://img.icons8.com/color/100/deepseek.png"
+    },
+    "BADGE_GPT": {
+        code: "BADGE_GPT",
+        link: "https://img.icons8.com/color/100/chatgpt.png"
+    },
+    "BADGE_SKYRIM": {
+        code: "BADGE_SKYRIM",
+        link: "https://img.icons8.com/color/100/skyrim.png"
+    },
+    "BADGE_XBOX": {
+        code: "BADGE_XBOX",
+        link: "https://img.icons8.com/color/100/xbox--v1.png"
+    },
+    "BADGE_PLAYSTATION": {
+        code: "BADGE_PLAYSTATION",
+        link: "https://img.icons8.com/color/100/play-station.png"
+    },
+    "BADGE_STEAM": {
+        code: "BADGE_STEAM",
+        link: "https://img.icons8.com/color/100/steam-circled.png"
+    },
+    "BADGE_SWITCH": {
+        code: "BADGE_SWITCH",
+        link: "https://img.icons8.com/color/100/nintendo-switch-logo.png"
+    },
+    "BADGE_EPIC": {
+        code: "BADGE_EPIC",
+        link: "https://img.icons8.com/color/100/epic-games.png"
+    },
+    "BADGE_HEARTHSTONE": {
+        code: "BADGE_HEARTHSTONE",
+        link: "https://img.icons8.com/color/100/hearthstone.png"
+    },
+    "BADGE_FALLOUT": {
+        code: "BADGE_FALLOUT",
+        link: "https://img.icons8.com/color/100/fallout.png"
+    },
+    "BADGE_MINECRAFT": {
+        code: "BADGE_MINECRAFT",
+        link: "https://img.icons8.com/color/100/minecraft-logo--v1.png"
+    },
+    "BADGE_GENSHIN": {
+        code: "BADGE_GENSHIN",
+        link: "https://img.icons8.com/color/100/genshin-impact.png"
+    },
+    "BADGE_TERRARIA": {
+        code: "BADGE_TERRARIA",
+        link: "https://img.icons8.com/color/100/best-terraria.png"
+    },
+    "BADGE_DOOM": {
+        code: "BADGE_DOOM",
+        link: "https://img.icons8.com/color/100/doom-logo.png"
+    },
+    "BADGE_ELDENRING": {
+        code: "BADGE_ELDENRING",
+        link: "https://img.icons8.com/color/100/elden-ring.png"
+    },
+    "BADGE_ROCKSTAR": {
+        code: "BADGE_ROCKSTAR",
+        link: "https://img.icons8.com/color/100/rockstar-games.png"
+    },
+    "BADGE_BITCOIN": {
+        code: "BADGE_BITCOIN",
+        link: "https://img.icons8.com/color/100/bitcoin--v1.png"
+    },
+    "BADGE_ETHEREUM": {
+        code: "BADGE_ETHEREUM",
+        link: "https://img.icons8.com/color/100/ethereum.png"
+    },
+    "BADGE_AMD": {
+        code: "BADGE_AMD",
+        link: "https://img.icons8.com/color/100/amd.png"
+    },
+    "BADGE_CLOUDFLARE": {
+        code: "BADGE_CLOUDFLARE",
+        link: "https://img.icons8.com/color/100/cloudflare.png"
+    },
+    "BADGE_HEROKU": {
+        code: "BADGE_HEROKU",
+        link: "https://img.icons8.com/color/100/heroku.png"
+    },
+    "BADGE_MICROSOFT": {
+        code: "BADGE_MICROSOFT",
+        link: "https://img.icons8.com/color/100/microsoft.png"
+    },
+    "BADGE_MAC": {
+        code: "BADGE_MAC",
+        link: "https://img.icons8.com/color/100/mac-logo.png"
+    },
+    "BADGE_WINDOWS": {
+        code: "BADGE_WINDOWS",
+        link: "https://img.icons8.com/color/100/windows-11.png"
+    },
+    "BADGE_AMAZON": {
+        code: "BADGE_AMAZON",
+        link: "https://img.icons8.com/color/100/amazon.png"
     }
 }
 
