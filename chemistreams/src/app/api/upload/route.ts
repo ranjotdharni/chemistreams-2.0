@@ -1,13 +1,13 @@
 import { generateCloudUrl, isValidFile } from "@/lib/utils/general"
-import { MAXIMUM_PFP_FILE_SIZE } from "@/lib/constants/server"
+import { MAXIMUM_IMAGE_UPLOAD_SIZE } from "@/lib/constants/server"
 import { extractTokenFromRequest } from "@/lib/utils/server"
 import { DriveItem, DriveSpaceId } from "@/lib/types/server"
 import { NextRequest, NextResponse } from "next/server"
-import { remove, upload } from "@/lib/drive/workers"
 import { DecodedIdToken } from "firebase-admin/auth"
 import { DB_USERS } from "@/lib/constants/routes"
 import { GenericError } from "@/lib/types/client"
-import { get, ref, set } from "firebase/database"
+import { get, ref } from "firebase/database"
+import { upload } from "@/lib/drive/workers"
 import { rt } from "@/lib/auth/firebase"
 
 export async function PUT(request: NextRequest) {
@@ -30,9 +30,7 @@ export async function PUT(request: NextRequest) {
     const existingProfile = await get(userRef)
 
     const profile = existingProfile.val()
-    const hasStoredPfp: boolean = (profile.pfp.space ? true : false)    // check if profile already has an existing pfp that needs to be deleted
     
-    // get the new to-be uploaded pfp
     const data = await request.formData()
     const file = data.get("file")
 
@@ -41,29 +39,18 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ code: 'BAD_REQUEST', message: "MALFORMED REQUEST" } as GenericError, { status: 400 })
 
     // ensure uploaded file is a valid image
-    const invalidFile: GenericError | void = isValidFile(file as File, MAXIMUM_PFP_FILE_SIZE)
+    const invalidFile: GenericError | void = isValidFile(file as File, MAXIMUM_IMAGE_UPLOAD_SIZE)
 
     if (invalidFile)
         return NextResponse.json(invalidFile, { status: 400 })
 
-    // call server action to upload new pfp
+    // call server action to upload
     const result = await upload(file as File)
 
     if ((result as GenericError).code) 
         return NextResponse.json(result as GenericError, { status: 500 })
 
     const cloudUrl: string = generateCloudUrl((result as DriveItem).id)
-    
-    // update profile in realtime
-    await set(ref(rt, `${DB_USERS}/${uid}/pfp`), {
-        ...(result as DriveItem),
-        link: cloudUrl
-    })
 
-    // if profile had existing pfp before this request, delete it from cloud storage cluster
-    if (hasStoredPfp) {
-        await remove(profile.pfp.space as DriveSpaceId, profile.pfp.id)
-    }
-
-    return NextResponse.json({ success: true, space: profile.pfp.space, link: cloudUrl }, { status: 200 })
+    return NextResponse.json({ success: true, space: profile.pfp.space as DriveSpaceId, link: cloudUrl, fileId: (result as DriveItem).id, uid: uid }, { status: 200 })
 }

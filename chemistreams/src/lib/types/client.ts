@@ -1,4 +1,5 @@
 import { AnimationCode, BadgeCode } from "../constants/client"
+import { DriveSpaceId } from "./server"
 
 export interface InterfaceContextValue {
     toggleTheme: () => void
@@ -43,6 +44,9 @@ export interface ChatMessage {
     content?: string
     added?: string
     removed?: string
+    fileId?: string
+    link?: string
+    space?: DriveSpaceId
     timestamp: Date
 }
 

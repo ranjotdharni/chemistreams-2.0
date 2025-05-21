@@ -3,6 +3,7 @@
 import { ChangeEvent, MouseEvent, useContext, useState } from "react"
 import { AnimationCode, BadgeCode } from "@/lib/constants/client"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
+import { MAXIMUM_PFP_FILE_SIZE } from "@/lib/constants/server"
 import { GenericError, Profile } from "@/lib/types/client"
 import { API_PROFILE } from "@/lib/constants/routes"
 import { PFPEditorProps } from "@/lib/types/props"
@@ -78,7 +79,8 @@ function Uploader({ profile, cancel, close, update } : { profile: Profile, cance
             {
                 loader ? 
                 <Loader containerTailwind="w-1/5 h-4" /> :
-                <div className="w-full flex flex-row justify-end space-x-2">
+                <div className="w-full flex flex-row justify-end items-center space-x-2">
+                    <p className="text-light-grey font-jbm">{`${MAXIMUM_PFP_FILE_SIZE}MB`}</p>
                     <button onClick={cancel} className="px-2 font-lato rounded border border-light-grey text-light-grey hover:cursor-pointer hover:text-black hover:bg-light-grey transition-colors duration-200">Cancel</button>
                     <button onClick={handleUpload} type="submit" className="px-2 font-lato rounded border border-green text-green hover:cursor-pointer hover:text-white hover:bg-green transition-colors duration-200">Save</button>
                 </div>
