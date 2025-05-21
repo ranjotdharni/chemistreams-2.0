@@ -9,9 +9,8 @@ export const PAGE_LANDING: string = "/"
 export const API_REFRESH_TOKEN: string = "/api/refresh-token"
 export const API_PROFILE: string = "/api/profile"
 export const API_LOGOUT: string = "/api/logout"
+export const API_UPLOAD: string = "/api/upload"
 export const API_LOGIN: string = "/api/login"
-export const API_IMAGE: string = "/api/image"
-export const API_VIDEO: string = "/api/video"
 
 // Database Routes
 export const DB_USERNAMES: string = "usernames"

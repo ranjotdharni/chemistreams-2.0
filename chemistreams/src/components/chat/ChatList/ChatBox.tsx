@@ -1,4 +1,4 @@
-import { ADD_USER_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, USER_LEFT_TYPE_CODE } from "@/lib/constants/server"
+import { ADD_USER_TYPE_CODE, FILE_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, USER_LEFT_TYPE_CODE } from "@/lib/constants/server"
 import { MouseEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { limitToLast, orderByKey, ref, query, DataSnapshot, get, set } from "firebase/database"
 import { ChatMessage, DirectChatMetaData, GroupChatMetaData } from "@/lib/types/client"
@@ -71,7 +71,7 @@ function DirectChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened
             </div>
 
             <div className="md:w-[15%] md:h-full md:flex md:flex-col md:items-center md:space-y-3 md:px-1">
-                <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours()}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}` : ""}</p>
+                <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours() === 0 ? 12 : (lastTimestamp.getHours() > 12 ? lastTimestamp.getHours() - 12 : lastTimestamp.getHours())}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}${lastTimestamp.getHours() > 12 ? "p" : "a"}` : ""}</p>
                 {
                     opened !== undefined &&
                     !opened &&
@@ -95,7 +95,7 @@ function GroupChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened,
             </div>
 
             <div className="md:w-[15%] md:h-full md:flex md:flex-col md:items-center md:space-y-3 md:px-1">
-                <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours()}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}` : ""}</p>
+                <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours() === 0 ? 12 : (lastTimestamp.getHours() > 12 ? lastTimestamp.getHours() - 12 : lastTimestamp.getHours())}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}${lastTimestamp.getHours() > 12 ? "p" : "a"}` : ""}</p>
                 {
                     opened !== undefined &&
                     !opened &&
@@ -129,6 +129,10 @@ export default function ChatBox({ metadata, isCurrent, onClick } : ChatBoxProps)
 
         if (message.type === MESSAGE_TYPE_CODE) {
             setLastMessage(message.content || "")
+            setLastTimestamp(new Date(message.timestamp))
+        }
+        else if (message.type === FILE_TYPE_CODE) {
+            setLastMessage("[Image]")
             setLastTimestamp(new Date(message.timestamp))
         }
         else if (message.type === ADD_USER_TYPE_CODE) {
