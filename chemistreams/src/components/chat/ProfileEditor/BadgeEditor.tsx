@@ -15,7 +15,7 @@ import Image from "next/image"
 function BadgePicker({ isSelected, badge, setBadge, animation } : { isSelected: boolean, badge: Badge, setBadge: (badge: Badge) => void, animation: string }) {
 
     return (
-        <button type="button" onClick={() => { setBadge(badge) }} className="h-1/3 aspect-square p-2 rounded bg-dark-grey hover:cursor-pointer" style={{border: isSelected ? "solid 1px var(--color-green)" : "none"}}>
+        <button type="button" onClick={() => { setBadge(badge) }} className="h-[35%] aspect-square p-2 rounded bg-dark-grey hover:cursor-pointer" style={{border: isSelected ? "solid 1px var(--color-green)" : "none"}}>
             <Image src={badge.link} alt={badge.code} className="w-full h-full" style={{animation: animation}} width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} />
         </button>
     )
@@ -110,15 +110,15 @@ export default function BadgeEditor({ profile, setProfile } : BadgeEditorProps) 
                 }
             </ul>
 
-            <form className="md:w-full md:flex-1 p-2 rounded md:flex md:flex-row flex-wrap space-x-2 border border-dark-grey">
+            <ul className="md:w-full md:h-[65%] p-2 rounded md:flex md:flex-row justify-center items-center flex-wrap space-x-2 border border-dark-grey">
                 {
                     Object.entries(BADGES).map(([key, value], index) => {
                         return <BadgePicker key={key} isSelected={badge !== undefined && badge.code === value.code} badge={value} setBadge={setBadge} animation={animation ? animation.animation : ""} />
                     })
                 }
-            </form>
+            </ul>
 
-            <div className="w-full flex flex-row justify-end p-2 space-x-2">
+            <div className="w-full flex-1 flex flex-row justify-end p-2 space-x-2">
                 {
                     loader ? 
                     <Loader containerTailwind="w-[5%] px-2 py-1" /> : 
