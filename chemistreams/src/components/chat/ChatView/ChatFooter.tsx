@@ -1,7 +1,7 @@
 "use client"
 
+import { FILE_TYPE_CODE, MAXIMUM_IMAGE_UPLOAD_SIZE, MESSAGE_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE } from "@/lib/constants/server"
 import { ChangeEvent, MouseEvent, FormEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
-import { FILE_TYPE_CODE, MAXIMUM_IMAGE_UPLOAD_SIZE, MESSAGE_TYPE_CODE } from "@/lib/constants/server"
 import { DirectChatMetaData, GenericError, GroupChatMetaData } from "@/lib/types/client"
 import { LucideIcon, SendIcon, Paperclip, Music, MonitorPlay } from "lucide-react"
 import { DataSnapshot, push, ref, serverTimestamp, set } from "firebase/database"
@@ -13,15 +13,152 @@ import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import { ChatFooterProps } from "@/lib/types/props"
 import useListener from "@/lib/hooks/useListener"
+import { isValidUrl } from "@/lib/utils/general"
 import Loader from "@/components/utils/Loader"
 import { rt } from "@/lib/auth/firebase"
 
 const CLEAR_TYPING_MS: number = 3000
+const SPOTIFY_RESOURCES = ["track", "album", "playlist", "artist", "show"]
 
 interface FooterButtonProps {
     isDisabled: boolean
     Icon: LucideIcon
     onClick: (event: MouseEvent<HTMLButtonElement>) => void
+}
+
+function SpotifyEmbeder({ close, uid, chatId } : { close: () => void, uid: string, chatId: string }) {
+    const UIControl = useContext(InterfaceContext)
+
+    const [spotifyLink, setSpotifyLink] = useState<string>("")
+    const [loader, setLoader] = useState<boolean>(false)
+    const [invalidLink, setInvalidLink] = useState<boolean>(false)
+
+    function onLinkChange(event: ChangeEvent<HTMLInputElement>) {
+        event.preventDefault()
+        setSpotifyLink(event.target.value)
+    }
+
+    function clear(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+        setInvalidLink(false)
+        setSpotifyLink("")
+    }
+
+    async function handleUpload(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+
+        if (loader)
+            return
+
+        setLoader(true)
+
+        setInvalidLink(false)
+
+        const link = spotifyLink.trim().split("?")[0]
+
+        if (!isValidUrl(link)) {
+            setInvalidLink(true)
+            setLoader(false)
+            return
+        }
+
+        const resources = link.split("/")
+
+        if (resources.length < 2 || !SPOTIFY_RESOURCES.includes(resources[resources.length - 2])) {
+            setInvalidLink(true)
+            setLoader(false)
+            return
+        }
+
+        const spotifyId = resources[resources.length - 1]
+        const resourceType = resources[resources.length - 2]
+
+        try {
+            const messageData = {
+                sender: uid,
+                type: SPOTIFY_EMBED_TYPE_CODE,
+                spotifyId: spotifyId,
+                resourceType: resourceType,
+                timestamp: serverTimestamp()
+            }
+
+            await push(ref(rt, `${DB_MESSAGES}/${chatId}`), messageData)
+        }
+        catch (_) {
+            UIControl.setText("Failed to send message.", "red")
+            setLoader(false)
+            close()
+            return
+        }
+        
+        setLoader(false)
+        close() // should be very last
+    }
+
+    return (
+        <div className="backdrop-blur z-40 fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center">
+            <div className="h-1/3 w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
+                <h2 className="text-green w-full font-lato text-xl border-b border-dark-grey">Attach Spotify Link</h2>
+
+                <input
+                    className="w-full h-[12.5%] border-b border-dark-white rounded px-2 outline-none font-lato text-light-grey focus:text-green focus:border-green"
+                    value={spotifyLink}
+                    onChange={onLinkChange}
+                />
+                
+                <div
+                    className="w-full flex flex-row justify-end px-2"
+                >
+                    <button
+                        className="hover:cursor-pointer hover:text-red text-sm text-dark-white font-jbm"
+                        onClick={clear}
+                    >
+                        Clear
+                    </button>
+                </div>
+
+                <span className="w-full flex flex-row justify-between font-jbm text-red">
+                    {
+                        (
+                            invalidLink ? "Invalid Link" : ""
+                        )
+                    }
+                </span>
+
+                <span
+                    className="w-full text-center text-sm text-green font-lato"
+                >
+                    <p>
+                        Get the link for a track, album, playlist, artist, podcast, or audiobook and paste it above. 
+                        When you send a valid Spotify resource, ChemiStreams will show a preview of it as a chat 
+                        message.
+                    </p>
+                </span>
+
+                <div className="w-full flex-1 flex flex-row justify-end items-end space-x-2">
+                    {
+                        loader ? 
+                        <Loader containerTailwind="w-1/4 h-5" /> :
+                        <>
+                            <button 
+                                onClick={close}
+                                className="transition-colors duration-200 text-light-grey text-sm px-1 font-lato border border-light-grey rounded hover:cursor-pointer hover:bg-light-grey hover:text-black"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                onClick={handleUpload}
+                                className="transition-colors duration-200 text-white text-sm px-1 font-lato border border-green rounded hover:cursor-pointer hover:bg-green"
+                            >
+                                Send
+                            </button>
+                        </>
+                    }
+                </div>
+            </div>
+        </div>
+    )
 }
 
 function AttachmentUploader({ close, chatId } : { close: () => void, chatId: string }) {
@@ -120,16 +257,14 @@ function AttachmentUploader({ close, chatId } : { close: () => void, chatId: str
                         loader ? 
                         <Loader containerTailwind="w-1/4 h-5" /> :
                         <>
-                            <
-                                button 
+                            <button 
                                 onClick={close}
                                 className="transition-colors duration-200 text-light-grey text-sm px-1 font-lato border border-light-grey rounded hover:cursor-pointer hover:bg-light-grey hover:text-black"
                             >
                                 Cancel
                             </button>
 
-                            <
-                                button
+                            <button
                                 onClick={handleUpload}
                                 className="transition-colors duration-200 text-white text-sm px-1 font-lato border border-green rounded hover:cursor-pointer hover:bg-green"
                             >
@@ -194,6 +329,8 @@ export default function ChatFooter({ current } : ChatFooterProps) {
     const [message, setMessage] = useState<string>("")
     const [isTyping, setIsTyping] = useState<boolean>(false)
     const [uploaderIsOpen, toggleUploader] = useState<boolean>(false)
+    const [spotifyEmbederIsOpen, toggleSpotifyEmbeder] = useState<boolean>(false)
+    const [youtubeEmbederIsOpen, toggleYoutubeEmbeder] = useState<boolean>(false)
 
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -203,21 +340,35 @@ export default function ChatFooter({ current } : ChatFooterProps) {
             Icon: Paperclip,
             onClick: (event: MouseEvent<HTMLButtonElement>) => {
                 event.preventDefault()
+
+                if (spotifyEmbederIsOpen || youtubeEmbederIsOpen)
+                    return
+
                 toggleUploader(true)
             }
         },
         {
             isDisabled: false,
             Icon: Music,
-            onClick: () => {
-                // upload spotify song
+            onClick: (event: MouseEvent<HTMLButtonElement>) => {
+                event.preventDefault()
+
+                if (uploaderIsOpen || youtubeEmbederIsOpen)
+                    return
+
+                toggleSpotifyEmbeder(true)
             }
         },
         {
             isDisabled: false,
             Icon: MonitorPlay,
-            onClick: () => {
-                // upload youtube video
+            onClick: (event: MouseEvent<HTMLButtonElement>) => {
+                event.preventDefault()
+
+                if (uploaderIsOpen || spotifyEmbederIsOpen)
+                    return
+
+                toggleYoutubeEmbeder(true)
             }
         }
     ]
@@ -334,7 +485,18 @@ export default function ChatFooter({ current } : ChatFooterProps) {
             </footer>
             {
                 uploaderIsOpen && 
-                <AttachmentUploader chatId={current.id} close={() => { toggleUploader(false) }} />
+                <AttachmentUploader 
+                    chatId={current.id} 
+                    close={ () => { toggleUploader(false) } } 
+                />
+            }
+            {
+                spotifyEmbederIsOpen && 
+                <SpotifyEmbeder 
+                    uid={user.uid}
+                    chatId={current.id} 
+                    close={ () => { toggleSpotifyEmbeder(false) } } 
+                />
             }
         </>
     )
