@@ -5,17 +5,20 @@ Browser-based chat application. This is a remake of a plain HTML, CSS, JavaScrip
 
 ### Functional
 - [x] UI
-- [ ] Firebase Realtime
+- [x] Firebase Realtime
 - [ ] Google, Github Auth Providers
-- [ ] Refresh Token (possibly)
-- [ ] Media Files
-- [ ] Edit Profile
-- [ ] Block List
-- [ ] Change Theme
-- [ ] Database Rules
+- [x] Media Files
+- [x] Edit Profile
+- [x] Change Theme
 - [ ] Responsive Design
+- [ ] Database Rules
 
 ### Non-functional
+- [ ] Migrate to Cloudinary Cluster
+- [ ] Add/Remove/Kick after creation
+- [ ] Block List
+- [ ] OEmbed Links
+- [ ] Pagination
 - [ ] API
 - [ ] Synchronize users in auth w/ realtime (sign up + sign in)
 - [ ] Email validation (client sign up + confirmation)
