@@ -26,7 +26,19 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
     }
 
     function changeTheme() {
-        setDarkTheme(previous => !previous)
+        setDarkTheme(previous => {
+
+            if (previous) { // was dark theme
+                document.body.setAttribute("data-theme", "light")
+                localStorage.setItem("theme", "light")
+            }
+            else {  // was light theme
+                document.body.setAttribute("data-theme", "dark")
+                localStorage.setItem("theme", "dark")
+            }
+
+            return !previous
+        })
     }
 
     function showProfile(currentUserId: string, profile: ReadOnlyProfile, setCurrentChat: (chat: ChatMetaData) => void, direct?: ChatMetaData) {
@@ -39,7 +51,19 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
     }
 
     useEffect(() => {
-        if (darkTheme === undefined) {
+        const themeChoice = localStorage.getItem("theme")
+
+        if (themeChoice && themeChoice !== "automatic") {
+            if (themeChoice === "light") {
+                document.body.setAttribute("data-theme", "light")
+                setDarkTheme(false)
+            }
+            else {
+                document.body.setAttribute("data-theme", "dark")
+                setDarkTheme(true)
+            }
+        }
+        else if (darkTheme === undefined) {
             const prefersLightTheme = window.matchMedia("(prefers-color-scheme: light)").matches
             if (prefersLightTheme) {
                 document.body.setAttribute("data-theme", "light")
