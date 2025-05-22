@@ -47,6 +47,8 @@ export interface ChatMessage {
     fileId?: string
     link?: string
     space?: DriveSpaceId
+    spotifyId?: string
+    resourceType?: string
     timestamp: Date
 }
 

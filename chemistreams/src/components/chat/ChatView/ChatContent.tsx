@@ -1,10 +1,10 @@
 "use client"
 
 import { ChatMessage, ChatMetaData, DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
+import { FILE_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE } from "@/lib/constants/server"
 import { SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { JSX, useContext, useEffect, useRef } from "react"
 import { AuthContext } from "@/lib/context/AuthContext"
-import { FILE_TYPE_CODE } from "@/lib/constants/server"
 import { dateToFormat } from "@/lib/utils/client"
 import { notFound } from "next/navigation"
 import PFP from "@/components/utils/PFP"
@@ -23,7 +23,7 @@ interface ChatProps {
 
 function Message({ incoming = false, message, messageCurve } : ChatMessageItem) {
     const tailwindContainer: string = `w-full flex p-[1px] items-center justify-start ${incoming ? "flex-row" : "flex-row-reverse"}`
-    const tailwindMessage: string = `${incoming ? "bg-dark-grey" : "bg-green"} max-w-[47.5%] ${message.type === FILE_TYPE_CODE ? "w-[47.5%]" : ""} text-dark-white px-4 ${message.type === FILE_TYPE_CODE ? "py-4" : "py-1"} ${messageCurve} font-jbm`
+    const tailwindMessage: string = `${incoming ? "bg-dark-grey" : "bg-green"} max-w-[47.5%] ${message.type === FILE_TYPE_CODE || message.type === SPOTIFY_EMBED_TYPE_CODE ? "w-[47.5%]" : ""} text-dark-white px-4 ${message.type === FILE_TYPE_CODE ? "py-4" : "py-1"} ${messageCurve} font-jbm`
     const tailwindTimestamp: string = `w-[52.5%] flex flex-row ${incoming ? "justify-start" : "justify-end"} px-6 font-roboto text-light-grey opacity-0 hover:opacity-100`
 
     let Content: JSX.Element | JSX.Element[]
@@ -32,6 +32,20 @@ function Message({ incoming = false, message, messageCurve } : ChatMessageItem) 
         Content = (
             <div className={tailwindContainer}>
                 <Image className={tailwindMessage} src={message.link} alt="file" width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} />
+                <p className={tailwindTimestamp}>{`${message.timestamp.getHours() === 0 ? 12 : (message.timestamp.getHours() > 12 ? message.timestamp.getHours() - 12 : message.timestamp.getHours())}:${message.timestamp.getMinutes() < 10 ? "0" : ""}${message.timestamp.getMinutes()}${message.timestamp.getHours() > 12 ? "PM" : "AM"} (${dateToFormat("MMM DD", message.timestamp)})`}</p>
+            </div>
+        )
+    }
+    else if (message.type === SPOTIFY_EMBED_TYPE_CODE && message.resourceType && message.spotifyId) {
+        Content = (
+            <div className={tailwindContainer}>
+                <iframe
+                    src={`https://open.spotify.com/embed/${message.resourceType}/${message.spotifyId}`}
+                    width="100%"
+                    height="380"
+                    allow="encrypted-media"
+                >
+                </iframe>
                 <p className={tailwindTimestamp}>{`${message.timestamp.getHours() === 0 ? 12 : (message.timestamp.getHours() > 12 ? message.timestamp.getHours() - 12 : message.timestamp.getHours())}:${message.timestamp.getMinutes() < 10 ? "0" : ""}${message.timestamp.getMinutes()}${message.timestamp.getHours() > 12 ? "PM" : "AM"} (${dateToFormat("MMM DD", message.timestamp)})`}</p>
             </div>
         )
