@@ -6,8 +6,8 @@ export default function Footer() {
             text: "GitHub"
         },
         {
-            link: "https://www.linkedin.com/in/ranjot-dharni-717580269/",
-            text: "LinkedIn"
+            link: "https://ranjotdharni.netlify.app",
+            text: "Portfolio"
         },
         {
             link: "https://icons8.com",

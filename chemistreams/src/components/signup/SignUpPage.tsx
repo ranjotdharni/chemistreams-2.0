@@ -63,7 +63,7 @@ export default function SignUpPage() {
 
   return (
     <div className="w-full max-w-md bg-black p-8 rounded-lg shadow-lg text-white">
-        <h2 className="text-3xl font-semibold text-center mb-6">Sign Up</h2>
+        <h2 className="text-3xl font-lato text-center mb-6">Sign Up</h2>
 
         <form onSubmit={onSubmit} className="space-y-4">
             <div>
@@ -128,7 +128,7 @@ export default function SignUpPage() {
 
             <button
                 type="submit"
-                className="w-full py-3 bg-blue text-white rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full py-3 bg-green text-white rounded-md font-semibold hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                 Sign Up
             </button>

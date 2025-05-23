@@ -44,7 +44,7 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
 
   return (
     <div className="w-full max-w-md bg-black p-8 rounded-lg shadow-lg text-white">
-        <h2 className="text-3xl font-semibold text-center mb-6">Login</h2>
+        <h2 className="text-3xl font-lato text-center mb-6">Log In</h2>
 
         <form onSubmit={onSubmit} className="space-y-4">
             <div>
@@ -82,11 +82,16 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
             <button
                 type="submit"
                 disabled={disable}
-                className="w-full py-3 bg-blue text-white rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full py-3 bg-green text-white rounded-md font-semibold hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                Login
+                Log In
             </button>
         </form>
+
+        <div className="w-full mt-3 pt-3 border-t-2 border-dark-grey flex flex-col space-y-4">
+            <button className="w-full py-2 text text-white font-semibold bg-blue rounded-md hover:cursor-pointer">Google</button>
+            <button className="w-full py-2 text text-white font-semibold bg-blue rounded-md hover:cursor-pointer">GitHub</button>
+        </div>
 
         <p className="text-center text-sm mt-4">
             Don't have an account?{" "}
