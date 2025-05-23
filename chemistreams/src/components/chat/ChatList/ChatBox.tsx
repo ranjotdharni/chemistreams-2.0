@@ -1,4 +1,4 @@
-import { ADD_USER_TYPE_CODE, FILE_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE, USER_LEFT_TYPE_CODE } from "@/lib/constants/server"
+import { ADD_USER_TYPE_CODE, FILE_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE, USER_LEFT_TYPE_CODE, YOUTUBE_EMBED_TYPE_CODE } from "@/lib/constants/server"
 import { MouseEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { limitToLast, orderByKey, ref, query, DataSnapshot, get, set } from "firebase/database"
 import { ChatMessage, DirectChatMetaData, GroupChatMetaData } from "@/lib/types/client"
@@ -137,6 +137,10 @@ export default function ChatBox({ metadata, isCurrent, onClick } : ChatBoxProps)
         }
         else if (message.type === SPOTIFY_EMBED_TYPE_CODE) {
             setLastMessage(`[Spotify Item]`)
+            setLastTimestamp(new Date(message.timestamp))
+        }
+        else if (message.type === YOUTUBE_EMBED_TYPE_CODE) {
+            setLastMessage(`[YouTube Item]`)
             setLastTimestamp(new Date(message.timestamp))
         }
         else if (message.type === ADD_USER_TYPE_CODE) {

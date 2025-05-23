@@ -38,3 +38,47 @@ export function isValidUrl(urlString: string): boolean {
     '(\\#[-a-z\\d_]*)?$','i') // validate fragment locator
     return !!urlPattern.test(urlString)
 }
+
+export function extractYoutubeResources(raw: string): string | GenericError {
+    try {
+        if (raw.trim() === "")
+            return { code: CUSTOM_ERROR, message: "Invalid Link" }
+
+        const rawLink = raw.trim()
+
+        if (!isValidUrl(rawLink))
+            return { code: CUSTOM_ERROR, message: "Invalid Link" }
+
+        if (rawLink.includes("v=")) {
+            // search bar link
+            const paramSplit = rawLink.split("?")
+
+            if (paramSplit.length < 2)
+                return { code: CUSTOM_ERROR, message: "Invalid Link" }
+
+            const params = paramSplit[1]
+            const paramArray = params.split("&")
+            const videoParam = paramArray.find(p => p.includes("v="))
+
+            if (!videoParam)
+                return { code: CUSTOM_ERROR, message: "Invalid Link" }
+
+            const resourceArray = videoParam.split("=")
+
+            if (resourceArray.length < 2)
+                return { code: CUSTOM_ERROR, message: "Invalid Link" }
+
+            return resourceArray[1]
+        }
+        else {
+            // share link
+            const paramSplit = rawLink.split("?")
+            const resourceSplit = paramSplit[0].split("/")
+            const resource = resourceSplit[resourceSplit.length - 1]
+            return resource
+        }
+    }
+    catch (_) {
+        return { code: CUSTOM_ERROR, message: "Invalid Link" }
+    }
+}

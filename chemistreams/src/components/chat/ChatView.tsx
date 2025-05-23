@@ -1,6 +1,6 @@
 "use client"
 
-import { ADD_USER_TYPE_CODE, FILE_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE, USER_LEFT_TYPE_CODE } from "@/lib/constants/server"
+import { ADD_USER_TYPE_CODE, FILE_TYPE_CODE, MESSAGE_TYPE_CODE, REMOVE_USER_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE, USER_LEFT_TYPE_CODE, YOUTUBE_EMBED_TYPE_CODE } from "@/lib/constants/server"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 import { useCallback, useContext, useMemo, useState } from "react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
@@ -42,6 +42,15 @@ export default function ChatView({ current, editChat, chatList, setCurrentChat }
                     sender: rawMessageData.sender,
                     type: rawMessageData.type,
                     content: rawMessageData.content,
+                    timestamp: new Date(rawMessageData.timestamp)
+                }
+            }
+            else if (rawMessageData.type === YOUTUBE_EMBED_TYPE_CODE) {
+                message = {
+                    id: messageId,
+                    sender: rawMessageData.sender,
+                    type: rawMessageData.type,
+                    youtubeId: rawMessageData.youtubeId,
                     timestamp: new Date(rawMessageData.timestamp)
                 }
             }
