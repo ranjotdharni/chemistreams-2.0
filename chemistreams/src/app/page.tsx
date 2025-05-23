@@ -1,9 +1,13 @@
 "use client"
 
+import Banner from "@/components/landing/Banner"
+import Footer from "@/components/landing/Footer"
+
 export default function Home() {
   return (
-    <div>
-      This is the landing page.
-    </div>
+    <main>
+      <Banner />
+      <Footer />
+    </main>
   )
 }

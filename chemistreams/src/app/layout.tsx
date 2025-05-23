@@ -4,6 +4,7 @@ import { filterStandardClaims } from "next-firebase-auth-edge/auth/claims"
 import { AuthProvider } from "@/components/provider/AuthProvider"
 import { clientConfig, serverConfig } from "@/lib/auth/config"
 import { getTokens, Tokens } from "next-firebase-auth-edge"
+import PublicNavbar from "@/components/utils/PublicNavbar"
 import { User } from "@/lib/types/server"
 import { cookies } from "next/headers"
 import { Metadata } from "next"
@@ -98,6 +99,7 @@ export default async function RootLayout({
       >
         <InterfaceProvider setText={setText} toggleTheme={toggleTheme} setProfileView={setProfileView}>
           <AuthProvider user={user}>
+            <PublicNavbar />
             { children }
           </AuthProvider>
         </InterfaceProvider>
