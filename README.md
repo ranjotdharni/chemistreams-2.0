@@ -12,6 +12,7 @@ Browser-based chat application. This is a remake of a plain HTML, CSS, JavaScrip
 - [x] Change Theme
 - [ ] Responsive Design
 - [ ] Database Rules
+- [ ] Documentation
 
 ### Non-functional
 - [ ] Migrate to Cloudinary Cluster
