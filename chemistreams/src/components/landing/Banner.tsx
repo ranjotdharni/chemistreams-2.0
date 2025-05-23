@@ -3,6 +3,7 @@ import styles from "../../css/Typewriter.module.css"
 
 export default function Banner() {
     // https://drive.google.com/uc?export=view&id=1nkWgxF1WV8ly1MpLd0R0aKAcuggQhged
+    // https://res.cloudinary.com/dm9lygtbe/image/upload/v1747994561/bannerShot_qsqpxg.png
 
     return (
         <section className="fixed top-[20vh] left-0 w-screen h-[70vh] flex flex-row items-center">
