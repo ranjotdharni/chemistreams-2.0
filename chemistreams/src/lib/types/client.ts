@@ -49,6 +49,7 @@ export interface ChatMessage {
     space?: DriveSpaceId
     spotifyId?: string
     resourceType?: string
+    youtubeId?: string
     timestamp: Date
 }
 

@@ -1,19 +1,19 @@
 "use client"
 
-import { FILE_TYPE_CODE, MAXIMUM_IMAGE_UPLOAD_SIZE, MESSAGE_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE } from "@/lib/constants/server"
+import { FILE_TYPE_CODE, MAXIMUM_IMAGE_UPLOAD_SIZE, MESSAGE_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE, YOUTUBE_EMBED_TYPE_CODE } from "@/lib/constants/server"
 import { ChangeEvent, MouseEvent, FormEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { DirectChatMetaData, GenericError, GroupChatMetaData } from "@/lib/types/client"
 import { LucideIcon, SendIcon, Paperclip, Music, MonitorPlay } from "lucide-react"
 import { DataSnapshot, push, ref, serverTimestamp, set } from "firebase/database"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
 import { API_UPLOAD, DB_MESSAGES, DB_USERS } from "@/lib/constants/routes"
+import { extractYoutubeResources, isValidUrl } from "@/lib/utils/general"
 import { DriveFileType, DriveMimeType } from "@/lib/types/server"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { UseListenerConfig } from "@/lib/types/hooks"
 import { ChatFooterProps } from "@/lib/types/props"
 import useListener from "@/lib/hooks/useListener"
-import { isValidUrl } from "@/lib/utils/general"
 import Loader from "@/components/utils/Loader"
 import { rt } from "@/lib/auth/firebase"
 
@@ -24,6 +24,129 @@ interface FooterButtonProps {
     isDisabled: boolean
     Icon: LucideIcon
     onClick: (event: MouseEvent<HTMLButtonElement>) => void
+}
+
+function YoutubeEmbeder({ close, uid, chatId } : { close: () => void, uid: string, chatId: string }) {
+    const UIControl = useContext(InterfaceContext)
+
+    const [youtubeLink, setYoutubeLink] = useState<string>("")
+    const [loader, setLoader] = useState<boolean>(false)
+    const [invalidLink, setInvalidLink] = useState<boolean>(false)
+
+    function onLinkChange(event: ChangeEvent<HTMLInputElement>) {
+        event.preventDefault()
+        setYoutubeLink(event.target.value)
+    }
+
+    function clear(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+        setInvalidLink(false)
+        setYoutubeLink("")
+    }
+
+    async function handleUpload(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
+
+        if (loader)
+            return
+
+        setLoader(true)
+        setInvalidLink(false)
+
+        const youtubeId = extractYoutubeResources(youtubeLink)
+
+        if ((youtubeId as GenericError).code) {
+            setLoader(false)
+            setInvalidLink(true)
+            return
+        }
+
+        try {
+            const messageData = {
+                sender: uid,
+                type: YOUTUBE_EMBED_TYPE_CODE,
+                youtubeId: youtubeId,
+                timestamp: serverTimestamp()
+            }
+
+            await push(ref(rt, `${DB_MESSAGES}/${chatId}`), messageData)
+        }
+        catch (_) {
+            UIControl.setText("Failed to send message.", "red")
+            setLoader(false)
+            close()
+            return
+        }
+        
+        setLoader(false)
+        UIControl.setText("Message sent.", "green")
+        close() // should be very last
+    }
+
+    return (
+        <div className="backdrop-blur z-40 fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center">
+            <div className="h-1/3 w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
+                <h2 className="text-green w-full font-lato text-xl border-b border-dark-grey">Attach YouTube Link</h2>
+
+                <input
+                    className="w-full h-[12.5%] border-b border-dark-white rounded px-2 outline-none font-lato text-light-grey focus:text-green focus:border-green"
+                    placeholder="Paste link..."
+                    value={youtubeLink}
+                    onChange={onLinkChange}
+                />
+                
+                <div
+                    className="w-full flex flex-row justify-end px-2"
+                >
+                    <button
+                        className="hover:cursor-pointer hover:text-red text-sm text-dark-white font-jbm"
+                        onClick={clear}
+                    >
+                        Clear
+                    </button>
+                </div>
+
+                <span className="w-full flex flex-row justify-between font-jbm text-red">
+                    {
+                        (
+                            invalidLink ? "Invalid Link" : ""
+                        )
+                    }
+                </span>
+
+                <span
+                    className="w-full text-center text-sm text-green font-lato"
+                >
+                    <p>
+                        Get the link for a video and paste it above. When you send a 
+                        valid YouTube video, ChemiStreams will embed it as a chat message.
+                    </p>
+                </span>
+
+                <div className="w-full flex-1 flex flex-row justify-end items-end space-x-2">
+                    {
+                        loader ? 
+                        <Loader containerTailwind="w-1/4 h-5" /> :
+                        <>
+                            <button 
+                                onClick={close}
+                                className="transition-colors duration-200 text-light-grey text-sm px-1 font-lato border border-light-grey rounded hover:cursor-pointer hover:bg-light-grey hover:text-black"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                onClick={handleUpload}
+                                className="transition-colors duration-200 text-white text-sm px-1 font-lato border border-green rounded hover:cursor-pointer hover:bg-green"
+                            >
+                                Send
+                            </button>
+                        </>
+                    }
+                </div>
+            </div>
+        </div>
+    )
 }
 
 function SpotifyEmbeder({ close, uid, chatId } : { close: () => void, uid: string, chatId: string }) {
@@ -92,6 +215,7 @@ function SpotifyEmbeder({ close, uid, chatId } : { close: () => void, uid: strin
         }
         
         setLoader(false)
+        UIControl.setText("Message sent.", "green")
         close() // should be very last
     }
 
@@ -102,6 +226,7 @@ function SpotifyEmbeder({ close, uid, chatId } : { close: () => void, uid: strin
 
                 <input
                     className="w-full h-[12.5%] border-b border-dark-white rounded px-2 outline-none font-lato text-light-grey focus:text-green focus:border-green"
+                    placeholder="Paste link..."
                     value={spotifyLink}
                     onChange={onLinkChange}
                 />
@@ -496,6 +621,14 @@ export default function ChatFooter({ current } : ChatFooterProps) {
                     uid={user.uid}
                     chatId={current.id} 
                     close={ () => { toggleSpotifyEmbeder(false) } } 
+                />
+            }
+            {
+                youtubeEmbederIsOpen && 
+                <YoutubeEmbeder 
+                    uid={user.uid}
+                    chatId={current.id}
+                    close={() => { toggleYoutubeEmbeder(false) }}
                 />
             }
         </>

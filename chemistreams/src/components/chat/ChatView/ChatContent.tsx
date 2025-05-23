@@ -1,7 +1,7 @@
 "use client"
 
 import { ChatMessage, ChatMetaData, DirectChatMetaData, GroupChatMetaData, GroupMember } from "@/lib/types/client"
-import { FILE_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE } from "@/lib/constants/server"
+import { FILE_TYPE_CODE, SPOTIFY_EMBED_TYPE_CODE, YOUTUBE_EMBED_TYPE_CODE } from "@/lib/constants/server"
 import { SQUARE_IMAGE_SIZE } from "@/lib/constants/client"
 import { JSX, useContext, useEffect, useRef } from "react"
 import { AuthContext } from "@/lib/context/AuthContext"
@@ -41,6 +41,20 @@ function Message({ incoming = false, message, messageCurve } : ChatMessageItem) 
             <div className={tailwindContainer}>
                 <iframe
                     src={`https://open.spotify.com/embed/${message.resourceType}/${message.spotifyId}`}
+                    width="100%"
+                    height="380"
+                    allow="encrypted-media"
+                >
+                </iframe>
+                <p className={tailwindTimestamp}>{`${message.timestamp.getHours() === 0 ? 12 : (message.timestamp.getHours() > 12 ? message.timestamp.getHours() - 12 : message.timestamp.getHours())}:${message.timestamp.getMinutes() < 10 ? "0" : ""}${message.timestamp.getMinutes()}${message.timestamp.getHours() > 12 ? "PM" : "AM"} (${dateToFormat("MMM DD", message.timestamp)})`}</p>
+            </div>
+        )
+    }
+    else if (message.type === YOUTUBE_EMBED_TYPE_CODE && message.youtubeId) {
+        Content = (
+            <div className={tailwindContainer}>
+                <iframe
+                    src={`https://www.youtube.com/embed/${message.youtubeId}`}
                     width="100%"
                     height="380"
                     allow="encrypted-media"
