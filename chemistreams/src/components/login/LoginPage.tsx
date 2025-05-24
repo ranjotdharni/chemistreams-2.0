@@ -1,13 +1,20 @@
 "use client"
 
+import { browserPopupRedirectResolver, signInWithPopup } from "firebase/auth"
+import { githubProvider, googleProvider } from "@/lib/auth/provider"
+import { FormEvent, MouseEvent, useContext, useState } from "react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
-import { FormEvent, useContext, useState } from "react"
-import { PAGE_SIGNUP } from "@/lib/constants/routes"
+import { PAGE_HOME, PAGE_SIGNUP } from "@/lib/constants/routes"
+import { providerLoginAction } from "@/lib/utils/server"
 import { isValidPassword } from "@/lib/utils/client"
 import { LoginPageProps } from "@/lib/types/props"
 import { GenericError } from "@/lib/types/client"
+import { useRouter } from "next/navigation"
+import { auth } from "@/lib/auth/firebase"
 
 export default function LoginPage({ loginAction } : LoginPageProps) {
+    const router = useRouter()
+
   const UIControl = useContext(InterfaceContext)
 
   const [disable, setDisable] = useState<boolean>(false)
@@ -40,6 +47,70 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
     }
 
     setDisable(false)
+  }
+
+  async function handleGoogleLogin(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+
+    setDisable(true)
+
+    try {
+        const credentials = await signInWithPopup(auth, googleProvider, browserPopupRedirectResolver)
+        const uid = credentials.user.uid
+        const email = credentials.user.email
+        const name = credentials.user.displayName || ""
+        const idToken = await credentials.user.getIdToken()
+
+        if (!email)
+            throw new Error()
+
+        const loginResult = await providerLoginAction(uid, email, name.trim(), idToken)
+
+        if (loginResult !== undefined && (loginResult as GenericError).code !== undefined) {
+            UIControl.setText(loginResult.message, "red")
+        }
+    }
+    catch (error) {
+        console.log(error)
+        UIControl.setText("Failed to log you in. Check your credentials.", "red")
+        setDisable(false)
+        return
+    }
+
+    setDisable(false)
+    router.push(PAGE_HOME)
+  }
+
+  async function handleGithubLogin(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+
+    setDisable(true)
+
+    try {
+        const credentials = await signInWithPopup(auth, githubProvider, browserPopupRedirectResolver)
+        const uid = credentials.user.uid
+        const email = credentials.user.email
+        const name = credentials.user.displayName || ""
+        const idToken = await credentials.user.getIdToken()
+
+        if (!email)
+            throw new Error()
+
+        const loginResult = await providerLoginAction(uid, email, name.trim(), idToken)
+
+        if (loginResult !== undefined && (loginResult as GenericError).code !== undefined) {
+            UIControl.setText(loginResult.message, "red")
+        }
+    }
+    catch (error) {
+        console.log(error)
+        UIControl.setText("Failed to log you in. Check your credentials.", "red")
+        setDisable(false)
+        return
+    }
+
+    setDisable(false)
+    router.push(PAGE_HOME)
   }
 
   return (
@@ -89,8 +160,14 @@ export default function LoginPage({ loginAction } : LoginPageProps) {
         </form>
 
         <div className="w-full mt-3 pt-3 border-t-2 border-dark-grey flex flex-col space-y-4">
-            <button className="w-full py-2 text text-white font-semibold bg-blue rounded-md hover:cursor-pointer">Google</button>
-            <button className="w-full py-2 text text-white font-semibold bg-blue rounded-md hover:cursor-pointer">GitHub</button>
+            <button onClick={handleGoogleLogin} disabled={disable} className="w-full h-10 py-2 text text-white font-semibold bg-blue rounded-md space-x-4 flex flex-row justify-center items-center hover:cursor-pointer">
+                <img className="h-full aspect-square" src="https://img.icons8.com/fluency/100/google-logo.png" alt="google" />
+                <p>Google Sign-In</p>
+            </button>
+            <button onClick={handleGithubLogin} disabled={disable} className="w-full h-10 py-2 text text-white font-semibold bg-blue rounded-md space-x-4 flex flex-row justify-center items-center hover:cursor-pointer">
+                <img className="h-full aspect-square rounded" src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/24/external-github-community-for-software-building-and-testing-online-logo-shadow-tal-revivo.png" alt="github" />
+                <p>GitHub Sign-In</p>
+            </button>
         </div>
 
         <p className="text-center text-sm mt-4">
