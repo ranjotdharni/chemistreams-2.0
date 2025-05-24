@@ -3,6 +3,7 @@
 import { AuthContext } from "@/lib/context/AuthContext"
 import { useContext, useEffect, useState } from "react"
 import { ProfileEditorProps } from "@/lib/types/props"
+import { DEFAULT_PFP } from "@/lib/constants/client"
 import { DB_USERS } from "@/lib/constants/routes"
 import Loader from "@/components/utils/Loader"
 import { Profile } from "@/lib/types/client"
@@ -33,7 +34,7 @@ export default function ProfileEditor({ show } : ProfileEditorProps) {
             email: user.email || "",
             pfp: {
                 space: profileData.pfp.space,
-                link: profileData.pfp.link
+                link: profileData.pfp.link || DEFAULT_PFP
             },
             badge: profileData.badge,
             status: profileData.bio

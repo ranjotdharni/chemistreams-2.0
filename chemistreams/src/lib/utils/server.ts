@@ -41,6 +41,47 @@ export async function loginAction(email: string, password: string): Promise<void
     redirect(PAGE_HOME)
 }
 
+export async function providerLoginAction(uid: string, email: string, name: string, idToken: string, possibleUsername?: string): Promise<void | GenericError> {
+    try {
+        // check user exists by id not username, since username may change across providers with same email (ex. used same email for google and github)
+        const newUserRoute: string = `${DB_USERS}/${uid}`
+        const newUserCheck = await get(ref(rt, newUserRoute))
+
+        if (!newUserCheck.exists()) {
+            const username = possibleUsername === undefined || possibleUsername === null || possibleUsername.trim() === "" ? email.split("@")[0] : possibleUsername
+            const newUsernameRoute: string = `${DB_USERNAMES}/${username}`
+
+            const updates: Record<string, any> = {
+                [newUserRoute]: {
+                    username: username,
+                    name: name === "" ? email : name,
+                    bio: "",
+                    pfp: {
+                        link: DEFAULT_PFP
+                    }
+                },
+                [newUsernameRoute]: uid
+            }
+
+            await update(ref(rt), updates)
+        }
+
+        await refreshCookiesWithIdToken(
+            idToken,
+            await headers(),
+            await cookies(),
+            {
+                ...serverConfig,
+                apiKey: clientConfig.apiKey,
+            }
+        ) 
+    }
+    catch (error) {
+        console.log(error)
+        return ERRORS[LOGIN_FAILURE_ERROR]
+    }
+}
+
 export async function signUpAction(name: string, email: string, username: string, password: string): Promise<void | GenericError> {
     try {
         const usernameCheck = ref(rt, `${DB_USERNAMES}/${username}`)
