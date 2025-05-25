@@ -28,9 +28,9 @@ interface NewChatListProps {
 
 function NewChatListItem({ details, remove } : NewChatListItemProps) {
     return (
-        <li className="border border-dark-grey md:py-1 md:px-2 md:rounded-md md:w-full md:flex md:flex-row md:justify-between">
+        <li className="border border-dark-grey py-1 px-2 rounded-md w-full flex flex-row justify-between">
             <p className="text-green font-jbm">{`@${details.username}`}</p>
-            <button onClick={remove} className="text-light-grey hover:text-red hover:cursor-pointer md:h-full md:aspect-square">
+            <button onClick={remove} className="text-light-grey hover:text-red hover:cursor-pointer h-full aspect-square">
                 <X className="w-full h-full" />
             </button>
         </li>
@@ -40,8 +40,8 @@ function NewChatListItem({ details, remove } : NewChatListItemProps) {
 function NewChatList({ newChatDetails, removeCallback, cancelCallback, createCallback } : NewChatListProps) {
 
     return (
-        <div className="md:px-4 md:space-y-2">
-            <ul className="md:space-y-1">
+        <div className="px-4 space-y-2">
+            <ul className="space-y-1">
                 {
                     newChatDetails.map(detail => {
                         return <NewChatListItem key={detail.uid} details={detail} remove={removeCallback(detail.uid)} />
@@ -49,9 +49,9 @@ function NewChatList({ newChatDetails, removeCallback, cancelCallback, createCal
                 }
             </ul>
 
-            <div className="md:space-x-2 md:flex md:flex-row md:justify-end">
-                <button className="transition-colors duration-150 border border-dark-white text-light-grey font-montserrat hover:bg-dark-white hover:text-black hover:cursor-pointer md:px-2 md:rounded-sm" onClick={cancelCallback}>Cancel</button>
-                <button className="transition-colors duration-150 hover:bg-green border border-green text-white font-montserrat hover:cursor-pointer md:px-2 md:rounded-sm" onClick={createCallback}>Create</button>
+            <div className="space-x-2 flex flex-row justify-end">
+                <button className="transition-colors duration-150 border border-dark-white text-light-grey font-montserrat hover:bg-dark-white hover:text-black hover:cursor-pointer px-2 rounded-sm" onClick={cancelCallback}>Cancel</button>
+                <button className="transition-colors duration-150 hover:bg-green border border-green text-white font-montserrat hover:cursor-pointer px-2 rounded-sm" onClick={createCallback}>Create</button>
             </div>
         </div>
     )
@@ -224,10 +224,10 @@ export default function NewChat() {
     }
 
     return (
-        <div className="md:w-full md:min-h-[5%] md:h-auto md:flex md:flex-col md:space-y-2">
-            <div className="md:w-full md:h-10 md:flex md:flex-row md:justify-between">
-                <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search by username..." className={`md:w-[87.5%] md:h-full md:rounded-3xl md:px-3 font-jbm ${searchQuery.trim() === "" ? "text-light-grey" : "text-dark-white"} bg-dark-grey outline-none`} />
-                <button onClick={addNewChatUser} className="md:w-[12.5%] md:h-full md:p-2 md:flex md:flex-row md:justify-center text-light-grey hover:text-green hover:cursor-pointer">
+        <div className="w-full min-h-[5%] h-auto flex flex-col space-y-2">
+            <div className="w-full h-10 flex flex-row justify-between">
+                <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search by username..." className={`w-[87.5%] h-full rounded-3xl px-3 font-jbm ${searchQuery.trim() === "" ? "text-light-grey" : "text-dark-white"} bg-dark-grey outline-none`} />
+                <button onClick={addNewChatUser} className="w-[12.5%] h-full p-2 flex flex-row justify-center text-light-grey hover:text-green hover:cursor-pointer">
                     <Plus className="w-full h-full" />
                 </button>
             </div>

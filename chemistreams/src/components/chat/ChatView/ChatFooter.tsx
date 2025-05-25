@@ -85,7 +85,7 @@ function YoutubeEmbeder({ close, uid, chatId } : { close: () => void, uid: strin
 
     return (
         <div className="backdrop-blur z-40 fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center">
-            <div className="h-1/3 w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
+            <div className="w-[95%] h-[75%] md:h-1/3 md:w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
                 <h2 className="text-green w-full font-lato text-xl border-b border-dark-grey">Attach YouTube Link</h2>
 
                 <input
@@ -221,7 +221,7 @@ function SpotifyEmbeder({ close, uid, chatId } : { close: () => void, uid: strin
 
     return (
         <div className="backdrop-blur z-40 fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center">
-            <div className="h-1/3 w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
+            <div className="w-[95%] h-[75%] md:h-1/3 md:w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
                 <h2 className="text-green w-full font-lato text-xl border-b border-dark-grey">Attach Spotify Link</h2>
 
                 <input
@@ -365,7 +365,7 @@ function AttachmentUploader({ close, chatId } : { close: () => void, chatId: str
 
     return (
         <div className="backdrop-blur z-40 fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center">
-            <div className="h-1/3 w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
+            <div className="w-[95%] h-[75%] md:h-1/3 md:w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-4 py-2 px-4">
                 <h2 className="text-green w-full font-lato text-xl border-b border-dark-grey">Upload File</h2>
 
                 <input type="file" accept={Object.values(DriveMimeType).join(",")} onChange={handleFile} className="max-w-full text-dark-white font-lato flex flex-row justify-center file:bg-green file:px-1 file:mx-2 file:rounded file:font-jbm hover:file:cursor-pointer" />
@@ -438,7 +438,7 @@ function TypingListener({ chatId, uid, display, isGroup } : { chatId: string, ui
 function FooterButton({ isDisabled, Icon, onClick } : FooterButtonProps) {
 
     return (
-        <button onClick={onClick} disabled={isDisabled} className="text-light-grey hover:text-green md:w-[30%] md:h-full hover:cursor-pointer">
+        <button onClick={onClick} disabled={isDisabled} className="text-light-grey hover:text-green w-10 md:w-[30%] h-full hover:cursor-pointer">
             <Icon />
         </button>
     )
@@ -579,8 +579,8 @@ export default function ChatFooter({ current } : ChatFooterProps) {
 
     return (
         <>
-            <footer className="md:w-full md:h-[15%] md:p-4 md:space-y-2 md:flex md:flex-col md:justify-end">
-                <span className="md:w-full md:h-[40%] md:px-2 md:flex md:flex-row md:items-end text-green md:text-[0.75em]">
+            <footer className="w-full h-[15%] md:p-4 space-y-2 flex flex-col justify-end">
+                <span className="w-full h-[10%] px-2 flex flex-row items-end text-green text-[0.75em]">
                     {
                         (current as GroupChatMetaData).isGroup ? 
                         (current as GroupChatMetaData).members.map((member) => {
@@ -592,18 +592,18 @@ export default function ChatFooter({ current } : ChatFooterProps) {
                         <TypingListener key={`MEMBER_TYPING_STATUS_${(current as DirectChatMetaData).to !== user.uid ? (current as DirectChatMetaData).to : current.creator}`} chatId={current.id} uid={(current as DirectChatMetaData).to !== user.uid ? (current as DirectChatMetaData).to : current.creator} display={(current as DirectChatMetaData).to !== user.uid ? current.name : ""} isGroup={false} />
                     }
                 </span>
-                <div className="md:w-full md:h-[90%] md:p-1 md:flex md:flex-row md:justify-evenly md:items-center">
-                    <div className="md:w-[12.5%] md:h-full md:flex md:flex-row md:justify-start md:space-x-1 md:py-2">
+                <div className="w-full h-[90%] space-y-2 md:space-y-0 md:p-1 flex flex-col md:flex-row justify-evenly items-start md:items-center">
+                    <div className="w-[12.5%] h-[20%] px-2 md:px-0 md:h-full flex flex-row justify-start space-x-1 md:py-2">
                         {
                             buttons.map((button, index) => {
                                 return <FooterButton key={`FOOTER_ATTACH_BUTTON_${index}`} isDisabled={button.isDisabled} Icon={button.Icon} onClick={button.onClick} />
                             })
                         }
                     </div>
-                    <form onSubmit={send} className="md:w-[87.5%] md:h-full md:py-1 md:flex md:flex-row md:justify-between md:items-center">
-                        <input ref={inputRef} value={message} onChange={e => setMessage(e.target.value)} disabled={current === undefined} placeholder="Send Message..." className="bg-dark-grey md:w-[93%] md:h-full md:px-4 md:rounded-4xl outline-none font-jbm text-dark-white" />
-                        <button type="submit" disabled={current === undefined} className="md:w-[6%] md:aspect-square text-light-grey hover:text-green hover:cursor-pointer">
-                            <SendIcon className="md:w-full md:h-full md:p-2" />
+                    <form onSubmit={send} className="w-full px-2 md:w-[87.5%] h-[50%] md:h-full md:py-1 flex flex-row justify-evenly md:justify-between items-center">
+                        <input ref={inputRef} value={message} onChange={e => setMessage(e.target.value)} disabled={current === undefined} placeholder="Send Message..." className="bg-dark-grey w-[90%] md:w-[93%] h-[80%] px-4 rounded-4xl outline-none font-jbm text-dark-white" />
+                        <button type="submit" disabled={current === undefined} className="w-[6%] md:h-auto h-full md:aspect-square text-light-grey hover:text-green hover:cursor-pointer">
+                            <SendIcon className="w-full h-full md:p-2" />
                         </button>
                     </form>
                 </div>

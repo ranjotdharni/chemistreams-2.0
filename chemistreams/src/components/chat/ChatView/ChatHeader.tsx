@@ -95,15 +95,15 @@ function GroupAliasEditor({ current, editable, editChat } : { current: GroupChat
         <div className="w-full flex flex-row">
             {
                 editorOpen ?
-                <form onSubmit={save} className="md:w-[90%] md:flex md:flex-row md:justify-evenly md:items-center">
-                    <input value={text} onChange={e => { setText(e.target.value) }} className="font-jbm text-white px-2 focus:text-green w-[85%] outline-none border-b border-dark-white" />
-                    <button type="submit" className="w-[10%] h-3/4 rounded text-[0.8em] font-jbm border border-green text-white hover:bg-green hover:cursor-pointer transition-colors duration-200">Save</button>
+                <form onSubmit={save} className="w-[90%] flex flex-row justify-evenly items-center">
+                    <input value={text} onChange={e => { setText(e.target.value) }} className="font-jbm text-white px-2 focus:text-green w-[60%] md:w-[85%] outline-none border-b border-dark-white" />
+                    <button type="submit" className="w-[20%] md:w-[10%] h-3/4 rounded text-[0.8em] font-jbm border border-green text-white hover:bg-green hover:cursor-pointer transition-colors duration-200">Save</button>
                 </form> :
-                <h2 className="font-jbm text-white border border-dark-grey px-2 rounded md:text-lg md:w-[90%]" style={{display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{text}</h2>
+                <h2 className="font-jbm text-white border border-dark-grey px-2 rounded md:text-lg w-[90%]" style={{display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{text}</h2>
             }
             {
                 editable ?
-                <button onClick={toggle} className="md:h-[90%] md:aspect-square text-light-grey hover:cursor-pointer hover:text-green">
+                <button onClick={toggle} className="h-[90%] aspect-square text-light-grey hover:cursor-pointer hover:text-green">
                     <Edit className="p-1 w-full h-full" />
                 </button> : 
                 <></>
@@ -177,6 +177,7 @@ function GroupMemberStatusItem({ item, isCreator, chatList, setCurrentChat } : {
 function GroupChatHeader({ current, editChat, setCurrentChat, chatList } : GroupHeaderProps) {
     const { user } = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [mobile, setMobile] = useState<boolean>(false)
 
     function DropListTitle() {
         return (
@@ -194,12 +195,27 @@ function GroupChatHeader({ current, editChat, setCurrentChat, chatList } : Group
         return <GroupMemberStatusItem key={item.id} item={item} isCreator={item.id === current.creator} chatList={chatList} setCurrentChat={setCurrentChat} />
     }
 
+    useEffect(() => {
+        function resize() {
+            setMobile(window.screen.width < 640 ? true : false)
+        }
+
+        resize()
+
+        window.addEventListener("resize", resize)
+
+        return () => {
+            window.removeEventListener("resize", resize)
+        }
+
+    }, [])
+
     return (
         <>
-            <GroupPFP pfps={current.members.map(m => m.pfp)} length="10%" />
-            <div className="md:w-[90%] md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
+            <GroupPFP pfps={current.members.map(m => m.pfp)} length={mobile ? "20%" : "10%"} />
+            <div className="w-[80%] md:w-[90%] h-full flex flex-col justify-center space-y-2">
                 <GroupAliasEditor current={current} editable={user?.uid === current.creator} editChat={editChat} />
-                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-[35%] h-5 text-light-grey space-y-4 z-10" height="auto" maxHeight="400px" />
+                <DropList<GroupMember> open={isOpen} TitleComponent={<DropListTitle />} items={current.members} render={renderDropList} containerTailwind="w-full md:w-[35%] h-5 text-light-grey space-y-4 z-10" height="auto" maxHeight="400px" />
             </div>
         </>
     )
@@ -235,7 +251,7 @@ function DirectChatHeader({ current, setCurrentChat, chatList } : DirectHeaderPr
             <button className="h-full aspect-square hover:cursor-pointer hover:opacity-[0.75]" onClick={viewProfile}>
                 <PFP src={current.pfp.link} length={"100%"} useHeight disable={!current.badge} badge={current.badge} bgColor="var(--color-black)" />
             </button>
-            <div className="md:w-auto md:h-full md:flex md:flex-col md:justify-center md:space-y-2">
+            <div className="w-auto h-full flex flex-col justify-center space-y-2">
                 <h2 className="font-jbm text-white md:text-lg md:mt-3">{current.name}</h2>
                 <p className="font-jbm text-light-grey md:text-sm">{current.status}</p>
             </div>
@@ -246,7 +262,7 @@ function DirectChatHeader({ current, setCurrentChat, chatList } : DirectHeaderPr
 export default function ChatHeader({ current, editChat, chatList, setCurrentChat } : ChatHeaderProps) {
 
     return (
-        <header className="md:w-full md:h-[15%] border-b border-dark-grey md:flex md:flex-row md:justify-start md:items-center md:p-4">
+        <header className="w-full h-[15%] border-b border-dark-grey flex flex-row justify-start items-center p-4">
             {
                 current ?
                 ((current as GroupChatMetaData).isGroup ? <GroupChatHeader current={current as GroupChatMetaData} editChat={editChat} setCurrentChat={setCurrentChat} chatList={chatList} /> : <DirectChatHeader current={current as DirectChatMetaData} setCurrentChat={setCurrentChat} chatList={chatList} />) : 
