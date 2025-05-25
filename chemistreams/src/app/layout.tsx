@@ -5,9 +5,9 @@ import { AuthProvider } from "@/components/provider/AuthProvider"
 import { clientConfig, serverConfig } from "@/lib/auth/config"
 import { getTokens, Tokens } from "next-firebase-auth-edge"
 import PublicNavbar from "@/components/utils/PublicNavbar"
+import { Metadata, Viewport } from "next"
 import { User } from "@/lib/types/server"
 import { cookies } from "next/headers"
-import { Metadata } from "next"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -63,7 +63,13 @@ function tokensToUser({ decodedToken } : Tokens): User {
 
 export const metadata: Metadata = {
   title: "ChemiStreams - Messaging Made Easy",
-  description: "Messaging Made Easy"
+  description: "Messaging Made Easy",
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000"
 }
 
 export default async function RootLayout({

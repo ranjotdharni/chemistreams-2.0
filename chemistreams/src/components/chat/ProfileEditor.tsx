@@ -52,11 +52,11 @@ export default function ProfileEditor({ show } : ProfileEditorProps) {
     }, [])
 
     return ( 
-        <section className="bg-black flex-shrink-0 md:w-[92.5%] md:-left-[92.5%] p-2 md:h-full md:relative md:flex md:justify-center md:items-center" style={{zIndex: show ? 20 : 0}}>
+        <section className="bg-black flex-shrink-0 w-[85.5%] md:w-[92.5%] -left-[143%] md:-left-[92.5%] p-2 h-auto md:h-full relative flex justify-center items-center" style={{zIndex: show ? 20 : 0}}>
             {
                 show ? 
                 loader || !profile ? 
-                <Loader containerTailwind="md:w-40 md:h-8" options={{zIndex: show ? 20 : 0}} /> : 
+                <Loader containerTailwind="w-40 h-8" options={{zIndex: show ? 20 : 0}} /> : 
                 <Editor profile={profile} setProfile={setProfile} /> :
                 <></>
             }

@@ -15,7 +15,7 @@ import Image from "next/image"
 function BadgePicker({ isSelected, badge, setBadge, animation } : { isSelected: boolean, badge: Badge, setBadge: (badge: Badge) => void, animation: string }) {
 
     return (
-        <button type="button" onClick={() => { setBadge(badge) }} className="h-[35%] aspect-square p-2 rounded bg-dark-grey hover:cursor-pointer" style={{border: isSelected ? "solid 1px var(--color-green)" : "none"}}>
+        <button type="button" onClick={() => { setBadge(badge) }} className="space-y-6 md:space-y-0 h-5 md:h-[35%] aspect-square md:p-2 rounded bg-dark-grey hover:cursor-pointer" style={{border: isSelected ? "solid 1px var(--color-green)" : "none"}}>
             <Image src={badge.link} alt={badge.code} className="w-full h-full" style={{animation: animation}} width={SQUARE_IMAGE_SIZE} height={SQUARE_IMAGE_SIZE} />
         </button>
     )
@@ -25,7 +25,7 @@ function AnimationPicker({ isSelected, animation, setAnimation } : { isSelected:
 
     return (
         <li onClick={() => { setAnimation(animation) }} style={isSelected ? { borderColor: "var(--color-green)", backgroundColor: "var(--color-green)" } : { borderColor: "var(--color-light-grey)" }} className="px-2 rounded border border-green transition-colors duration-150 hover:cursor-pointer hover:bg-light-grey">
-            <p style={{color: isSelected ? "var(--color-dark-white)" : ""}} className="text-sm font-jbm text-light-grey hover:text-black">{animation.name}</p>
+            <p style={{color: isSelected ? "var(--color-dark-white)" : ""}} className="text-sm font-jbm text-light-grey hover:text-black h-5 md:h-auto">{animation.name}</p>
         </li>
     )
 }
@@ -99,10 +99,10 @@ export default function BadgeEditor({ profile, setProfile } : BadgeEditorProps) 
     }
 
     return (
-        <div className="w-full h-full flex flex-col">
+        <div className="w-full h-full flex flex-col mt-[30%] md:mt-0">
             <h2 className="text-green text-xl font-lato">Badges</h2>
             
-            <ul className="w-full py-1 px-[3px] flex flex-row space-x-1">
+            <ul className="w-full py-1 px-[3px] flex flex-row justify-start space-x-1 flex-wrap space-y-2 md:space-y-0">
                 {
                     Object.entries(ANIMATIONS).map(([key, value]) => {
                         return <AnimationPicker key={key} isSelected={animation !== undefined && value.code === animation.code} animation={value} setAnimation={setAnimation} />
@@ -110,7 +110,7 @@ export default function BadgeEditor({ profile, setProfile } : BadgeEditorProps) 
                 }
             </ul>
 
-            <ul className="md:w-full md:h-[65%] p-2 rounded md:flex md:flex-row justify-center items-center flex-wrap space-x-2 border border-dark-grey">
+            <ul className="w-full h-30 md:h-[65%] p-2 rounded flex flex-row justify-center items-center flex-wrap space-x-2 border border-dark-grey">
                 {
                     Object.entries(BADGES).map(([key, value], index) => {
                         return <BadgePicker key={key} isSelected={badge !== undefined && badge.code === value.code} badge={value} setBadge={setBadge} animation={animation ? animation.animation : ""} />
@@ -123,8 +123,8 @@ export default function BadgeEditor({ profile, setProfile } : BadgeEditorProps) 
                     loader ? 
                     <Loader containerTailwind="w-[5%] px-2 py-1" /> : 
                     <>
-                        <button onClick={removeBadge} className="w-[7.5%] border border-light-grey rounded text-light-grey font-lato px-1 transition-colors duration-200 hover:cursor-pointer hover:bg-light-grey hover:text-black">Remove</button>
-                        <button onClick={updateBadge} className="w-[7.5%] border border-green rounded text-dark-white font-lato px-1 transition-colors duration-200 hover:cursor-pointer hover:bg-green">Save</button>
+                        <button onClick={removeBadge} className="md:w-[7.5%] border border-light-grey rounded text-light-grey font-lato px-1 transition-colors duration-200 hover:cursor-pointer hover:bg-light-grey hover:text-black">Remove</button>
+                        <button onClick={updateBadge} className="md:w-[7.5%] border border-green rounded text-dark-white font-lato px-1 transition-colors duration-200 hover:cursor-pointer hover:bg-green">Save</button>
                     </>
                 }
             </div>

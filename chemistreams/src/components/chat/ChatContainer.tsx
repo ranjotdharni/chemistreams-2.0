@@ -3,9 +3,9 @@
 import { ChatMetaData, DirectChatMetaData, GenericError, GroupChatMetaData, GroupMember } from "@/lib/types/client"
 import { DB_GROUPS, DB_MESSAGES, DB_METADATA, DB_USERS } from "@/lib/constants/routes"
 import { DataSnapshot, get, onDisconnect, ref, set, update } from "firebase/database"
+import { ChevronLeft, LogOut, PaintBucket, Trash2, UserPen } from "lucide-react"
 import { MouseEvent, useCallback, useContext, useMemo, useState } from "react"
 import { useDatabaseErrorHandler } from "@/lib/hooks/useDatabaseErrorHandler"
-import { LogOut, PaintBucket, Trash2, UserPen } from "lucide-react"
 import { InterfaceContext } from "@/lib/context/InterfaceContext"
 import { AuthContext } from "@/lib/context/AuthContext"
 import { ToolbarButtonProps } from "@/lib/types/props"
@@ -54,7 +54,17 @@ export default function ChatContainer() {
             Icon: LogOut,
             hoverColor: "red",
             callback: handleLogout
-        }
+        },
+        {
+            Icon: ChevronLeft,
+            hoverColor: "red",
+            callback: () => {
+                if (showProfileEditor)
+                    setShowProfileEditor(false)
+                else
+                    setCurrentChat(undefined)
+            }
+        },
     ]
 
     const chatListReference = useMemo(() => {
@@ -80,6 +90,10 @@ export default function ChatContainer() {
 
     function handleProfileEdit(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault()
+
+        if (window.screen.width < 640 && currentChat !== undefined)
+            setCurrentChat(undefined)
+
         setShowProfileEditor(value => {
             return !value
         })
@@ -292,7 +306,7 @@ export default function ChatContainer() {
     useListener(connectionReference, statusListenerConfig, undefined, async () => { await set(statusReference, false) })
 
     return (
-        <main className="bg-black md:w-[85%] md:h-[85%] md:rounded-2xl md:flex md:flex-row md:overflow-hidden md:shadow-xl">
+        <main className="bg-black w-[95%] h-[80vh] fixed top-[5vh] left-[2.5%] md:top-0 md:left-0 rounded-lg md:relative md:w-[85%] md:h-[85%] md:rounded-2xl flex md:flex-row overflow-hidden md:shadow-xl">
             <Toolbar buttons={buttons} />
             <ChatList current={currentChat} chats={chatList} onClick={setCurrentChat} />
             {

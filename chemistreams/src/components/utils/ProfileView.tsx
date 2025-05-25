@@ -105,7 +105,7 @@ export default function ProfileView({ currentUserId, close, profile, setCurrentC
 
     return (
         <div className="backdrop-blur z-40 fixed w-full h-full flex flex-col justify-center items-center">
-            <div className="h-1/2 w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-2 px-4">
+            <div className="w-[95%] h-[75%] md:h-1/2 md:w-1/5 bg-black border border-dark-grey rounded flex flex-col items-center space-y-2 px-4">
                 <PFP length="50%" bgColor="var(--color-black)" src={profile.pfp.link} disable={!profile.badge} badge={profile.badge} />
                 <p className="font-jbm" style={{color: online ? "var(--color-green)" : "var(--color-light-grey)"}}>{online !== undefined ? (online ? "Online" : "Offline") : "..."}</p>
                 <span className="w-full flex flex-row justify-between items-center border border-dark-grey p-1">

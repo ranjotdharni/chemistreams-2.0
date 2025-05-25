@@ -62,7 +62,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="w-full max-w-md bg-black p-8 rounded-lg shadow-lg text-white">
+    <div className="w-[95%] max-w-md bg-black p-8 rounded-lg shadow-lg text-white">
         <h2 className="text-3xl font-lato text-center mb-6">Sign Up</h2>
 
         <form onSubmit={onSubmit} className="space-y-4">

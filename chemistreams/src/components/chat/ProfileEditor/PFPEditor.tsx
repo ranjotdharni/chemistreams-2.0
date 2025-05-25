@@ -74,7 +74,7 @@ function Uploader({ profile, cancel, close, update } : { profile: Profile, cance
     }
 
     return (
-        <form className="space-y-4 px-2 w-full flex flex-col items-center">
+        <form className="space-y-4 md:px-2 w-full flex flex-col items-center">
             <input type="file" accept="image/*" onChange={handleImage} className="text-dark-white font-lato flex flex-row justify-center file:bg-green file:px-1 file:mx-2 file:rounded file:font-jbm hover:file:cursor-pointer" />
             {
                 loader ? 
@@ -102,7 +102,7 @@ export default function PFPEditor({ profile, setProfile } : PFPEditorProps) {
     }
 
     return (
-        <div className="h-full w-[25%] rounded border border-dark-grey md:py-20 md:flex md:flex-col md:justify-between md:items-center">
+        <div className="h-full w-[65%] px-2 md:px-0 md:w-[25%] md:rounded md:border border-dark-grey md:py-20 flex flex-col justify-evenly md:justify-between md:items-center">
             <PFP length="75%" useHeight online bgColor="var(--color-black)" src={profile.pfp.link} badge={profile.badge as { badgeCode: BadgeCode, animationCode: AnimationCode } | undefined} />
             {
                 showUpload ?

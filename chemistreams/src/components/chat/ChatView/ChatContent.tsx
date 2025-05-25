@@ -113,7 +113,7 @@ export default function ChatContent({ current, messages } : ChatProps) {
     }, [])
 
     return (
-        <ul ref={elementRef} className="md:w-full md:h-[70%] p-1 overflow-y-scroll">
+        <ul ref={elementRef} className="w-full h-[70%] p-1 overflow-y-scroll">
             {
                 messages.map((message, index) => {
                     const incoming: boolean = message.sender !== user.uid
