@@ -52,5 +52,5 @@ export async function PUT(request: NextRequest) {
 
     const cloudUrl: string = generateCloudUrl((result as DriveItem).id)
 
-    return NextResponse.json({ success: true, space: profile.pfp.space as DriveSpaceId, link: cloudUrl, fileId: (result as DriveItem).id, uid: uid }, { status: 200 })
+    return NextResponse.json({ success: true, space: (result as DriveItem).space as DriveSpaceId, link: cloudUrl, fileId: (result as DriveItem).id, uid: uid }, { status: 200 })
 }
