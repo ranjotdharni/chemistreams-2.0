@@ -27,26 +27,26 @@
 # Synopsis
 
 **ChemiStreams** is a browser-to-browser chat application. **Message your friends, create group chats, and customize your profile to stand out.** Share your favorite 
-music with your friends using our **Spotify** link integration. This web app is a remake of an existing web app; the original ChemiStreams was one of the very first 
-web apps created by the maker of ChemiStreams (a simle HTML, CSS, and JavaScript website). Years later, the creator of ChemiStreams remade the application using more robust 
-tools to ensure the best experience for users, and create a more functional version of the app. Enjoy chatting with friends using our easy-to-use, simple interface (all icons by [Icons8][icons8Link]). ChemiStreams is available to access [here][appLink].
+music and videos with your friends using our **Spotify** and **YouTube** embedding features. This web app is a remake of an existing web app; the original ChemiStreams was one of the very first 
+web apps created by the maker of ChemiStreams (a simple HTML, CSS, and JavaScript website). Years later, the creator of ChemiStreams remade this application using more robust 
+tools to ensure the best experience for users, and create a more functional version of the web app. Enjoy chatting with friends using our easy-to-use, simple interface (all icons by [Icons8][icons8Link]). ChemiStreams is available to access [here][appLink].
 
 # Tech Stack
 
 ChemiStreams was built on the following **technologies:**
 
 - [![Node][nodeImg]][nodeLink] *v22.11.0*
-- [![React][reactImg]][reactLink] *v18.3.1*
-- [![Next][nextImg]][nextLink] *v14.2.15*
-- [![TypeScript][typescriptImg]][typescriptLink] *v5.6.3*
+- [![React][reactImg]][reactLink] *v19.0.0*
+- [![Next][nextImg]][nextLink] *v15.2.4*
+- [![TypeScript][typescriptImg]][typescriptLink] *v5.0.0*
 - [![Firebase][firebaseImg]][firebaseLink] *v11.6.0*
 - [![Vercel][vercelImg]][vercelLink]
 
-It is a **Next 15** project, therefore it is a **React** app at its core, which employs **Node.js** with **TypeScript** and uses **Vercel** to host the application, and **Firebase** 
+This is a **Next 15** project, therefore it is a **React** app at its core, which employs **Node.js** with **TypeScript** and uses **Vercel** to host the application, and **Firebase** 
 for user authentication and database.
 
 # Usage
-Navigate to the ChemiStreams landing page and click the *Log In* button on the navigation bar to sign in to your account. This will redirect you to the login page.*
+Navigate to ChemiStreams and click the *Log In* button on the navigation bar to sign in to your account. This will redirect you to the login page.*
 
 ![Log In Screen][loginScreenshot]
 **You may also choose to sign up if you're not an existing user*
@@ -58,12 +58,12 @@ Once you are logged in, you will initially have no chats in your *Chat List.*
 ![Empty Chat Screenshot][emptyChatScreenshot]
 
 Use the search bar at the top of the Chat List to find other users by their username. Click the *Plus* icon to the right of the search bar to add a user 
-to the chat you're about to create.
+to the Chat you're about to create.
 
 ![Search Bar Screenshot][searchBarScreenshot]
 
-After you have the list of users you want added to your chat, click the *Create* button to create the chat. If you add only one user to a chat, ChemiStreams will 
-create a **Direct Chat.** Adding more than one user to a chat will create a **Group Chat.**
+After you have the list of users you want added to your Chat, click the *Create* button to create the Chat. If you add only one user to a Chat, ChemiStreams will 
+create a **Direct Chat.** Adding more than one user to a Chat will create a **Group Chat.**
 
 **It is always best practice to sign out when you are done using ChemiStreams (or any web app for that matter).*
 
@@ -74,17 +74,17 @@ to send a message.
 
 ![Direct Chat Screenshot][directChatScreenshot]
 
-Your chat recipient(s) will see you typing and receive your messages in real time.
+Your Chat recipient(s) will see you typing and receive your messages in real time.
 
 ### View Profile
 
-Click on your chat recipient's profile picture in the *Chat Header* at the top of the Chat View to **view their profile.**
+Click on your Chat recipient's profile picture in the *Chat Header* at the top of the Chat View to **view their profile.**
 
 ![Direct Profile View][directProfileView]
 
 ## Group Chat
 
-Add multiple recipients when creating a chat to create a Group Chat.
+Add multiple recipients when creating a Chat to create a Group Chat.
 
 ![Group Chat Screenshot][groupChatScreenshot]
 
@@ -96,7 +96,7 @@ Click the *Save* button to propagate any changes. Click the *Edit* icon again to
 
 ### View Group Members
 
-Click the *View Members* button under the Group Chat name to see all the recipients in the current chat.
+Click the *View Members* button under the Group Chat name to see all the recipients in the current Chat.
 
 ![View Members Screenshot][viewMembersScreenshot]
 
@@ -116,7 +116,7 @@ to send video and audio as well.*
 
 ## Spotify Embeds
 
-Navigate to *Spotify* and find a track, album, playlist, artist, podcast, or audiobook that you want to send in your chat. Click the three dots icon on the 
+Navigate to *Spotify* and find a track, album, playlist, artist, podcast, or audiobook that you want to send in your Chat. Click the three dots icon on the 
 Spotify resource and hover over the *Share* option. Click *Copy Link* from the menu that pops up to get the link to the resource.
 
 ![Spotify Share Screenshot][spotifyShareScreenshot]
@@ -154,7 +154,7 @@ From the *Profile View,* you can upload a new **Profile Picture,** edit your **D
 ### Badges
 
 In the Profile View, you can assign yourself a **Badge** which can be static, or animated. Select an animation from the displayed list to preview it, then click on a Badge from 
-the displayed list to assign it to your Profile. Don't forget to click the *Save* button below the Badge list to propagate your changes.
+the displayed list to assign it to your Profile. Don't forget to click the *Save* button below the Badge list to save your changes.
 
 ![Badge Edit Screenshot][badgeEditScreenshot]
 
@@ -165,23 +165,23 @@ Recipients in your Chats will be able to view the Badge you assign yourself with
 On the left side of the screen, you can find the **Toolbar.** It offers various functionalities for interacting with ChemiStreams. From here, you can open 
 the Profile View, delete a Chat (if you are the owner of said Chat), and more.
 
-For example, click the *Paint Bucket* icon in the Toolbar to toggle between dark and light mode.
+For example, click the *Paint Bucket* icon in the Toolbar to toggle between light and dark mode.
 
 ![Light Mode Screenshot][lightModeScreenshot]
 
 ### Toolbar Reference
 
-| Icon                        | Name      | Description |
+| Button                        | Name      | Description |
 | --------------------------- | ------------- | ----------- |
 | ![PFP Button][pfpButton]          | **View Profile**           | View or edit your profile. |
 | ![Paint Button][paintButton]                 | **Change Theme**             | Toggle between light and dark mode. |
 | ![Trash Button][trashButton]                | **Delete**             | Delete the currently highlighted chat (if you are its owner). |
 | ![Logout Button][logoutButton]                     | **Log Out**             | Log out of ChemiStreams. |
-| ![Back Button][backButton]                        | **Go Back**            | Go back to the previous screen or exit the close the current chat. |
+| ![Back Button][backButton]                        | **Go Back**            | Go back to the previous screen or close the current chat. |
 
 # Issues
 
-Create an [issue][issueLink] if you need to contact us about an existing problem or bug in Hegemony. It may take some time for us to respond to and resolve complex issues.
+Create an [issue][issueLink] if you need to contact us about an existing problem or bug in ChemiStreams. It may take some time for us to respond to and resolve complex issues.
 
 # Contribution
 
