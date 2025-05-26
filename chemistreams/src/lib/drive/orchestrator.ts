@@ -5,7 +5,7 @@ const DRIVE_COUNT: number = 1
 let nextAvailableDriveCode: number = 1
 
 const service001 = new google.auth.GoogleAuth({
-    keyFile: `${process.cwd()}/drive/001/space001.json`,
+    credentials: JSON.parse(process.env.S001 || "{}"),
     scopes: ["https://www.googleapis.com/auth/drive"]
 })
 
