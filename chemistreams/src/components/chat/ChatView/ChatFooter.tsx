@@ -335,8 +335,9 @@ function AttachmentUploader({ close, chatId } : { close: () => void, chatId: str
                 try {
                     await push(ref(rt, `${DB_MESSAGES}/${chatId}`), messageData)
                 }
-                catch {
-                    UIControl.setText("Message failed to send.")
+                catch(error) {
+                    console.log(error)
+                    UIControl.setText("Message failed to send (500 ISE).", "red")
                     setLoader(false)
                     close()
                     return
