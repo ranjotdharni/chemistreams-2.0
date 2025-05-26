@@ -22,7 +22,7 @@ export default function PublicNavbar() {
             <div className="w-full md:w-1/2 text-md md:text-lg space-x-5 md:space-x-15 flex flex-row justify-end pr-3 md:pr-0">
                 <a href={PAGE_LOGIN} className="font-jbm hover:cursor-pointer" style={{color: PAGE_LOGIN === pathname ? "var(--color-green)" : "var(--color-light-grey)"}}>Log In</a>
                 <a href={PAGE_SIGNUP} className="font-jbm hover:cursor-pointer" style={{color: PAGE_SIGNUP === pathname ? "var(--color-green)" : "var(--color-light-grey)"}}>Sign Up</a>
-                <a href="https://github.com/ranjotdharni/chemistreams-2.0" target="_blank" className="font-jbm hover:cursor-pointer text-light-grey">Usage</a>
+                <a href="https://github.com/ranjotdharni/chemistreams-2.0?tab=readme-ov-file#usage" target="_blank" className="font-jbm hover:cursor-pointer text-light-grey">Usage</a>
                 <a href="https://github.com/ranjotdharni/chemistreams-2.0" target="_blank" className="font-jbm hover:cursor-pointer text-light-grey">About</a>
             </div>
         </nav>
