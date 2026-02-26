@@ -1,3 +1,4 @@
+// If you update any of these, you must do so as well in middleware.ts!!!!!
 
 // Page Routes
 export const PAGE_SIGNUP: string = "/signup"

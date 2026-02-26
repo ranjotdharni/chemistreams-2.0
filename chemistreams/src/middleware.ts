@@ -60,9 +60,9 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
-    PAGE_LANDING,
-    API_LOGIN,
-    API_LOGOUT,
-    API_REFRESH_TOKEN,
+    "/",
+    "/api/login",
+    "/api/logout",
+    "/api/refresh-token",
   ],
 }
