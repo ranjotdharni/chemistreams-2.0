@@ -11,7 +11,7 @@ export default function PublicNavbar() {
         return <></>
 
     return (
-        <nav className="fixed top-0 left-0 bg-black border-b border-dark-grey md:pr-30 w-full h-[10vh] p-2 flex flex-col md:flex-row justify-end md:justify-between items-center">
+        <nav className="sticky top-0 left-0 bg-black border-b border-dark-grey md:pr-30 w-full h-[10vh] p-2 flex flex-col md:flex-row justify-end md:justify-between items-center">
             <a href={PAGE_LANDING} className="hover:cursor-pointer w-full md:w-auto h-1/2 md:h-full flex flex-row justify-start items-center space-x-2 p-1">
                 <div className="h-3 w-8 md:h-5 md:w-15">
                     <AnimatedLogo />

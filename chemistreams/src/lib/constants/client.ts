@@ -20,6 +20,8 @@ export const DEFAULT_GROUP_PFP: string = "https://img.icons8.com/3d-fluency/100/
 export const DEFAULT_PFP: string = "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
 export const LOGO: string = "https://img.icons8.com/?size=100&id=8hNJp4u2Tt8D&format=png&color=0B6448"
 
+export const ICON_NOT_FOUND: string = "https://img.icons8.com/3d-fluency/94/confused-face.png"
+
 // badges codes
 export type BadgeCode = 
     "BADGE_HEARTHSTONE" |    
@@ -346,5 +348,3 @@ export const ERRORS: { [key: string]: GenericError } = {
         message: "Password requires a number."
     }
 }
-
-export const ICON_NOT_FOUND: string = "https://img.icons8.com/3d-fluency/94/confused-face.png"
