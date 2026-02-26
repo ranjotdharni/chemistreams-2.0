@@ -6,8 +6,8 @@ export default function Layout({
 }>) {
 
     return (
-        <main className="w-full h-full flex flex-col justify-center items-center">
+        <section className="w-full h-full flex flex-col justify-center items-center">
             { children }
-        </main>
+        </section>
     )
 }

@@ -347,4 +347,4 @@ export const ERRORS: { [key: string]: GenericError } = {
     }
 }
 
-
+export const ICON_NOT_FOUND: string = "https://img.icons8.com/3d-fluency/94/confused-face.png"
