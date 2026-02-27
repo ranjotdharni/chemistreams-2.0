@@ -1,0 +1,3 @@
+.fadeAnimations {
+    transition: opacity 0.2s linear, transform 0.25s linear;
+}
