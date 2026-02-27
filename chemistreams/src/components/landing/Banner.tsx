@@ -52,7 +52,7 @@ export default function Banner() {
     return (
         <main className="w-screen h-[80vh] flex flex-row justify-center items-center">
             <section className="w-full md:w-1/2 h-full flex flex-col items-center">
-                <ForwardCarousel containerStyle={{width: "100%", height: "90%"}} content={carouselContent} maxDisplayItems={4} />
+                <ForwardCarousel containerStyle={{width: "100%", height: "90%"}} content={carouselContent} maxDisplayItems={carouselContent.length - 1} />
 
                 <aside className="w-3/4 h-[10%] flex flex-row justify-end items-center space-x-4">
                     <a href={PAGE_SIGNUP} className="font-lato text-white text-md bg-black px-6 py-1 rounded hover:cursor-pointer">Sign Up</a>

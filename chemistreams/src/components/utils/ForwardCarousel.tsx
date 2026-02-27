@@ -1,7 +1,7 @@
 import "@/css/ForwardCarousel.css"
 import useTimeout from "@/lib/hooks/useTimeout"
 import { ChevronDown, ChevronUp } from "lucide-react"
-import { CSSProperties, useEffect, useState } from "react"
+import { CSSProperties, MouseEvent, useEffect, useRef, useState } from "react"
 
 export type CarouselItem = {
     key: string | number | bigint
@@ -19,6 +19,7 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
     const displayCount: number = Math.max(maxDisplayItems || content.length, 3)
 
     const [currentItemIndex, setCurrentItemIndex] = useState<number>(0)
+    const prevEl = useRef<HTMLLIElement>(null)
 
     const backwardTimer = useTimeout()
     const forwardTimer = useTimeout()
@@ -31,12 +32,14 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
         return currentItemIndex === content.length - 1 ? 0 : currentItemIndex + 1
     }
 
-    function cycleBackward() {
+    function cycleBackward(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
         backwardTimer.begin(50)
         setCurrentItemIndex(getPreviousItemIndex())
     }
 
-    function cycleForward() {
+    function cycleForward(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault()
         forwardTimer.begin(50)
         setCurrentItemIndex(getNextItemIndex())
     }
@@ -74,7 +77,7 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
     return (
         <article style={containerStyle}>
             <header className="w-full h-[10%] flex flex-row justify-center items-center">
-                <h2 className="text-dark-white text-2xl font-jbm">{"zilch"}</h2>
+                <h2 className="text-dark-white text-2xl font-jbm">{content[currentItemIndex].title}</h2>
             </header>
 
             <section className="w-full h-[5%] flex flex-row justify-end items-center">
@@ -110,7 +113,7 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
                         }
 
                         return (
-                            <li key={item.key} style={{opacity: activeOpacity, zIndex: activeZ, transform: `translateY(${yTranslate}%) scaleX(${xScale})`, transition: hasAnimations ? "opacity 0.2s linear, transform 0.25s linear" : undefined}} className="absolute top-0 w-full h-3/4 flex flex-col justify-center items-center">
+                            <li key={displayCount === content.length && index === 0 && backwardTimer.started && !backwardTimer.completed ? "entering" : item.key} style={{opacity: activeOpacity, zIndex: activeZ, transform: `translateY(${yTranslate}%) scaleX(${xScale})`, transition: hasAnimations ? "opacity 0.2s linear, transform 0.25s linear" : undefined}} className="absolute top-0 w-full h-3/4 flex flex-col justify-center items-center">
                                 { item.element }
                             </li>
                         )
