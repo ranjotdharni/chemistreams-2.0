@@ -19,7 +19,6 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
     const displayCount: number = Math.max(maxDisplayItems || content.length, 3)
 
     const [currentItemIndex, setCurrentItemIndex] = useState<number>(0)
-    const prevEl = useRef<HTMLLIElement>(null)
 
     const backwardTimer = useTimeout()
     const forwardTimer = useTimeout()
