@@ -32,7 +32,7 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
     }
 
     function cycleBackward() {
-        backwardTimer.begin(100)
+        backwardTimer.begin(50)
         setCurrentItemIndex(getPreviousItemIndex())
     }
 
@@ -98,7 +98,7 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
                         if (index === 0 && backwardTimer.started && !backwardTimer.completed) {
                             yTranslate = 20 + 5
                             activeOpacity = 0
-                            activeZ = -10
+                            activeZ = -100
                             hasAnimations = false
                         }
 
@@ -110,7 +110,7 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
                         }
 
                         return (
-                            <li key={item.key} style={{opacity: activeOpacity, zIndex: activeZ, transform: `translateY(${yTranslate}%) scaleX(${xScale})`, transition: hasAnimations ? "opacity 0.2s linear, transform 0.25s linear" : undefined}} className={`absolute top-0 w-full h-3/4 flex flex-col justify-center items-center`}>
+                            <li key={item.key} style={{opacity: activeOpacity, zIndex: activeZ, transform: `translateY(${yTranslate}%) scaleX(${xScale})`, transition: hasAnimations ? "opacity 0.2s linear, transform 0.25s linear" : undefined}} className="absolute top-0 w-full h-3/4 flex flex-col justify-center items-center">
                                 { item.element }
                             </li>
                         )
