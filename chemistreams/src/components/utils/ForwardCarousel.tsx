@@ -1,7 +1,7 @@
 import "@/css/ForwardCarousel.css"
 import useTimeout from "@/lib/hooks/useTimeout"
 import { ChevronDown, ChevronUp } from "lucide-react"
-import { CSSProperties, MouseEvent, useEffect, useRef, useState } from "react"
+import { CSSProperties, MouseEvent, useEffect, useState } from "react"
 
 export type CarouselItem = {
     key: string | number | bigint
