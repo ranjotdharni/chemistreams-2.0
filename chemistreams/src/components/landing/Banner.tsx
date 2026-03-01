@@ -2,22 +2,20 @@
 
 import { PAGE_LOGIN, PAGE_SIGNUP } from "@/lib/constants/routes"
 import ForwardCarousel, { CarouselItem } from "../utils/ForwardCarousel"
+import MainFeatureCard from "./carouselElements/MainFeatureCard"
+import GroupChatCard from "./carouselElements/GroupChatCard"
 
 export default function Banner() {
     const carouselContent: [CarouselItem, CarouselItem, CarouselItem, ...CarouselItem[]] = [
         {
-            key: "initial",
-            title: "Messaging Made Easy",
-            element: (
-                <img src="https://res.cloudinary.com/dm9lygtbe/image/upload/v1747994561/bannerShot_qsqpxg.png" className="h-full aspect-square rounded-lg hue-rotate-15" alt="Banner Shot" width={500} height={500} />
-            )
+            key: "main feature",
+            title: "Message Your Friends",
+            element: <MainFeatureCard containerTailwind="w-3/5 h-full" />
         },
         {
             key: "mid",
-            title: "Messaging Made Easy",
-            element: (
-                <img src="https://res.cloudinary.com/dm9lygtbe/image/upload/v1747994561/bannerShot_qsqpxg.png" className="h-full aspect-square rounded-lg hue-rotate-30" alt="Banner Shot" width={500} height={500} />
-            )
+            title: "Create Group Chats",
+            element: <GroupChatCard containerTailwind="w-3/5 h-full" />
         },
         {
             key: "final",
