@@ -1,7 +1,6 @@
-import "@/css/ForwardCarousel.css"
 import useTimeout from "@/lib/hooks/useTimeout"
 import { ChevronDown, ChevronUp } from "lucide-react"
-import { CSSProperties, MouseEvent, useEffect, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 
 export type CarouselItem = {
     key: string | number | bigint
@@ -10,16 +9,19 @@ export type CarouselItem = {
 }
 
 type ForwardCarouselProps = {
-    containerStyle?: CSSProperties
+    containerStyle?: string
     content: [CarouselItem, CarouselItem, CarouselItem, ...CarouselItem[]] // minimum 3 items CarouselItem array
     maxDisplayItems?: number
+    autoCycleDuration?: number
 }
 
-export default function ForwardCarousel({ containerStyle, content, maxDisplayItems } : ForwardCarouselProps) {
+export default function ForwardCarousel({ containerStyle, content, maxDisplayItems, autoCycleDuration } : ForwardCarouselProps) {
     const displayCount: number = Math.max(maxDisplayItems || content.length, 3)
 
     const [currentItemIndex, setCurrentItemIndex] = useState<number>(0)
+    const [cycling, setCycling] = useState<boolean>(autoCycleDuration !== undefined && autoCycleDuration > 0)
 
+    const autoCycleTimer = useTimeout(autoCycleDuration !== undefined && autoCycleDuration > 0 ? autoCycleDuration : undefined)
     const backwardTimer = useTimeout()
     const forwardTimer = useTimeout()
 
@@ -33,12 +35,20 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
 
     function cycleBackward(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault()
+
+        if (cycling)
+            setCycling(false)
+
         backwardTimer.begin(50)
         setCurrentItemIndex(getPreviousItemIndex())
     }
 
     function cycleForward(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault()
+
+        if (cycling)
+            setCycling(false)
+
         forwardTimer.begin(50)
         setCurrentItemIndex(getNextItemIndex())
     }
@@ -71,19 +81,26 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
 
         if (forwardTimer.completed)
             forwardTimer.reset() 
-    }, [backwardTimer.completed, forwardTimer.completed])
+
+        if (cycling && autoCycleTimer.completed) {
+            forwardTimer.begin(50)
+            setCurrentItemIndex(getNextItemIndex())
+            autoCycleTimer.reset()
+            autoCycleTimer.begin(autoCycleDuration!)
+        }
+    }, [autoCycleTimer.completed, backwardTimer.completed, forwardTimer.completed])
 
     return (
-        <article style={containerStyle}>
-            <header className="w-full h-[10%] flex flex-row justify-center items-center">
+        <article className={containerStyle}>
+            <header className="w-full h-[10%] flex flex-row justify-center items-end">
                 <h2 className="text-dark-white text-2xl font-jbm">{content[currentItemIndex].title}</h2>
             </header>
 
-            <section className="w-full h-[5%] flex flex-row justify-end items-center">
-                <button onClick={cycleBackward}>
+            <section className="w-[95%] sm:w-4/5 h-[5%] flex flex-row justify-end items-center space-x-2">
+                <button onClick={cycleBackward} className="border-2 border-black bg-black rounded text-green hover:cursor-pointer hover:text-white">
                     <ChevronUp />
                 </button>
-                <button onClick={cycleForward}>
+                <button onClick={cycleForward} className="border-2 border-black bg-black rounded text-green hover:cursor-pointer hover:text-white">
                     <ChevronDown />
                 </button>
             </section>

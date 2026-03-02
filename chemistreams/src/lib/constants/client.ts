@@ -18,8 +18,20 @@ export const PASSWORD_RULES_REGEX: RegExp = new RegExp(
 
 export const DEFAULT_GROUP_PFP: string = "https://img.icons8.com/3d-fluency/100/user-group-man-woman--v2.png"
 export const DEFAULT_PFP: string = "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
-export const LOGO: string = "https://img.icons8.com/?size=100&id=8hNJp4u2Tt8D&format=png&color=0B6448"
+export const ROGER_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772324172/RogerPFP_az50ar.png"
+export const FRANCINE_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772326719/FrancinePFP_wojw1b.png"
+export const HAYLEY_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772330495/HayleyPFP_d1ddko.png"
+export const ANIME_GIRL_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772410659/AnimeGirlPFP_opctqb.png"
+export const KEN_KANEKI_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418078/KenKanekiPFP_onap3d.png"
+export const JAMES_BOND_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418078/JamesBondPFP_vitw92.png"
+export const BAG_HEAD_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418078/BagHeadPFP_toyoyu.png"
+export const BILLIE_EILISH_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418078/BillieEilishPFP_z5xbwo.png"
+export const THOR_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418079/ThorPFP_szmwns.png"
+export const GLOW_EYES_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418079/GlowEyesPFP_j0nzvc.png"
+export const SHADOW_HOODIE_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418079/ShadowHoodiePFP_lkpfgh.png"
+export const SANSA_STARK_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772418078/SansaStarkPFP_hdossy.png"
 
+export const LOGO: string = "https://img.icons8.com/?size=100&id=8hNJp4u2Tt8D&format=png&color=0B6448"
 export const ICON_NOT_FOUND: string = "https://img.icons8.com/3d-fluency/94/confused-face.png"
 
 // badges codes

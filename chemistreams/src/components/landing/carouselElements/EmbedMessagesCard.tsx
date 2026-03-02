@@ -1,7 +1,6 @@
-import { FRANCINE_PFP, ROGER_PFP } from "@/lib/constants/client"
+import { GLOW_EYES_PFP, THOR_PFP } from "@/lib/constants/client"
 
-export default function MainFeatureCard({ containerTailwind } : { containerTailwind?: string }) {
-    
+export default function EmbedMessagesCard({ containerTailwind } : { containerTailwind?: string }) {
     function MessagePFP({ img, name, username, right } : { img: string, name: string, username: string, right?: boolean }) {
         return (
             <section style={{flexDirection: right ? "row-reverse" : "row"}} className="h-8 w-full flex justify-start items-center mt-2 space-x-4">
@@ -23,25 +22,29 @@ export default function MainFeatureCard({ containerTailwind } : { containerTailw
     return (
         <article className={`bg-black rounded-lg p-4 space-y-4 ${containerTailwind}`}>
             <header className="h-1/6 w-full px-2 flex flex-row justify-start items-center space-x-4">
-                <img src={ROGER_PFP} alt="main feature pfp" className="h-full aspect-square" />
+                <img src={GLOW_EYES_PFP} alt="main feature pfp" className="h-full aspect-square" />
                 <p>
-                    <span className="text-amber-50 font-jbm">Roger Smith</span>
+                    <span className="text-amber-50 font-jbm">James Madden</span>
                     <br></br>
-                    <span className="text-light-grey text-xs font-jbm">Floor Spaghetti</span>
+                    <span className="text-light-grey text-xs font-jbm">Flee On Sight</span>
                 </p>
             </header>
 
             <div className="w-full h-0.5 bg-dark-grey"></div>
 
             <section className="h-5/6 w-full">
-                <MessagePFP img={ROGER_PFP} name="Roger Smith" username="rsmith1" />
-                <Message text="Francine, I haven't been entirely truthful with you." tailwind="rounded-t-lg rounded-br-lg mt-2" />
+                <MessagePFP img={GLOW_EYES_PFP} name="James Madden" username="jmadden1" />
+                <iframe
+                    src={`https://open.spotify.com/embed/track/7MXVkk9YMctZqd1Srtv4MB`}
+                    width="75%"
+                    height="50%"
+                    allow="encrypted-media"
+                    className="mt-2"
+                >
+                </iframe>
 
-                <MessagePFP img={FRANCINE_PFP} name="Francine Smith" username="fsmith1" right />
-                <Message text="Oh, come on!" tailwind="rounded-t-lg rounded-bl-lg mt-2" right />
-
-                <MessagePFP img={ROGER_PFP} name="Roger Smith" username="rsmith1" />
-                <Message text="I don't really know where she wanted to be buried." tailwind="rounded-t-lg rounded-br-lg mt-2" />
+                <MessagePFP img={THOR_PFP} name="Thor Odinson" username="todinson1" right />
+                <Message text="Huzzah, brother! That is my jam!" tailwind="rounded-t-lg rounded-bl-lg mt-2" right />
             </section>
         </article>
     )

@@ -1,6 +1,4 @@
-const ROGER_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772324172/RogerPFP_az50ar.png"
-const FRANCINE_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772326719/FrancinePFP_wojw1b.png"
-const HAYLEY_PFP: string = "https://res.cloudinary.com/dm9lygtbe/image/upload/v1772330495/HayleyPFP_d1ddko.png"
+import { ANIME_GIRL_PFP, HAYLEY_PFP, KEN_KANEKI_PFP } from "@/lib/constants/client"
 
 export default function GroupChatCard({ containerTailwind } : { containerTailwind?: string }) {
 
@@ -8,8 +6,8 @@ export default function GroupChatCard({ containerTailwind } : { containerTailwin
         return (
             <section style={{flexDirection: right ? "row-reverse" : "row"}} className="h-8 w-full flex justify-start items-center mt-2 space-x-4">
                 <img src={img} alt="message pfp" className="h-full aspect-square" />
-                <span className="text-light-grey font-jbm">{name}</span>
-                <span className="text-dark-grey font-jbm text-xs" style={{marginRight: right ? "1em" : undefined}}>(@{username})</span>
+                <span className="text-white font-jbm">{name}</span>
+                <span className="text-light-grey font-jbm text-xs" style={{marginRight: right ? "1em" : undefined}}>(@{username})</span>
             </section>
         )
     }
@@ -32,8 +30,8 @@ export default function GroupChatCard({ containerTailwind } : { containerTailwin
 
     function Message({ text, tailwind, right } : { text: string, tailwind?: string, right?: boolean }) {
         return (
-            <p className="w-full text-light-grey font-jbm flex flex-row" style={{justifyContent: right ? "flex-end" : "flex-start"}}>
-                <span className={`max-w-4/5 bg-dark-grey px-2 py-1 ${tailwind ? tailwind : ""}`}>{text}</span>
+            <p className="w-full text-dark-grey font-jbm flex flex-row" style={{justifyContent: right ? "flex-end" : "flex-start"}}>
+                <span className={`max-w-4/5 bg-green px-2 py-1 ${tailwind ? tailwind : ""}`}>{text}</span>
             </p>
         )
     }
@@ -43,26 +41,26 @@ export default function GroupChatCard({ containerTailwind } : { containerTailwin
             <header className="h-1/6 w-full px-2 flex flex-row justify-start items-center space-x-4">
                 <GroupPFP 
                     pfps={[
-                        <img src={ROGER_PFP} className="h-full w-full"  />,
-                        <img src={FRANCINE_PFP} className="h-full w-full"  />,
+                        <img src={ANIME_GIRL_PFP} className="h-full w-full"  />,
+                        <img src={KEN_KANEKI_PFP} className="h-full w-full"  />,
                         <img src={HAYLEY_PFP} className="h-full w-full"  />
                     ]}
                 />
                 <p>
-                    <span className="text-amber-50 font-jbm">The Cool Fools</span>
+                    <span className="text-amber-50 font-jbm xl:ml-[0.5vw]">The Cool Fools</span>
                 </p>
             </header>
 
             <div className="w-full h-0.5 bg-dark-grey"></div>
 
             <section className="h-5/6 w-full">
-                <MessagePFP img={HAYLEY_PFP} name="Hayley Smith" username="hsmith1" right />
-                <Message text="Guess What?" tailwind="rounded-t-lg rounded-br-lg mt-2" right />
+                <MessagePFP img={HAYLEY_PFP} name="Hayley Smith" username="hsmith1" />
+                <Message text="Guess What?" tailwind="rounded-t-lg rounded-br-lg mt-2" />
 
-                <MessagePFP img={FRANCINE_PFP} name="Francine Smith" username="fsmith1" right />
+                <MessagePFP img={ANIME_GIRL_PFP} name="Naomi Nguyen" username="nnguyen1" right />
                 <Message text="Ooo, lemme guess. Chicken butt!" tailwind="rounded-t-lg rounded-bl-lg mt-2" right />
 
-                <MessagePFP img={ROGER_PFP} name="Roger Smith" username="rsmith1" />
+                <MessagePFP img={KEN_KANEKI_PFP} name="Ken Kaneki" username="kkaneki1" />
                 <Message text="Wow, so funny, I'm dying of laughter. (I'm dead now)" tailwind="rounded-t-lg rounded-br-lg mt-2" />
             </section>
         </article>

@@ -11,7 +11,7 @@ export default function useTimeout(initial?: number): UseTimeoutType {
     const timeoutId = useRef<number | NodeJS.Timeout | undefined>(undefined)
     
     const [milliseconds, setMilliseconds] = useState<number>(initial ? initial : 0)
-    const [started, setStarted] = useState<boolean>(false)
+    const [started, setStarted] = useState<boolean>(initial ? true : false)
     const [completed, setCompleted] = useState<boolean>(false)
 
     function begin(milliseconds: number): void {

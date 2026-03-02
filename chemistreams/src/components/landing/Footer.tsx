@@ -2,25 +2,25 @@
 export default function Footer() {
     const footerItems = [
         {
-            link: "https://github.com/ranjotdharni",
-            text: "GitHub"
-        },
-        {
-            link: "https://ranjotdharni.netlify.app",
-            text: "Portfolio"
-        },
-        {
             link: "https://icons8.com",
             text: "Icons8"
         },
         {
-            link: "https://app.spline.design/community/file/8cfb6748-f3dd-44dd-89fb-f46c7ab4186e",
+            link: "https://spline.design/",
             text: "Spline"
         },
         {
-            link: "https://www.reddit.com/r/webdev/comments/oqvsrj/chatapp_react_portfolio_project_live_link_source/",
-            text: "Design"
-        }
+            link: "https://github.com/ranjotdharni/",
+            text: "GitHub"
+        },
+        {
+            link: "https://ranjotdharni.netlify.app/",
+            text: "Portfolio"
+        },
+        {
+            link: "https://www.linkedin.com/in/ranjot-dharni-717580269/",
+            text: "LinkedIn"
+        },
     ]
 
     return (

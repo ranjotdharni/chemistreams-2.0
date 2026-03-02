@@ -4,55 +4,51 @@ import { PAGE_LOGIN, PAGE_SIGNUP } from "@/lib/constants/routes"
 import ForwardCarousel, { CarouselItem } from "../utils/ForwardCarousel"
 import MainFeatureCard from "./carouselElements/MainFeatureCard"
 import GroupChatCard from "./carouselElements/GroupChatCard"
+import ProfileCustomizeCard from "./carouselElements/ProfileCustomizeCard"
+import EmbedMessagesCard from "./carouselElements/EmbedMessagesCard"
+import ThemeModeCard from "./carouselElements/ThemeModeCard"
+import EmbedVideosCard from "./carouselElements/EmbedVideosCard"
 
 export default function Banner() {
     const carouselContent: [CarouselItem, CarouselItem, CarouselItem, ...CarouselItem[]] = [
         {
-            key: "main feature",
+            key: "main-feature",
             title: "Message Your Friends",
-            element: <MainFeatureCard containerTailwind="w-3/5 h-full" />
+            element: <MainFeatureCard containerTailwind="w-[95%] sm:w-3/5 h-full" />
         },
         {
-            key: "mid",
+            key: "group-chat-feature",
             title: "Create Group Chats",
-            element: <GroupChatCard containerTailwind="w-3/5 h-full" />
+            element: <GroupChatCard containerTailwind="w-[95%] sm:w-3/5 h-full" />
         },
         {
-            key: "final",
-            title: "Messaging Made Easy",
-            element: (
-                <img src="https://res.cloudinary.com/dm9lygtbe/image/upload/v1747994561/bannerShot_qsqpxg.png" className="h-full aspect-square rounded-lg hue-rotate-45 invert-50" alt="Banner Shot" width={500} height={500} />
-            )
+            key: "custom-profiles-feature",
+            title: "Customize Your Profile",
+            element: <ProfileCustomizeCard containerTailwind="w-[95%] sm:w-3/5 h-full" />
         },
         {
-            key: "then",
-            title: "Messaging Made Easy",
-            element: (
-                <img src="https://res.cloudinary.com/dm9lygtbe/image/upload/v1747994561/bannerShot_qsqpxg.png" className="h-full aspect-square rounded-lg hue-rotate-60" alt="Banner Shot" width={500} height={500} />
-            )
+            key: "theme-modes-feature",
+            title: "Light and Dark Modes",
+            element: <ThemeModeCard containerTailwind="w-[95%] sm:w-3/5 h-full" />
         },
         {
-            key: "then2",
-            title: "Messaging Made Easy",
-            element: (
-                <img src="https://res.cloudinary.com/dm9lygtbe/image/upload/v1747994561/bannerShot_qsqpxg.png" className="h-full aspect-square rounded-lg invert-25" alt="Banner Shot" width={500} height={500} />
-            )
+            key: "embed-messages-feature",
+            title: "Share Spotify Music",
+            element: <EmbedMessagesCard containerTailwind="w-[95%] sm:w-3/5 h-full" />
         },
         {
-            key: "then3",
-            title: "Messaging Made Easy",
-            element: (
-                <img src="https://res.cloudinary.com/dm9lygtbe/image/upload/v1747994561/bannerShot_qsqpxg.png" className="h-full aspect-square rounded-lg hue-rotate-60 invert-75" alt="Banner Shot" width={500} height={500} />
-            )
+            key: "embedded-videos-feature",
+            title: "Share YouTube Videos",
+            element: <EmbedVideosCard containerTailwind="w-[95%] sm:w-3/5 h-full" />
         }
     ]
 
     return (
         <main className="w-screen h-[80vh] flex flex-row justify-center items-center">
-            <section className="w-full md:w-1/2 h-full flex flex-col items-center">
-                <ForwardCarousel containerStyle={{width: "100%", height: "90%"}} content={carouselContent} maxDisplayItems={carouselContent.length - 1} />
+            <section className="w-full sm:w-1/2 h-full flex flex-col items-center">
+                <ForwardCarousel containerStyle="w-full h-full sm:h-[90%]" content={carouselContent} maxDisplayItems={carouselContent.length - 1} autoCycleDuration={3500} />
 
-                <aside className="w-3/4 h-[10%] flex flex-row justify-end items-center space-x-4">
+                <aside className="w-3/4 h-[10%] hidden sm:flex flex-row justify-end items-center space-x-4">
                     <a href={PAGE_SIGNUP} className="font-lato text-white text-md bg-black px-6 py-1 rounded hover:cursor-pointer">Sign Up</a>
                     <a href={PAGE_LOGIN} className="font-lato text-white text-md bg-green px-6 py-1 rounded hover:cursor-pointer">Log In</a>
                 </aside>

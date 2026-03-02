@@ -65,8 +65,8 @@ export default function SignUpPage() {
     }
 
     return (
-        <section className="w-full h-full flex flex-col justify-center items-center p-8">
-            <form onSubmit={onSubmit} className="relative bottom-15 min-w-110 space-y-4 bg-black rounded-lg px-8 py-6 flex flex-col items-center">
+        <section className="w-full h-full flex flex-col justify-center items-center sm:p-8">
+            <form onSubmit={onSubmit} className="relative bottom-15 w-[95%] sm:w-110 space-y-4 bg-black rounded-lg px-8 py-6 flex flex-col items-center">
                 <h2 className="text-3xl font-lato text-center text-amber-50 mb-6">Sign Up</h2>
 
                 <div className="w-full">

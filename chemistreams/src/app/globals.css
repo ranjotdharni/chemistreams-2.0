@@ -62,6 +62,7 @@ body[data-theme="light"] {
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--color-bg-gradient);
+  background-color: #000000;
 }
 
 @keyframes spin {
