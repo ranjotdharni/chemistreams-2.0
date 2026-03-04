@@ -306,7 +306,7 @@ export default function ChatContainer() {
     useListener(connectionReference, statusListenerConfig, undefined, async () => { await set(statusReference, false) })
 
     return (
-        <main className="bg-black w-[95%] h-[80vh] fixed top-[5vh] left-[2.5%] md:top-0 md:left-0 rounded-lg md:relative md:w-[85%] md:h-[85%] md:rounded-2xl flex md:flex-row overflow-hidden md:shadow-xl">
+        <main className="bg-black w-[95%] border h-[80vh] fixed top-[5vh] left-[2.5%] md:top-0 md:left-0 rounded-lg md:relative md:w-[85%] md:h-[85%] md:rounded-2xl flex md:flex-row overflow-hidden md:shadow-xl">
             <Toolbar buttons={buttons} />
             <ChatList current={currentChat} chats={chatList} onClick={setCurrentChat} />
             {

@@ -230,7 +230,7 @@ function DirectChatHeader({ current, setCurrentChat, chatList } : DirectHeaderPr
 
         if (!user)
             return
-
+        
         UIControl.setProfileView(
             user.uid,
             {

@@ -95,7 +95,7 @@ export const InterfaceProvider: React.FunctionComponent<InterfaceProviderProps> 
             <>
                 { children }
                 { viewingProfile !== undefined && <ProfileView currentUserId={viewingProfile.currentUserId} profile={viewingProfile.profile} setCurrentChat={viewingProfile.setCurrentChat} direct={viewingProfile.direct} close={() => { setViewingProfile(undefined) }} /> }
-                <span style={{color: `var(--color-${color})`, top: message !== "" ? "92.5%" : "100%"}} className="w-[85%] h-[7.5%] fixed transition-all duration-200 flex flex-col justify-center items-end font-jbm text-sm">
+                <span style={{color: `var(--color-${color})`, top: message !== "" ? "92.5%" : "100%"}} className="w-[92.5%] h-[7.5%] fixed transition-all duration-200 flex flex-col justify-center items-end font-jbm text-sm">
                     { message !== "" && <p className="bg-black p-4 rounded-md">{message}</p> }
                 </span>
             </>
