@@ -201,14 +201,8 @@ Fork this repository and open a [pull request][contributionLink] to suggest any 
 - [x] Documentation
 
 ### Non-functional
-- [ ] Migrate to Cloudinary Cluster
-- [ ] Add/Remove/Kick after creation
-- [ ] Block List
-- [ ] OEmbed Links
-- [ ] Pagination
-- [ ] API
-- [ ] Synchronize users in auth w/ realtime (sign up + sign in)
-- [ ] Email validation (client sign up + confirmation)
+- [x] Entity Relationship Diagram
+- [x] Technical Documentation
 
 [titleImg]: /readmeAssets/titleImg.png
 [loginScreenshot]: /readmeAssets/loginImg.png

@@ -1,4 +1,4 @@
-import { API_LOGIN, API_LOGOUT, API_REFRESH_TOKEN, PAGE_HOME, PAGE_LANDING, PAGE_LOGIN, PUBLIC_ROUTES } from "./lib/constants/routes"
+import { API_LOGIN, API_LOGOUT, API_REFRESH_TOKEN, PAGE_HOME, PAGE_LOGIN, PUBLIC_ROUTES } from "./lib/constants/routes"
 import { authMiddleware, redirectToHome, redirectToLogin } from "next-firebase-auth-edge"
 import { clientConfig, serverConfig } from "./lib/auth/config"
 import { NextRequest, NextResponse } from "next/server"
@@ -32,6 +32,7 @@ export async function middleware(request: NextRequest) {
           })
         }
 
+        // Request was successfully authenticated, pass users request forward to endpoint or page
         return NextResponse.next({
           request: {
             headers

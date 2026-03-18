@@ -101,8 +101,6 @@ export async function signUpAction(name: string, email: string, username: string
 
         const newUserRoute: string = `${DB_USERS}/${user.uid}`
 
-        // This set() is redundant. The update() call below already does this...i think?
-        // Why did i do it this way??? 
         await set(ref(rt, newUserRoute), {
             username: username,
             name: name,
