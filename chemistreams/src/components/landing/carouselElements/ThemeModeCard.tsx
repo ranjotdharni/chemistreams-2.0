@@ -40,6 +40,9 @@ export default function ThemeModeCard({ containerTailwind } : { containerTailwin
                 <MessagePFP img={BILLIE_EILISH_PFP} name="Billie Eilish" username="beilish1" />
                 <Message text="Oh yeah, Charles? Well, I pity the fool who thinks I'm uncool." tailwind="rounded-t-lg rounded-br-lg mt-2" />
                 <Message text="Get it? I was making a Dr. T reference." tailwind="rounded-tr-lg rounded-b-lg mt-0.5" />
+
+                <MessagePFP img={BAG_HEAD_PFP} name="Charles Matte" username="cmatte1" right />
+                <Message text="alr idk what I really expected to get as a response but that answers my question." tailwind="rounded-t-lg rounded-bl-lg mt-2" right />
             </section>
         </article>
     )
