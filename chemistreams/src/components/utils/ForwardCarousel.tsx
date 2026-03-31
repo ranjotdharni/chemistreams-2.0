@@ -1,5 +1,5 @@
 import useTimeout from "@/lib/hooks/useTimeout"
-import { ChevronDown, ChevronUp } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { MouseEvent, useEffect, useState } from "react"
 
 export type CarouselItem = {
@@ -13,12 +13,13 @@ type ForwardCarouselProps = {
     content: [CarouselItem, CarouselItem, CarouselItem, ...CarouselItem[]] // minimum 3 items CarouselItem array
     maxDisplayItems?: number
     autoCycleDuration?: number
+    autoCycleReverse?: boolean
 }
 
-export default function ForwardCarousel({ containerStyle, content, maxDisplayItems, autoCycleDuration } : ForwardCarouselProps) {
+export default function ForwardCarousel({ containerStyle, content, maxDisplayItems, autoCycleDuration, autoCycleReverse } : ForwardCarouselProps) {
     const displayCount: number = Math.max(maxDisplayItems || content.length, 3)
 
-    const [currentItemIndex, setCurrentItemIndex] = useState<number>(0)
+    const [currentItemIndex, setCurrentItemIndex] = useState<number>(autoCycleReverse ? content.length - 1 : 0)
     const [cycling, setCycling] = useState<boolean>(autoCycleDuration !== undefined && autoCycleDuration > 0)
 
     const autoCycleTimer = useTimeout(autoCycleDuration !== undefined && autoCycleDuration > 0 ? autoCycleDuration : undefined)
@@ -83,8 +84,12 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
             forwardTimer.reset() 
 
         if (cycling && autoCycleTimer.completed) {
-            forwardTimer.begin(50)
-            setCurrentItemIndex(getNextItemIndex())
+            if (autoCycleReverse)
+                backwardTimer.begin(50)
+            else
+                forwardTimer.begin(50)
+
+            setCurrentItemIndex(autoCycleReverse ? getPreviousItemIndex() : getNextItemIndex())
             autoCycleTimer.reset()
             autoCycleTimer.begin(autoCycleDuration!)
         }
@@ -97,11 +102,11 @@ export default function ForwardCarousel({ containerStyle, content, maxDisplayIte
             </header>
 
             <section className="w-[95%] sm:w-4/5 h-[5%] flex flex-row justify-end items-center space-x-2">
-                <button onClick={cycleBackward} className="border-2 border-black bg-black rounded text-green hover:cursor-pointer hover:text-white">
-                    <ChevronUp />
+                <button onClick={autoCycleReverse ? cycleForward : cycleBackward} className="border-2 border-black bg-black rounded text-green hover:cursor-pointer hover:text-white">
+                    <ChevronLeft />
                 </button>
-                <button onClick={cycleForward} className="border-2 border-black bg-black rounded text-green hover:cursor-pointer hover:text-white">
-                    <ChevronDown />
+                <button onClick={autoCycleReverse ? cycleBackward : cycleForward} className="border-2 border-black bg-black rounded text-green hover:cursor-pointer hover:text-white">
+                    <ChevronRight />
                 </button>
             </section>
 
