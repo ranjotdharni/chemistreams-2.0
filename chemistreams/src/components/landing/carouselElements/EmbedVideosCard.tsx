@@ -20,7 +20,7 @@ export default function EmbedVideosCard({ containerTailwind } : { containerTailw
     }
 
     return (
-        <article className={`bg-black rounded-lg p-4 space-y-4 ${containerTailwind}`}>
+        <article className={`bg-black rounded-lg p-4 space-y-4 flex flex-col ${containerTailwind}`}>
             <header className="h-1/6 w-full px-2 flex flex-row justify-start items-center space-x-4">
                 <img src={SANSA_STARK_PFP} alt="main feature pfp" className="h-full aspect-square" />
                 <p>
@@ -32,7 +32,7 @@ export default function EmbedVideosCard({ containerTailwind } : { containerTailw
 
             <div className="w-full h-0.5 bg-dark-grey"></div>
 
-            <section className="h-5/6 w-full">
+            <section className="h-5/6 w-full overflow-auto">
                 <MessagePFP img={SHADOW_HOODIE_PFP} name="Yousef Al-Zaidi" username="yal-zaidi1" right />
                 <iframe
                     src={`https://www.youtube.com/embed/HR2C_7G_yRQ`}
@@ -44,7 +44,10 @@ export default function EmbedVideosCard({ containerTailwind } : { containerTailw
                 </iframe>
 
                 <MessagePFP img={SANSA_STARK_PFP} name="Sansa Stark" username="sstark1" />
-                <Message text="Wow, that is awesome!" tailwind="rounded-t-lg rounded-br-lg mt-2" />
+                <Message text="When the snows fall and the white winds blow, the lone wolf dies, but the pack survives." tailwind="rounded-t-lg rounded-br-lg mt-2" />
+
+                <MessagePFP img={SHADOW_HOODIE_PFP} name="Yousef Al-Zaidi" username="yal-zaidi1" right />
+                <Message text="Uhh...Ok." tailwind="rounded-t-lg rounded-bl-lg mt-2" right />
             </section>
         </article>
     )

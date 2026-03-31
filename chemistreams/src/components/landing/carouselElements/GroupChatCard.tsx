@@ -37,7 +37,7 @@ export default function GroupChatCard({ containerTailwind } : { containerTailwin
     }
 
     return (
-        <article className={`bg-black rounded-lg p-4 space-y-4 ${containerTailwind}`}>
+        <article className={`bg-black rounded-lg p-4 space-y-4 flex flex-col ${containerTailwind}`}>
             <header className="h-1/6 w-full px-2 flex flex-row justify-start items-center space-x-4">
                 <GroupPFP 
                     pfps={[
@@ -53,9 +53,9 @@ export default function GroupChatCard({ containerTailwind } : { containerTailwin
 
             <div className="w-full h-0.5 bg-dark-grey"></div>
 
-            <section className="h-5/6 w-full">
+            <section className="h-5/6 w-full overflow-auto">
                 <MessagePFP img={HAYLEY_PFP} name="Hayley Smith" username="hsmith1" />
-                <Message text="Guess What?" tailwind="rounded-t-lg rounded-br-lg mt-2" />
+                <Message text="Guess what?" tailwind="rounded-t-lg rounded-br-lg mt-2" />
 
                 <MessagePFP img={ANIME_GIRL_PFP} name="Naomi Nguyen" username="nnguyen1" right />
                 <Message text="Ooo, lemme guess. Chicken butt!" tailwind="rounded-t-lg rounded-bl-lg mt-2" right />

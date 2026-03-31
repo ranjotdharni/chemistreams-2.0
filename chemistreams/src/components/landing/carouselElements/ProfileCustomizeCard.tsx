@@ -2,7 +2,7 @@ import { BADGES, JAMES_BOND_PFP } from "@/lib/constants/client"
 
 export default function ProfileCustomizeCard({ containerTailwind } : { containerTailwind?: string }) {
     return (
-        <article className={`bg-black rounded-lg p-4 space-y-4 ${containerTailwind}`}>
+        <article className={`bg-black rounded-lg p-4 space-y-4 flex flex-col ${containerTailwind}`}>
             <header className="h-1/2 flex flex-col justify-evenly items-center">
                 <div className="relative h-fit aspect-square">
                     <img src={JAMES_BOND_PFP} alt="anime girl pfp" />

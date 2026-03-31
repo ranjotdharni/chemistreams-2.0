@@ -21,7 +21,7 @@ export default function MainFeatureCard({ containerTailwind } : { containerTailw
     }
 
     return (
-        <article className={`bg-black rounded-lg p-4 space-y-4 ${containerTailwind}`}>
+        <article className={`bg-black rounded-lg p-4 space-y-4 flex flex-col ${containerTailwind}`}>
             <header className="h-1/6 w-full px-2 flex flex-row justify-start items-center space-x-4">
                 <img src={ROGER_PFP} alt="main feature pfp" className="h-full aspect-square" />
                 <p>
@@ -33,7 +33,7 @@ export default function MainFeatureCard({ containerTailwind } : { containerTailw
 
             <div className="w-full h-0.5 bg-dark-grey"></div>
 
-            <section className="h-5/6 w-full">
+            <section className="h-5/6 w-full overflow-auto">
                 <MessagePFP img={ROGER_PFP} name="Roger Smith" username="rsmith1" />
                 <Message text="Francine, I haven't been entirely truthful with you." tailwind="rounded-t-lg rounded-br-lg mt-2" />
 
@@ -42,6 +42,7 @@ export default function MainFeatureCard({ containerTailwind } : { containerTailw
 
                 <MessagePFP img={ROGER_PFP} name="Roger Smith" username="rsmith1" />
                 <Message text="I don't really know where she wanted to be buried." tailwind="rounded-t-lg rounded-br-lg mt-2" />
+                <Message text="Hell, I don't even remember her name." tailwind="rounded-tr-lg rounded-b-lg mt-2" />
             </section>
         </article>
     )

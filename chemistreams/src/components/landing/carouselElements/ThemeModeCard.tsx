@@ -21,7 +21,7 @@ export default function ThemeModeCard({ containerTailwind } : { containerTailwin
     }
 
     return (
-        <article className={`bg-white rounded-lg p-4 space-y-4 ${containerTailwind}`}>
+        <article className={`bg-white rounded-lg p-4 space-y-4 flex flex-col ${containerTailwind}`}>
             <header className="h-1/6 w-full px-2 flex flex-row justify-start items-center space-x-4">
                 <img src={BILLIE_EILISH_PFP} alt="main feature pfp" className="h-full aspect-square" />
                 <p>
@@ -33,7 +33,7 @@ export default function ThemeModeCard({ containerTailwind } : { containerTailwin
 
             <div className="w-full h-0.5 bg-light-grey"></div>
 
-            <section className="h-5/6 w-full">
+            <section className="h-5/6 w-full overflow-auto">
                 <MessagePFP img={BAG_HEAD_PFP} name="Charles Matte" username="cmatte1" right />
                 <Message text="Oh God, Billie. Were you ever cool?" tailwind="rounded-t-lg rounded-bl-lg mt-2" right />
 

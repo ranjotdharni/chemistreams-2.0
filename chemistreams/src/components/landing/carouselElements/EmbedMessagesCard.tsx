@@ -20,7 +20,7 @@ export default function EmbedMessagesCard({ containerTailwind } : { containerTai
     }
 
     return (
-        <article className={`bg-black rounded-lg p-4 space-y-4 ${containerTailwind}`}>
+        <article className={`bg-black rounded-lg p-4 space-y-4 flex flex-col ${containerTailwind}`}>
             <header className="h-1/6 w-full px-2 flex flex-row justify-start items-center space-x-4">
                 <img src={GLOW_EYES_PFP} alt="main feature pfp" className="h-full aspect-square" />
                 <p>
@@ -32,7 +32,7 @@ export default function EmbedMessagesCard({ containerTailwind } : { containerTai
 
             <div className="w-full h-0.5 bg-dark-grey"></div>
 
-            <section className="h-5/6 w-full">
+            <section className="h-5/6 w-full overflow-auto">
                 <MessagePFP img={GLOW_EYES_PFP} name="James Madden" username="jmadden1" />
                 <iframe
                     src={`https://open.spotify.com/embed/track/7MXVkk9YMctZqd1Srtv4MB`}
