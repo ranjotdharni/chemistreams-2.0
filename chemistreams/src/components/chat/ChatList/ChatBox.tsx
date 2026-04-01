@@ -60,17 +60,17 @@ function DirectChatBox({ metadata, isCurrent, lastMessage, lastTimestamp, opened
     useListener(toStatusReference, statusListenerConfig)
 
     return (
-        <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer w-full h-22 rounded-xl py-4 px-2 flex flex-row`}>
+        <li onClick={handleClick} className={`${isCurrent ? "bg-green" : "bg-dark-grey"} hover:cursor-pointer w-full h-22 rounded-xl px-2 flex flex-row`}>
             <div className="w-[25%] h-full flex flex-col justify-center items-center relative">
-                <PFP src={metadata.pfp.link} length={"90%"} bgColor="var(--color-dark-grey)" online={online} />
+                <PFP src={metadata.pfp.link} length={"100%"} bgColor="var(--color-dark-grey)" online={online} useHeight />
             </div>
 
-            <div className="w-[60%] h-full space-y-2 px-2">
+            <div className="w-[60%] h-full space-y-2 px-2 mt-4">
                 <h4 className="text-md text-dark-white font-jbm">{`${metadata.name.slice(0, 15)}${metadata.name.length > 15 ? "..." : ""}`}</h4>
                 <p className="text-sm text-light-grey font-montserrat">{`${lastMessage.slice(0, 20)}${lastMessage.length > 20 ? "..." : ""}`}</p>
             </div>
 
-            <div className="md:w-[15%] md:h-full md:flex md:flex-col md:items-center md:space-y-3 md:px-1">
+            <div className="pt-4 md:w-[15%] md:h-full md:flex md:flex-col md:items-center md:space-y-3 md:px-1">
                 <p className="text-sm text-light-grey font-montserrat">{lastTimestamp ? `${lastTimestamp.getHours() === 0 ? 12 : (lastTimestamp.getHours() > 12 ? lastTimestamp.getHours() - 12 : lastTimestamp.getHours())}:${lastTimestamp.getMinutes() < 10 ? "0" : ""}${lastTimestamp.getMinutes()}${lastTimestamp.getHours() > 12 ? "p" : "a"}` : ""}</p>
                 {
                     opened !== undefined &&

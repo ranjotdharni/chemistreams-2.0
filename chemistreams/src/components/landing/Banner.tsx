@@ -48,7 +48,7 @@ export default function Banner() {
             <section className="w-full sm:w-1/2 h-full flex flex-col items-center">
                 <ForwardCarousel containerStyle="w-full h-full sm:h-[90%]" content={carouselContent} maxDisplayItems={carouselContent.length - 1} autoCycleDuration={3500} autoCycleReverse />
 
-                <aside className="w-3/4 h-[10%] hidden sm:flex flex-row justify-end items-center space-x-4">
+                <aside className="w-3/5 h-[10%] hidden sm:flex flex-row justify-end items-start space-x-4">
                     <a href={PAGE_SIGNUP} className="font-lato text-white text-md bg-black px-6 py-1 rounded hover:cursor-pointer">Sign Up</a>
                     <a href={PAGE_LOGIN} className="font-lato text-white text-md bg-green px-6 py-1 rounded hover:cursor-pointer">Log In</a>
                 </aside>

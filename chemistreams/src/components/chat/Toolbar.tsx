@@ -9,7 +9,7 @@ export default function Toolbar({ buttons } : ToolbarProps) {
     return (
         <section className="flex-shrink-0 border-r border-dark-grey h-full w-[15%] md:w-[7.5%] md:p-2">
             <div className="w-full h-full md:h-[65%] flex flex-col md:justify-between items-center">
-                <div className="w-full relative md:left-0 h-10 md:h-12 p-3 mt-[30%] md:mt-[15%]">
+                <div className="w-full relative md:left-0 h-10 md:h-12 p-3 mt-[30%] md:mt-[30%]">
                     <AnimatedLogo />
                 </div>
 

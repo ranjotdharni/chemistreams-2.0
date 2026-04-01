@@ -42,7 +42,7 @@ export default function MainFeatureCard({ containerTailwind } : { containerTailw
 
                 <MessagePFP img={ROGER_PFP} name="Roger Smith" username="rsmith1" />
                 <Message text="I don't really know where she wanted to be buried." tailwind="rounded-t-lg rounded-br-lg mt-2" />
-                <Message text="Hell, I don't even remember her name." tailwind="rounded-tr-lg rounded-b-lg mt-2" />
+                <Message text="Heck, I don't even remember her name." tailwind="rounded-tr-lg rounded-b-lg mt-2" />
             </section>
         </article>
     )
